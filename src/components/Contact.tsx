@@ -1,64 +1,203 @@
-import React, { useState } from 'react';
+import {
+  useState,
+  type FormEvent,
+  type ChangeEvent,
+  type ReactNode,
+} from 'react';
 
 import {
-  Send,
-  Loader2,
-  CheckCircle2,
   AlertCircle,
-  User,
-  Phone,
+  CheckCircle2,
+  Loader2,
   Mail,
-  Calendar,
+  MapPin,
   MessageSquare,
+  Phone,
+  Send,
+  User,
+  Calendar,
+  Heart,
 } from 'lucide-react';
 
 import { supabase } from '../lib/supabase';
 import { useReveal } from '../hooks/useReveal';
+import ParticleField from '../components/ParticleField';
+
+// ============================================================
+// EVENT TYPES
+// ============================================================
 
 const eventTypes = [
-  'Ring Ceremony',
-  'Haldi Ceremony',
-  'Wedding Ceremony',
-  'Full Wedding Package',
+  'Normal Package',
+  'Medium Package',
+  'Gold Package',
+  'Candid Photography',
+  'Pre-Wedding Shoot',
   'Other',
 ];
+
+// ============================================================
+// FORM TYPE
+// ============================================================
+
+type ContactForm = {
+  client_name: string;
+  phone: string;
+  email: string;
+  event_type: string;
+  event_date: string;
+  message: string;
+};
+
+// ============================================================
+// STATUS TYPE
+// ============================================================
+
+type Status = 'idle' | 'loading' | 'success' | 'error';
+
+// ============================================================
+// INITIAL FORM
+// ============================================================
+
+const initialForm: ContactForm = {
+  client_name: '',
+  phone: '',
+  email: '',
+  event_type: '',
+  event_date: '',
+  message: '',
+};
+
+// ============================================================
+// INPUT CLASS
+// ============================================================
+
+const inputClass =
+  'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition-all focus:border-gold-500/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-gold-500/20';
+
+// ============================================================
+// CONTACT COMPONENT
+// ============================================================
 
 export default function Contact() {
   const { ref, isVisible } = useReveal();
 
-  const [form, setForm] = useState({
-    client_name: '',
-    phone: '',
-    email: '',
-    event_type: '',
-    event_date: '',
-    message: '',
-  });
+  const [form, setForm] = useState<ContactForm>(initialForm);
 
-  const [status, setStatus] = useState<
-    'idle' | 'loading' | 'success' | 'error'
-  >('idle');
+  const [status, setStatus] = useState<Status>('idle');
 
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState<string>('');
+
+  const [focused, setFocused] = useState<string | null>(null);
+
+  // ============================================================
+  // HANDLE INPUT CHANGE
+  // ============================================================
 
   const handleChange = (
-    e: React.ChangeEvent<
+    e: ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setForm((previousForm) => ({
+      ...previousForm,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  // ============================================================
+  // HANDLE FORM SUBMIT
+  // ============================================================
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setStatus('loading');
     setErrorMsg('');
+
+    // ============================================================
+    // FORMAT EVENT DATE
+    // ============================================================
+
+    let formattedDate = 'Not provided';
+
+    if (form.event_date) {
+      const date = new Date(form.event_date);
+
+      formattedDate = date.toLocaleDateString('en-IN', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      });
+    }
+
+    // ============================================================
+    // WHATSAPP NUMBER
+    // ============================================================
+
+    const whatsappNumber = '917404620633';
+
+    // ============================================================
+    // CREATE WHATSAPP MESSAGE
+    // ============================================================
+
+    const whatsappMessage = `
+📸 *NEW BOOKING REQUEST*
+
+━━━━━━━━━━━━━━━━━━━━
+
+👤 *Client Name*
+${form.client_name}
+
+📞 *Phone Number*
+${form.phone}
+
+📧 *Email*
+${form.email || 'Not provided'}
+
+📅 *Event Date*
+${formattedDate}
+
+💍 *Package / Service*
+${form.event_type || 'Not selected'}
+
+💬 *Message*
+${form.message || 'No message provided'}
+
+━━━━━━━━━━━━━━━━━━━━
+
+📸 *Bharat Photo Studio*
+Wedding Photography | Cinematic Videography
+`.trim();
+
+    // ============================================================
+    // ENCODE WHATSAPP MESSAGE
+    // ============================================================
+
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+
+    // ============================================================
+    // CREATE WHATSAPP URL
+    // ============================================================
+
+    const whatsappURL =
+      `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+    // ============================================================
+    // OPEN WHATSAPP
+    // ============================================================
+
+    window.open(
+      whatsappURL,
+      '_blank',
+      'noopener,noreferrer'
+    );
+
+    // ============================================================
+    // SAVE BOOKING TO SUPABASE
+    // ============================================================
 
     try {
       const { error } = await supabase
@@ -72,265 +211,1041 @@ export default function Contact() {
           message: form.message || null,
         });
 
+      // ==========================================================
+      // SUPABASE ERROR
+      // ==========================================================
+
       if (error) {
-        throw error;
+        console.error(
+          'Supabase booking error:',
+          error
+        );
+
+        // WhatsApp is already opened.
+        // We don't stop the booking because of Supabase.
       }
+
+      // ============================================================
+      // SUCCESS
+      // ============================================================
 
       setStatus('success');
 
-      setForm({
-        client_name: '',
-        phone: '',
-        email: '',
-        event_type: '',
-        event_date: '',
-        message: '',
-      });
-    } catch (err) {
-      setStatus('error');
+      // ============================================================
+      // RESET FORM
+      // ============================================================
 
-      setErrorMsg(
-        err instanceof Error
-          ? err.message
-          : 'Something went wrong. Please try again.'
+      setForm(initialForm);
+
+    } catch (error) {
+      // ============================================================
+      // SUPABASE ERROR HANDLING
+      // ============================================================
+
+      console.error(
+        'Supabase connection error:',
+        error
       );
+
+      // ============================================================
+      // WHATSAPP HAS ALREADY OPENED
+      // SO SHOW SUCCESS TO THE CUSTOMER
+      // ============================================================
+
+      setStatus('success');
+
+      setForm(initialForm);
     }
   };
+
+  // ============================================================
+  // RETURN
+  // ============================================================
 
   return (
     <section
       id="contact"
-      className="section-pad relative overflow-hidden bg-charcoal-900"
+      className="
+        section-pad
+        relative
+        overflow-hidden
+        bg-gradient-to-b
+        from-charcoal-950
+        via-charcoal-900
+        to-charcoal-950
+      "
     >
-      {/* Decorative Background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute -left-20 top-20 h-72 w-72 rounded-full bg-gold-400 blur-3xl" />
 
-        <div className="absolute -right-20 bottom-20 h-72 w-72 rounded-full bg-maroon-600 blur-3xl" />
+      {/* ========================================================
+          AMBIENT GLOWS
+      ======================================================== */}
+
+      <div className="absolute inset-0 opacity-10">
+
+        <div
+          className="
+            absolute
+            -left-20
+            top-20
+            h-80
+            w-80
+            rounded-full
+            bg-gold-500
+            blur-[120px]
+          "
+        />
+
+        <div
+          className="
+            absolute
+            -right-20
+            bottom-20
+            h-80
+            w-80
+            rounded-full
+            bg-maroon-600
+            blur-[100px]
+          "
+        />
+
       </div>
 
-      {/* Main Container */}
+      {/* ========================================================
+          PARTICLES
+      ======================================================== */}
+
+      <ParticleField
+        count={25}
+        color="212,168,74"
+      />
+
+      {/* ========================================================
+          MAIN CONTAINER
+      ======================================================== */}
+
       <div
         ref={ref}
-        className={`relative mx-auto max-w-5xl reveal ${
-          isVisible ? 'is-visible' : ''
-        }`}
+        className={`
+          relative
+          mx-auto
+          max-w-6xl
+          reveal
+          ${isVisible ? 'is-visible' : ''}
+        `}
       >
-        {/* Heading */}
+
+        {/* ======================================================
+            HEADING
+        ====================================================== */}
+
         <div className="mb-12 text-center">
-          <span className="text-sm font-medium uppercase tracking-[0.25em] text-gold-400">
+
+          <span
+            className="
+              text-sm
+              font-medium
+              uppercase
+              tracking-[0.25em]
+              text-gold-400
+            "
+          >
             Get in Touch
           </span>
 
-          <h2 className="mt-3 font-serif text-3xl font-bold text-white sm:text-4xl md:text-5xl">
-            Booking & Contact
+          <h2
+            className="
+              mt-3
+              font-serif
+              text-3xl
+              font-bold
+              text-white
+              sm:text-4xl
+              md:text-5xl
+            "
+          >
+            Book Your Date
           </h2>
 
-          <p className="mt-4 text-base text-white/60">
-            Contact us today to book your date — we'll make your special day
-            unforgettable.
+          <p
+            className="
+              mx-auto
+              mt-4
+              max-w-2xl
+              text-white/60
+            "
+          >
+            Tell us about your celebration and our team
+            will get back to you soon.
           </p>
 
-          <div className="mx-auto mt-5 flex items-center justify-center gap-3">
-            <span className="h-px w-16 bg-gold-500/60" />
+          {/* Decorative Line */}
 
-            <span className="text-gold-400">✦</span>
+          <div
+            className="
+              mx-auto
+              mt-5
+              flex
+              items-center
+              justify-center
+              gap-3
+            "
+          >
 
-            <span className="h-px w-16 bg-gold-500/60" />
+            <span
+              className="
+                h-px
+                w-16
+                bg-gradient-to-r
+                from-transparent
+                to-gold-500/60
+              "
+            />
+
+            <span className="text-gold-400">
+              ✦
+            </span>
+
+            <span
+              className="
+                h-px
+                w-16
+                bg-gradient-to-l
+                from-transparent
+                to-gold-500/60
+              "
+            />
+
           </div>
+
         </div>
 
-        {/* Contact Form Box */}
-        <div className="rounded-3xl border border-gold-500/20 bg-charcoal-800/60 p-6 backdrop-blur-sm sm:p-10">
-          {status === 'success' ? (
-            /* Success Message */
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-gold-400 to-gold-600 text-white">
-                <CheckCircle2 className="h-10 w-10" />
+        {/* ======================================================
+            CONTENT GRID
+        ====================================================== */}
+
+        <div
+          className="
+            grid
+            grid-cols-1
+            gap-8
+            lg:grid-cols-[0.85fr_1.15fr]
+          "
+        >
+
+          {/* ====================================================
+              LEFT CONTACT INFORMATION
+          ==================================================== */}
+
+          <div
+            className="
+              relative
+              overflow-hidden
+              rounded-3xl
+              border
+              border-gold-500/20
+              bg-gradient-to-br
+              from-charcoal-800/80
+              to-charcoal-900/80
+              p-8
+              backdrop-blur-sm
+            "
+          >
+
+            {/* Top Line */}
+
+            <div
+              className="
+                absolute
+                left-0
+                right-0
+                top-0
+                h-1
+                bg-gradient-to-r
+                from-gold-400
+                to-gold-600
+                opacity-60
+              "
+            />
+
+            {/* Glow */}
+
+            <div
+              className="
+                absolute
+                -right-10
+                -top-10
+                h-32
+                w-32
+                rounded-full
+                bg-gold-500/10
+                blur-2xl
+              "
+            />
+
+            {/* Studio Name */}
+
+            <h3
+              className="
+                font-serif
+                text-2xl
+                font-bold
+                text-white
+              "
+            >
+              Bharat Photo Studio
+            </h3>
+
+            {/* Description */}
+
+            <p
+              className="
+                mt-3
+                text-sm
+                leading-relaxed
+                text-white/60
+              "
+            >
+              Wedding Photography | Cinematic Videography |
+              Candid Shoot | Pre-Wedding | Drone Coverage |
+              Photo Album
+            </p>
+
+            {/* Contact Details */}
+
+            <div className="mt-8 space-y-5">
+
+              {/* Phone */}
+
+              <a
+                href="tel:8740000983"
+                className="
+                  group
+                  flex
+                  items-start
+                  gap-3
+                  text-white/75
+                  transition-all
+                  hover:translate-x-1
+                  hover:text-gold-300
+                "
+              >
+
+                <span
+                  className="
+                    flex
+                    h-10
+                    w-10
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-gold-500/15
+                    text-gold-400
+                    transition-all
+                    group-hover:scale-110
+                    group-hover:bg-gold-500/25
+                  "
+                >
+                  <Phone className="h-5 w-5" />
+                </span>
+
+                <span>
+
+                  <strong
+                    className="
+                      block
+                      text-xs
+                      uppercase
+                      tracking-wider
+                      text-gold-400
+                    "
+                  >
+                    Call Us
+                  </strong>
+
+                  8740000983
+
+                </span>
+
+              </a>
+
+              {/* Email */}
+
+              <a
+                href="mailto:bharatstudio4@gmail.com"
+                className="
+                  group
+                  flex
+                  items-start
+                  gap-3
+                  text-white/75
+                  transition-all
+                  hover:translate-x-1
+                  hover:text-gold-300
+                "
+              >
+
+                <span
+                  className="
+                    flex
+                    h-10
+                    w-10
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-gold-500/15
+                    text-gold-400
+                    transition-all
+                    group-hover:scale-110
+                    group-hover:bg-gold-500/25
+                  "
+                >
+                  <Mail className="h-5 w-5" />
+                </span>
+
+                <span>
+
+                  <strong
+                    className="
+                      block
+                      text-xs
+                      uppercase
+                      tracking-wider
+                      text-gold-400
+                    "
+                  >
+                    Email
+                  </strong>
+
+                  bharatstudio4@gmail.com
+
+                </span>
+
+              </a>
+
+              {/* Location */}
+
+              <div
+                className="
+                  group
+                  flex
+                  items-start
+                  gap-3
+                  text-white/75
+                  transition-all
+                  hover:translate-x-1
+                "
+              >
+
+                <span
+                  className="
+                    flex
+                    h-10
+                    w-10
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-gold-500/15
+                    text-gold-400
+                    transition-all
+                    group-hover:scale-110
+                    group-hover:bg-gold-500/25
+                  "
+                >
+                  <MapPin className="h-5 w-5" />
+                </span>
+
+                <span>
+
+                  <strong
+                    className="
+                      block
+                      text-xs
+                      uppercase
+                      tracking-wider
+                      text-gold-400
+                    "
+                  >
+                    Location
+                  </strong>
+
+                  Badhra, Loharu Road, NCR Delhi
+
+                </span>
+
               </div>
 
-              <h3 className="font-serif text-2xl font-bold text-white">
-                Thank You!
-              </h3>
+            </div>
 
-              <p className="mt-2 max-w-md text-sm text-white/70">
-                Your booking request has been received successfully. We will
-                contact you soon.
+            {/* Happiness Box */}
+
+            <div
+              className="
+                mt-8
+                rounded-2xl
+                border
+                border-gold-500/20
+                bg-gradient-to-br
+                from-gold-500/10
+                to-maroon-500/10
+                p-5
+              "
+            >
+
+              <Heart className="mb-2 h-5 w-5 text-gold-400" />
+
+              <p
+                className="
+                  font-serif
+                  text-lg
+                  italic
+                  text-gold-300
+                "
+              >
+                Your happiness is our priority.
               </p>
 
-              <button
-                type="button"
-                onClick={() => setStatus('idle')}
-                className="mt-6 rounded-full border border-gold-500/30 bg-white/5 px-6 py-2.5 text-sm font-semibold text-gold-300 transition-all hover:bg-white/10"
-              >
-                Send New Request
-              </button>
             </div>
-          ) : (
-            /* Booking Form */
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Name + Phone + Email + Date */}
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
 
-                {/* Name */}
-                <div>
-                  <label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/80">
-                    <User className="h-4 w-4 text-gold-400" />
+          </div>
 
-                    Name
+          {/* ====================================================
+              RIGHT FORM
+          ==================================================== */}
 
-                    <span className="text-maroon-400">*</span>
-                  </label>
+          <div
+            className="
+              relative
+              overflow-hidden
+              rounded-3xl
+              border
+              border-gold-500/20
+              bg-gradient-to-br
+              from-charcoal-800/60
+              to-charcoal-900/60
+              p-6
+              backdrop-blur-sm
+              sm:p-10
+            "
+          >
 
-                  <input
-                    type="text"
-                    name="client_name"
-                    value={form.client_name}
-                    onChange={handleChange}
-                    required
-                    placeholder="Your full name"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition-all focus:border-gold-500/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-gold-500/30"
-                  />
+            {/* Top Border */}
+
+            <div
+              className="
+                absolute
+                left-0
+                right-0
+                top-0
+                h-1
+                bg-gradient-to-r
+                from-maroon-400
+                via-gold-400
+                to-maroon-400
+                opacity-60
+              "
+            />
+
+            {/* Glow */}
+
+            <div
+              className="
+                absolute
+                -bottom-10
+                -left-10
+                h-32
+                w-32
+                rounded-full
+                bg-maroon-500/10
+                blur-2xl
+              "
+            />
+
+            {/* =================================================
+                SUCCESS MESSAGE
+            ================================================= */}
+
+            {status === 'success' ? (
+
+              <div
+                className="
+                  flex
+                  flex-col
+                  items-center
+                  justify-center
+                  py-16
+                  text-center
+                  animate-scale-in
+                "
+              >
+
+                <div
+                  className="
+                    mb-5
+                    flex
+                    h-20
+                    w-20
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-gradient-to-br
+                    from-gold-400
+                    to-gold-600
+                    text-white
+                    shadow-2xl
+                    shadow-gold-900/40
+                    glow-pulse
+                  "
+                >
+
+                  <CheckCircle2 className="h-10 w-10" />
+
                 </div>
 
-                {/* Phone */}
-                <div>
-                  <label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/80">
-                    <Phone className="h-4 w-4 text-gold-400" />
+                <h3
+                  className="
+                    font-serif
+                    text-2xl
+                    font-bold
+                    text-white
+                  "
+                >
+                  Thank You!
+                </h3>
 
-                    Phone Number
+                <p
+                  className="
+                    mt-2
+                    max-w-md
+                    text-sm
+                    text-white/70
+                  "
+                >
+                  Your booking request has been received.
+                  We will contact you soon.
+                </p>
 
-                    <span className="text-maroon-400">*</span>
-                  </label>
+                <button
+                  type="button"
+                  onClick={() => setStatus('idle')}
+                  className="
+                    mt-6
+                    rounded-full
+                    border
+                    border-gold-500/30
+                    bg-white/5
+                    px-6
+                    py-2.5
+                    text-sm
+                    font-semibold
+                    text-gold-300
+                    transition-all
+                    hover:scale-105
+                    hover:bg-white/10
+                  "
+                >
+                  Send New Request
+                </button>
 
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                    required
-                    placeholder="+91 XXXXX XXXXX"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition-all focus:border-gold-500/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-gold-500/30"
-                  />
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/80">
-                    <Mail className="h-4 w-4 text-gold-400" />
-
-                    Email
-                  </label>
-
-                  <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="email@example.com"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition-all focus:border-gold-500/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-gold-500/30"
-                  />
-                </div>
-
-                {/* Event Date */}
-                <div>
-                  <label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/80">
-                    <Calendar className="h-4 w-4 text-gold-400" />
-
-                    Event Date
-                  </label>
-
-                  <input
-                    type="date"
-                    name="event_date"
-                    value={form.event_date}
-                    onChange={handleChange}
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition-all focus:border-gold-500/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-gold-500/30 [color-scheme:dark]"
-                  />
-                </div>
               </div>
 
-              {/* Event Type */}
-              <div>
-                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/80">
-                  <Calendar className="h-4 w-4 text-gold-400" />
+            ) : (
 
-                  Event Type
-                </label>
+              /* =================================================
+                 FORM
+              ================================================= */
 
-                <select
-                  name="event_type"
-                  value={form.event_type}
-                  onChange={handleChange}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white transition-all focus:border-gold-500/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-gold-500/30"
+              <form
+                onSubmit={handleSubmit}
+                className="relative space-y-5"
+              >
+
+                {/* =================================================
+                    NAME + PHONE
+                ================================================= */}
+
+                <div
+                  className="
+                    grid
+                    grid-cols-1
+                    gap-5
+                    sm:grid-cols-2
+                  "
                 >
-                  <option value="" className="bg-charcoal-800">
-                    Select...
-                  </option>
 
-                  {eventTypes.map((type) => (
+                  {/* NAME */}
+
+                  <Field
+                    icon={<User className="h-4 w-4" />}
+                    label="Name"
+                    required
+                    focused={focused === 'client_name'}
+                  >
+
+                    <input
+                      type="text"
+                      name="client_name"
+                      value={form.client_name}
+                      onChange={handleChange}
+                      onFocus={() =>
+                        setFocused('client_name')
+                      }
+                      onBlur={() =>
+                        setFocused(null)
+                      }
+                      required
+                      placeholder="Your full name"
+                      className={inputClass}
+                    />
+
+                  </Field>
+
+                  {/* PHONE */}
+
+                  <Field
+                    icon={<Phone className="h-4 w-4" />}
+                    label="Phone Number"
+                    required
+                    focused={focused === 'phone'}
+                  >
+
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
+                      onFocus={() =>
+                        setFocused('phone')
+                      }
+                      onBlur={() =>
+                        setFocused(null)
+                      }
+                      required
+                      placeholder="+91 XXXXX XXXXX"
+                      className={inputClass}
+                    />
+
+                  </Field>
+
+                  {/* EMAIL */}
+
+                  <Field
+                    icon={<Mail className="h-4 w-4" />}
+                    label="Email"
+                    focused={focused === 'email'}
+                  >
+
+                    <input
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      onFocus={() =>
+                        setFocused('email')
+                      }
+                      onBlur={() =>
+                        setFocused(null)
+                      }
+                      placeholder="email@example.com"
+                      className={inputClass}
+                    />
+
+                  </Field>
+
+                  {/* EVENT DATE */}
+
+                  <Field
+                    icon={<Calendar className="h-4 w-4" />}
+                    label="Event Date"
+                    focused={focused === 'event_date'}
+                  >
+
+                    <input
+                      type="date"
+                      name="event_date"
+                      value={form.event_date}
+                      onChange={handleChange}
+                      onFocus={() =>
+                        setFocused('event_date')
+                      }
+                      onBlur={() =>
+                        setFocused(null)
+                      }
+                      className={`${inputClass} [color-scheme:dark]`}
+                    />
+
+                  </Field>
+
+                </div>
+
+                {/* =================================================
+                    PACKAGE
+                ================================================= */}
+
+                <Field
+                  icon={<Calendar className="h-4 w-4" />}
+                  label="Package or Service"
+                  focused={focused === 'event_type'}
+                >
+
+                  <select
+                    name="event_type"
+                    value={form.event_type}
+                    onChange={handleChange}
+                    onFocus={() =>
+                      setFocused('event_type')
+                    }
+                    onBlur={() =>
+                      setFocused(null)
+                    }
+                    className={inputClass}
+                  >
+
                     <option
-                      key={type}
-                      value={type}
+                      value=""
                       className="bg-charcoal-800"
                     >
-                      {type}
+                      Select...
                     </option>
-                  ))}
-                </select>
-              </div>
 
-              {/* Message */}
-              <div>
-                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/80">
-                  <MessageSquare className="h-4 w-4 text-gold-400" />
+                    {eventTypes.map((type) => (
 
-                  Message
-                </label>
+                      <option
+                        key={type}
+                        value={type}
+                        className="bg-charcoal-800"
+                      >
+                        {type}
+                      </option>
 
-                <textarea
-                  name="message"
-                  value={form.message}
-                  onChange={handleChange}
-                  rows={4}
-                  placeholder="Write your requirements or questions here..."
-                  className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 transition-all focus:border-gold-500/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-gold-500/30"
-                />
-              </div>
+                    ))}
 
-              {/* Error Message */}
-              {status === 'error' && (
-                <div className="flex items-center gap-3 rounded-xl border border-maroon-500/30 bg-maroon-900/30 p-4">
-                  <AlertCircle className="h-5 w-5 flex-shrink-0 text-maroon-400" />
+                  </select>
 
-                  <p className="text-sm text-maroon-300">
-                    {errorMsg}
-                  </p>
-                </div>
-              )}
+                </Field>
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={status === 'loading'}
-                className="flex w-full items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-gold-600 to-gold-500 py-4 text-sm font-semibold text-white shadow-lg shadow-gold-900/30 transition-all duration-300 hover:from-gold-700 hover:to-gold-600 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {status === 'loading' ? (
-                  <>
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="h-5 w-5" />
-                    Send Booking Request
-                  </>
+                {/* =================================================
+                    MESSAGE
+                ================================================= */}
+
+                <Field
+                  icon={<MessageSquare className="h-4 w-4" />}
+                  label="Message"
+                  focused={focused === 'message'}
+                >
+
+                  <textarea
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange}
+                    onFocus={() =>
+                      setFocused('message')
+                    }
+                    onBlur={() =>
+                      setFocused(null)
+                    }
+                    rows={4}
+                    placeholder="Tell us about your event..."
+                    className={`${inputClass} resize-none`}
+                  />
+
+                </Field>
+
+                {/* =================================================
+                    ERROR
+                ================================================= */}
+
+                {status === 'error' && (
+
+                  <div
+                    className="
+                      flex
+                      items-center
+                      gap-3
+                      rounded-xl
+                      border
+                      border-maroon-500/30
+                      bg-maroon-900/30
+                      p-4
+                      animate-fade-in
+                    "
+                  >
+
+                    <AlertCircle
+                      className="
+                        h-5
+                        w-5
+                        flex-shrink-0
+                        text-maroon-400
+                      "
+                    />
+
+                    <p className="text-sm text-maroon-300">
+                      {errorMsg}
+                    </p>
+
+                  </div>
+
                 )}
-              </button>
-            </form>
-          )}
+
+                {/* =================================================
+                    SUBMIT BUTTON
+                ================================================= */}
+
+                <button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="
+                    shimmer-sweep
+                    relative
+                    flex
+                    w-full
+                    items-center
+                    justify-center
+                    gap-2.5
+                    overflow-hidden
+                    rounded-full
+                    bg-gradient-to-r
+                    from-gold-600
+                    to-gold-500
+                    py-4
+                    text-sm
+                    font-semibold
+                    text-white
+                    shadow-lg
+                    shadow-gold-900/30
+                    transition-all
+                    hover:from-gold-700
+                    hover:to-gold-600
+                    hover:shadow-xl
+                    disabled:cursor-not-allowed
+                    disabled:opacity-60
+                  "
+                >
+
+                  {status === 'loading' ? (
+
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Sending...
+                    </>
+
+                  ) : (
+
+                    <>
+                      <Send className="h-5 w-5" />
+                      Send Booking Request
+                    </>
+
+                  )}
+
+                </button>
+
+              </form>
+
+            )}
+
+          </div>
+
         </div>
+
       </div>
+
     </section>
+  );
+}
+
+// ============================================================
+// FIELD COMPONENT
+// ============================================================
+
+type FieldProps = {
+  icon: ReactNode;
+  label: string;
+  required?: boolean;
+  focused: boolean;
+  children: ReactNode;
+};
+
+// ============================================================
+// FIELD COMPONENT
+// ============================================================
+
+function Field({
+  icon,
+  label,
+  required = false,
+  focused,
+  children,
+}: FieldProps) {
+
+  return (
+    <div
+      className={`
+        transition-all
+        duration-300
+        ${focused ? 'translate-x-1' : ''}
+      `}
+    >
+
+      {/* Label */}
+
+      <label
+        className={`
+          mb-2
+          flex
+          items-center
+          gap-2
+          text-sm
+          font-medium
+          transition-colors
+          duration-300
+          ${
+            focused
+              ? 'text-gold-300'
+              : 'text-white/80'
+          }
+        `}
+      >
+
+        {/* Icon */}
+
+        <span
+          className={`
+            transition-colors
+            duration-300
+            ${
+              focused
+                ? 'text-gold-400'
+                : ''
+            }
+          `}
+        >
+          {icon}
+        </span>
+
+        {/* Label */}
+
+        <span>
+          {label}
+        </span>
+
+        {/* Required */}
+
+        {required && (
+          <span className="text-maroon-400">
+            *
+          </span>
+        )}
+
+      </label>
+
+      {/* Input */}
+
+      {children}
+
+    </div>
   );
 }
