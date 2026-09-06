@@ -1,7 +1,7 @@
 import { ZoomIn } from 'lucide-react';
 import { useReveal } from '../hooks/useReveal';
 import { useParallax } from '../hooks/useAnimations';
-import { useLightbox, Lightbox, type LightboxImage } from '../components/Lightbox';
+import { useLightbox, Lightbox, type LightboxImage } from './Lightbox';
 
 const galleryImages: (LightboxImage & { span: string })[] = [
   { url: 'https://images.pexels.com/photos/17657612/pexels-photo-17657612.jpeg?auto=compress&cs=tinysrgb&w=800', alt: 'Indian couple wedding ceremony', label: 'Wedding Ceremony', span: 'lg:col-span-2 lg:row-span-2' },
