@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Menu, X, Camera } from 'lucide-react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
-  { label: 'Packages', href: '#packages' },
+  { label: 'Stories', href: '#gallery' },
   { label: 'Services', href: '#services' },
-  { label: 'Gallery', href: '#gallery' },
+  { label: 'Packages', href: '#packages' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -14,48 +14,394 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
+  // Prevent background scrolling when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
   return (
-    <header className={`fixed left-0 right-0 top-0 z-50 transition-all duration-500 ${scrolled ? 'bg-cream-50/95 py-3 shadow-lg shadow-gold-900/5 backdrop-blur-md' : 'bg-transparent py-5'}`}>
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
-        <a href="#home" className="flex items-center gap-2.5">
-          <div className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors duration-500 ${scrolled ? 'border-gold-600 text-gold-600' : 'border-gold-300 text-gold-200'}`}>
-            <Camera className="h-5 w-5" />
-          </div>
-          <div className="flex flex-col leading-none">
-            <span className={`font-serif text-lg font-bold transition-colors duration-500 ${scrolled ? 'text-charcoal-800' : 'text-white'}`}>Bharat Photo Studio</span>
-            <span className={`text-[10px] font-medium uppercase tracking-[0.2em] transition-colors duration-500 ${scrolled ? 'text-gold-600' : 'text-gold-200'}`}>Wedding Films</span>
-          </div>
+    <header
+      className={`
+        fixed
+        left-0
+        right-0
+        top-0
+        z-[100]
+        transition-all
+        duration-500
+        ease-out
+        ${
+          scrolled
+            ? 'border-b border-white/[0.08] bg-[#151513]/95 backdrop-blur-xl'
+            : 'bg-transparent'
+        }
+      `}
+    >
+      {/* =====================================================
+          NAVIGATION
+      ====================================================== */}
+
+      <nav
+        className={`
+          mx-auto
+          flex
+          max-w-[1500px]
+          items-center
+          justify-between
+          px-6
+          transition-all
+          duration-500
+          sm:px-10
+          lg:px-14
+          xl:px-20
+          ${
+            scrolled
+              ? 'h-[76px]'
+              : 'h-[92px]'
+          }
+        `}
+      >
+        {/* =================================================
+            LOGO
+        ================================================== */}
+
+        <a
+          href="#home"
+          onClick={() => setMenuOpen(false)}
+          className="group relative z-[110] flex flex-col"
+        >
+          <span
+            className="
+              font-serif
+              text-[21px]
+              font-medium
+              tracking-[0.22em]
+              text-white
+              transition-colors
+              duration-500
+              group-hover:text-[#d8b878]
+              sm:text-[24px]
+            "
+          >
+            BHARAT
+          </span>
+
+          <span
+            className="
+              mt-1
+              text-[8px]
+              font-medium
+              uppercase
+              tracking-[0.48em]
+              text-[#d8b878]
+              sm:text-[9px]
+            "
+          >
+            Photo Studio
+          </span>
         </a>
 
-        <ul className="hidden items-center gap-8 lg:flex">
+        {/* =================================================
+            DESKTOP NAVIGATION
+        ================================================== */}
+
+        <ul
+          className="
+            hidden
+            items-center
+            gap-9
+            lg:flex
+            xl:gap-11
+          "
+        >
           {navLinks.map((link) => (
             <li key={link.href}>
-              <a href={link.href} className={`text-sm font-medium transition-colors duration-300 hover:text-gold-500 ${scrolled ? 'text-charcoal-700' : 'text-white/90'}`}>{link.label}</a>
+              <a
+                href={link.href}
+                className="
+                  group
+                  relative
+                  block
+                  py-3
+                  text-[10px]
+                  font-medium
+                  uppercase
+                  tracking-[0.32em]
+                  text-white/70
+                  transition-colors
+                  duration-300
+                  hover:text-white
+                "
+              >
+                {link.label}
+
+                {/* Gold underline */}
+
+                <span
+                  className="
+                    absolute
+                    bottom-1
+                    left-0
+                    h-px
+                    w-0
+                    bg-[#d8b878]
+                    transition-all
+                    duration-500
+                    ease-out
+                    group-hover:w-full
+                  "
+                />
+              </a>
             </li>
           ))}
         </ul>
 
-        <a href="#contact" className={`hidden rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 lg:inline-block ${scrolled ? 'bg-gold-600 text-white hover:bg-gold-700' : 'border border-white/30 bg-white/15 text-white backdrop-blur-sm hover:bg-white/25'}`}>Book Now</a>
+        {/* =================================================
+            DESKTOP BOOK BUTTON
+        ================================================== */}
 
-        <button onClick={() => setMenuOpen(!menuOpen)} className={`lg:hidden ${scrolled ? 'text-charcoal-800' : 'text-white'}`} aria-label="Toggle menu">
-          {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        <a
+          href="#contact"
+          className="
+            group
+            hidden
+            items-center
+            gap-3
+            rounded-full
+            border
+            border-[#d8b878]/50
+            bg-[#d8b878]
+            px-5
+            py-2.5
+            text-[9px]
+            font-semibold
+            uppercase
+            tracking-[0.28em]
+            text-[#171614]
+            transition-all
+            duration-500
+            hover:bg-[#ead39a]
+            lg:flex
+          "
+        >
+          <span>Book a Date</span>
+
+          <span
+            className="
+              flex
+              h-6
+              w-6
+              items-center
+              justify-center
+              rounded-full
+              bg-[#171614]
+              text-white
+              transition-transform
+              duration-500
+              group-hover:rotate-45
+            "
+          >
+            <ArrowUpRight className="h-3 w-3" />
+          </span>
+        </a>
+
+        {/* =================================================
+            MOBILE MENU BUTTON
+        ================================================== */}
+
+        <button
+          type="button"
+          onClick={() => setMenuOpen((previous) => !previous)}
+          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={menuOpen}
+          className="
+            relative
+            z-[110]
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-white/20
+            bg-white/[0.06]
+            text-white
+            backdrop-blur-md
+            transition-all
+            duration-300
+            hover:border-[#d8b878]/60
+            hover:text-[#d8b878]
+            lg:hidden
+          "
+        >
+          {menuOpen ? (
+            <X className="h-[18px] w-[18px]" />
+          ) : (
+            <Menu className="h-[18px] w-[18px]" />
+          )}
         </button>
       </nav>
 
-      <div className={`overflow-hidden transition-all duration-500 lg:hidden ${menuOpen ? 'max-h-96' : 'max-h-0'}`}>
-        <ul className="mx-5 mt-3 space-y-1 rounded-2xl bg-cream-50 p-4 shadow-xl">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a href={link.href} onClick={() => setMenuOpen(false)} className="block rounded-lg px-4 py-3 text-sm font-medium text-charcoal-700 transition-colors hover:bg-gold-100 hover:text-gold-700">{link.label}</a>
-            </li>
-          ))}
-          <li><a href="#contact" onClick={() => setMenuOpen(false)} className="mt-2 block rounded-lg bg-gold-600 px-4 py-3 text-center text-sm font-semibold text-white">Book Now</a></li>
-        </ul>
+      {/* =====================================================
+          MOBILE MENU
+      ====================================================== */}
+
+      <div
+        className={`
+          fixed
+          inset-0
+          z-[90]
+          bg-[#11110f]
+          transition-all
+          duration-500
+          lg:hidden
+          ${
+            menuOpen
+              ? 'pointer-events-auto visible opacity-100'
+              : 'pointer-events-none invisible opacity-0'
+          }
+        `}
+      >
+        <div className="flex h-full flex-col px-6 pt-32 sm:px-10">
+          {/* Small heading */}
+
+          <div className="border-b border-white/10 pb-5">
+            <span
+              className="
+                text-[9px]
+                font-medium
+                uppercase
+                tracking-[0.4em]
+                text-[#d8b878]
+              "
+            >
+              Bharat Photo Studio
+            </span>
+          </div>
+
+          {/* Navigation links */}
+
+          <nav className="mt-8">
+            <ul className="space-y-1">
+              {navLinks.map((link, index) => (
+                <li
+                  key={link.href}
+                  className={`
+                    transition-all
+                    duration-500
+                    ${
+                      menuOpen
+                        ? 'translate-y-0 opacity-100'
+                        : 'translate-y-5 opacity-0'
+                    }
+                  `}
+                  style={{
+                    transitionDelay: `${index * 70}ms`,
+                  }}
+                >
+                  <a
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="
+                      group
+                      flex
+                      items-center
+                      justify-between
+                      border-b
+                      border-white/[0.07]
+                      py-5
+                      text-2xl
+                      font-light
+                      text-white
+                      transition-colors
+                      duration-300
+                      hover:text-[#d8b878]
+                      sm:text-3xl
+                    "
+                  >
+                    <span>{link.label}</span>
+
+                    <ArrowUpRight
+                      className="
+                        h-5
+                        w-5
+                        text-[#d8b878]
+                        opacity-40
+                        transition-all
+                        duration-300
+                        group-hover:translate-x-1
+                        group-hover:-translate-y-1
+                        group-hover:opacity-100
+                      "
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Bottom booking area */}
+
+          <div className="mt-auto pb-10">
+            <a
+              href="#contact"
+              onClick={() => setMenuOpen(false)}
+              className="
+                flex
+                w-full
+                items-center
+                justify-between
+                border
+                border-[#d8b878]/40
+                bg-[#d8b878]
+                px-5
+                py-4
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.3em]
+                text-[#171614]
+                transition-all
+                duration-300
+                hover:bg-[#ead39a]
+              "
+            >
+              <span>Book Your Date</span>
+
+              <ArrowUpRight className="h-4 w-4" />
+            </a>
+
+            <p
+              className="
+                mt-5
+                text-[9px]
+                uppercase
+                tracking-[0.25em]
+                text-white/30
+              "
+            >
+              Weddings • Stories • Memories
+            </p>
+          </div>
+        </div>
       </div>
     </header>
   );

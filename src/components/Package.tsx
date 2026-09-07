@@ -1,203 +1,540 @@
-import { Check, Crown, IndianRupee, Sparkles, Star, Users, Zap } from 'lucide-react';
+import {
+  ArrowUpRight,
+  Check,
+  Crown,
+  IndianRupee,
+  Sparkles,
+  Star,
+  Users,
+} from 'lucide-react';
+
 import { useReveal } from '../hooks/useReveal';
-import ParticleField from '../components/ParticleField';
 
-type AccentKey = 'blue' | 'purple' | 'gold';
-type Package = { name: string; price: string; subtitle: string; accent: AccentKey; features: string[]; team: string; icon: typeof Crown };
-
-const accentMap: Record<AccentKey, {
-  gradient: string; border: string; glow: string; badge: string; iconBg: string; priceText: string; check: string; teamBg: string; btn: string; btnHover: string; ring: string;
-}> = {
-  blue: {
-    gradient: 'from-sky-900/60 via-charcoal-800/80 to-charcoal-800/80',
-    border: 'border-sky-400/30',
-    glow: 'group-hover:shadow-sky-500/20',
-    badge: 'from-sky-600 to-sky-800',
-    iconBg: 'from-sky-400/20 to-sky-600/20 text-sky-300',
-    priceText: 'text-sky-200',
-    check: 'text-sky-400',
-    teamBg: 'bg-sky-500/10',
-    btn: 'from-sky-600 to-sky-700',
-    btnHover: 'hover:from-sky-500 hover:to-sky-600',
-    ring: 'ring-sky-400/30',
-  },
-  purple: {
-    gradient: 'from-fuchsia-900/50 via-charcoal-800/80 to-charcoal-800/80',
-    border: 'border-fuchsia-400/30',
-    glow: 'group-hover:shadow-fuchsia-500/20',
-    badge: 'from-fuchsia-700 to-fuchsia-900',
-    iconBg: 'from-fuchsia-400/20 to-fuchsia-600/20 text-fuchsia-300',
-    priceText: 'text-fuchsia-200',
-    check: 'text-fuchsia-400',
-    teamBg: 'bg-fuchsia-500/10',
-    btn: 'from-fuchsia-600 to-fuchsia-700',
-    btnHover: 'hover:from-fuchsia-500 hover:to-fuchsia-600',
-    ring: 'ring-fuchsia-400/30',
-  },
-  gold: {
-    gradient: 'from-gold-900/50 via-charcoal-800/80 to-charcoal-800/80',
-    border: 'border-gold-400/50',
-    glow: 'group-hover:shadow-gold-500/30',
-    badge: 'from-gold-500 to-gold-700',
-    iconBg: 'from-gold-400/20 to-gold-600/20 text-gold-300',
-    priceText: 'text-gold-300',
-    check: 'text-gold-400',
-    teamBg: 'bg-gold-500/10',
-    btn: 'from-gold-500 to-gold-600',
-    btnHover: 'hover:from-gold-400 hover:to-gold-500',
-    ring: 'ring-gold-400/40',
-  },
+type PackageType = {
+  number: string;
+  name: string;
+  subtitle: string;
+  price: string;
+  description: string;
+  features: string[];
+  team: string;
+  featured?: boolean;
 };
 
-const packages: Package[] = [
-  { name: 'Normal Package', price: '₹25,000/-', subtitle: 'Simple Moments, Beautiful Memories', accent: 'blue', icon: Sparkles, features: ['Full Day Photography (8 Hours)', 'Candid Photography', 'Traditional Photography', '1 Cinematic Highlight Video (3–5 Min)', 'Edited Photos (200–300)', 'Online Photo Gallery (1 Month)', '1 Premium Photo Album (12x18)'], team: '1 Photographer + 1 Cameraman' },
-  { name: 'Medium Package', price: '₹45,000/-', subtitle: 'More Coverage, More Emotions', accent: 'purple', icon: Zap, features: ['Full Day Photography (10–14 Hours)', 'Candid Photography', 'Traditional Photography', 'Cinematic Videography (5–7 Min)', 'Drone Coverage (Up to 2 Hours)', 'Edited Photos (500–700)', 'Online Photo Gallery (3 Months)', '1 Premium Photo Album (12x18)'], team: '2 Photographers + 1 Cameraman' },
-  { name: 'Gold Package', price: '₹75,000/-', subtitle: 'Luxury Coverage, Lifetime Memories', accent: 'gold', icon: Crown, features: ['Full Day Photography (12–14 Hours)', 'Candid Photography', 'Traditional Photography', 'Cinematic Videography (8–10 Min)', 'Drone Coverage (Full Day)', 'Pre-Wedding Shoot (Optional)', 'Edited Photos (1000+)', 'Online Photo Gallery (6 Months)', '1 Premium Wedding Album (12x18)', 'Highlight + Teaser Video (Short Film)', 'Reels / Social Media Clips (10–15)'], team: '3 Photographers + 1 Cameraman + Drone Pilot (If Required)' },
+const packages: PackageType[] = [
+  {
+    number: '01',
+    name: 'Essential',
+    subtitle: 'Simple moments. Beautifully preserved.',
+    price: '25,000',
+    description:
+      'A thoughtful collection for intimate celebrations and couples who want the essential moments documented beautifully.',
+    features: [
+      'Full Day Photography · 8 Hours',
+      'Candid Photography',
+      'Traditional Photography',
+      'Cinematic Highlight · 3–5 Min',
+      '200–300 Edited Photographs',
+      'Online Gallery · 1 Month',
+      'Premium Album · 12 × 18',
+    ],
+    team: '1 Photographer + 1 Cameraman',
+  },
+
+  {
+    number: '02',
+    name: 'Signature',
+    subtitle: 'More coverage. More emotion.',
+    price: '45,000',
+    description:
+      'Our balanced wedding collection for couples who want a richer visual story with cinematic coverage and aerial perspectives.',
+    features: [
+      'Full Day Photography · 10–14 Hours',
+      'Candid Photography',
+      'Traditional Photography',
+      'Cinematic Film · 5–7 Min',
+      'Drone Coverage · Up to 2 Hours',
+      '500–700 Edited Photographs',
+      'Online Gallery · 3 Months',
+      'Premium Album · 12 × 18',
+    ],
+    team: '2 Photographers + 1 Cameraman',
+    featured: true,
+  },
+
+  {
+    number: '03',
+    name: 'Legacy',
+    subtitle: 'Luxury coverage. A lifetime of memories.',
+    price: '75,000',
+    description:
+      'Our most complete collection for couples who want their wedding documented as a full cinematic story.',
+    features: [
+      'Full Day Photography · 12–14 Hours',
+      'Candid Photography',
+      'Traditional Photography',
+      'Cinematic Film · 8–10 Min',
+      'Full Day Drone Coverage',
+      'Pre-Wedding Shoot',
+      '1,000+ Edited Photographs',
+      'Online Gallery · 6 Months',
+      'Premium Wedding Album · 12 × 18',
+      'Highlight + Teaser Film',
+      '10–15 Social Media Reels',
+    ],
+    team: '3 Photographers + Cameraman + Drone Pilot',
+  },
 ];
 
-const extraServices = ['Extra Photo Album (12x18) — ₹3,000/-', 'Pre-Wedding Shoot (Outdoor) — ₹12,000/-', 'Drone Coverage (Extra Hours) — ₹5,000/-', 'Cinematic Full Video (15 Min) — ₹8,000/-', 'Live Streaming (Wedding) — ₹7,000/-'];
-const reasons = ['Professional & Experienced Team', 'Latest Equipment (Canon / Nikon)', 'Creative & Candid Approach', 'High Quality Editing', 'On-Time Delivery', 'Customer Satisfaction 100%'];
+const extraServices = [
+  ['Extra Photo Album', '₹3,000'],
+  ['Pre-Wedding Shoot', '₹12,000'],
+  ['Extra Drone Coverage', '₹5,000'],
+  ['Cinematic Full Video · 15 Min', '₹8,000'],
+  ['Live Wedding Streaming', '₹7,000'],
+];
+
+const reasons = [
+  'Professional & experienced team',
+  'Latest Canon / Nikon equipment',
+  'Creative & candid approach',
+  'Professional colour grading & editing',
+  'Reliable delivery timelines',
+  'Personalised client experience',
+];
 
 export default function Package() {
   const { ref, isVisible } = useReveal();
-  return (
-    <section id="packages" className="section-pad relative overflow-hidden bg-gradient-to-b from-charcoal-950 via-charcoal-900 to-charcoal-950">
-      {/* Ambient glows */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute -left-32 top-20 h-96 w-96 rounded-full bg-gold-500 blur-[120px]" />
-        <div className="absolute right-0 top-1/3 h-80 w-80 rounded-full bg-maroon-600 blur-[100px]" />
-        <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-gold-400 blur-[100px]" />
-      </div>
-      <ParticleField count={30} color="212,168,74" />
 
-      <div ref={ref} className={`relative mx-auto max-w-7xl reveal ${isVisible ? 'is-visible' : ''}`}>
-        {/* Heading */}
-        <div className="mb-16 text-center">
-          <span className="text-sm font-medium uppercase tracking-[0.25em] text-gold-400">Wedding Photography Packages</span>
-          <h2 className="mt-3 font-serif text-3xl font-bold text-white sm:text-4xl md:text-5xl">Choose Your Perfect Package</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-white/60">We do not just take photos, we capture your emotions for a lifetime.</p>
-          <div className="mx-auto mt-5 flex items-center justify-center gap-3">
-            <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold-500/60" />
-            <span className="text-gold-400">✦</span>
-            <span className="h-px w-16 bg-gradient-to-l from-transparent to-gold-500/60" />
+  return (
+    <section
+      id="packages"
+      className="package-section relative overflow-hidden bg-[#171614] text-[#f3efe6]"
+    >
+      {/* subtle background texture */}
+      <div className="package-grain pointer-events-none absolute inset-0" />
+
+      {/* ambient light */}
+      <div className="pointer-events-none absolute -right-40 top-40 h-[500px] w-[500px] rounded-full bg-[#a88952]/10 blur-[160px]" />
+
+      <div
+        ref={ref}
+        className={`relative mx-auto max-w-[1400px] px-6 py-24 sm:px-10 lg:px-16 lg:py-32 ${
+          isVisible ? 'package-visible' : ''
+        }`}
+      >
+        {/* ================================= */}
+        {/* HEADER */}
+        {/* ================================= */}
+
+        <div className="grid gap-10 lg:grid-cols-[1fr_430px] lg:items-end">
+          <div className="package-header">
+            <div className="mb-6 flex items-center gap-4">
+              <span className="h-px w-12 bg-[#b89a61]" />
+
+              <span className="text-[10px] uppercase tracking-[0.35em] text-[#b89a61]">
+                Investment
+              </span>
+            </div>
+
+            <h2 className="max-w-4xl font-serif text-[clamp(3rem,7vw,7rem)] font-normal leading-[0.9] tracking-[-0.045em]">
+              Choose how
+              <br />
+              <span className="ml-[8vw] italic text-[#b89a61]">
+                your story lives.
+              </span>
+            </h2>
+          </div>
+
+          <div className="package-intro lg:pb-2">
+            <p className="max-w-md text-sm leading-7 text-white/50">
+              Every wedding is different. Our collections are designed to
+              give you a clear starting point while leaving room to create
+              something uniquely yours.
+            </p>
+
+            <div className="mt-7 flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-white/30">
+              <span>Photography</span>
+              <span>•</span>
+              <span>Films</span>
+              <span>•</span>
+              <span>Albums</span>
+            </div>
           </div>
         </div>
 
-        {/* Package cards */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {packages.map((item, i) => <PackageCard key={item.name} item={item} featured={i === 2} />)}
+        {/* ================================= */}
+        {/* PACKAGE CARDS */}
+        {/* ================================= */}
+
+        <div className="mt-20 grid gap-px overflow-hidden border border-white/10 bg-white/10 lg:grid-cols-3">
+          {packages.map((item, index) => (
+            <PackageCard
+              key={item.name}
+              item={item}
+              index={index}
+            />
+          ))}
         </div>
 
-        {/* Info cards */}
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <InfoCard title="Additional Services" icon={<Star className="h-5 w-5" />} accent="gold">
-            <ul className="space-y-3">
-              {extraServices.map((service) => <li key={service} className="flex items-start gap-3 text-sm text-white/75"><Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold-400" />{service}</li>)}
-            </ul>
-            <p className="mt-5 text-xs text-white/40">All prices are subject to GST 18% applicable.</p>
-          </InfoCard>
-          <InfoCard title="Payment Terms" icon={<IndianRupee className="h-5 w-5" />} accent="maroon">
-            <ul className="space-y-3 text-sm text-white/75">
-              <li className="flex justify-between gap-4"><span>Booking Advance</span><strong className="text-gold-300">₹10,000/-</strong></li>
-              <li className="flex justify-between gap-4"><span>Balance Before Event</span><span className="text-right text-gold-300">As per package</span></li>
-              <li className="flex justify-between gap-4"><span>Mode of Payment</span><span className="text-right text-gold-300">Cash / UPI / Bank Transfer</span></li>
-            </ul>
-            <div className="mt-5 border-t border-white/10 pt-4">
-              <p className="text-xs uppercase tracking-wider text-gold-400">Quotation Validity</p>
-              <p className="mt-1 text-sm text-white/70">This quotation is valid for 15 days from the date of issue.</p>
+        {/* ================================= */}
+        {/* NOTE */}
+        {/* ================================= */}
+
+        <div className="mt-5 flex flex-col justify-between gap-3 border-b border-white/10 pb-6 text-[10px] uppercase tracking-[0.22em] text-white/30 sm:flex-row">
+          <span>All prices are exclusive of GST</span>
+
+          <span>
+            Custom collections available on request
+          </span>
+        </div>
+
+        {/* ================================= */}
+        {/* ADDITIONAL SERVICES */}
+        {/* ================================= */}
+
+        <div className="mt-24 grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.35em] text-[#b89a61]">
+              Beyond the collection
+            </span>
+
+            <h3 className="mt-5 max-w-lg font-serif text-4xl font-normal leading-tight sm:text-5xl">
+              Make it
+              <br />
+              <span className="italic text-[#b89a61]">
+                completely yours.
+              </span>
+            </h3>
+
+            <p className="mt-6 max-w-md text-sm leading-7 text-white/40">
+              Need something different? Add individual services to any
+              collection or speak with us about creating a custom package
+              around your wedding.
+            </p>
+          </div>
+
+          <div className="border-t border-white/10">
+            {extraServices.map(([name, price], index) => (
+              <div
+                key={name}
+                className="extra-service group flex items-center justify-between gap-6 border-b border-white/10 py-6"
+              >
+                <div className="flex items-center gap-5">
+                  <span className="font-serif text-sm italic text-[#b89a61]/70">
+                    0{index + 1}
+                  </span>
+
+                  <span className="text-sm text-white/70 transition-colors duration-300 group-hover:text-white">
+                    {name}
+                  </span>
+                </div>
+
+                <span className="font-serif text-lg text-[#b89a61]">
+                  {price}
+                </span>
+              </div>
+            ))}
+
+            <p className="mt-5 text-[10px] leading-5 uppercase tracking-[0.15em] text-white/25">
+              GST 18% applicable on all services.
+            </p>
+          </div>
+        </div>
+
+        {/* ================================= */}
+        {/* PAYMENT */}
+        {/* ================================= */}
+
+        <div className="mt-24 grid border-y border-white/10 lg:grid-cols-2">
+          <div className="border-b border-white/10 py-10 lg:border-b-0 lg:border-r lg:pr-16">
+            <div className="flex items-center gap-4">
+              <IndianRupee
+                className="h-5 w-5 text-[#b89a61]"
+                strokeWidth={1.2}
+              />
+
+              <span className="text-[10px] uppercase tracking-[0.3em] text-white/40">
+                Payment
+              </span>
             </div>
-          </InfoCard>
-          <InfoCard title="Why Choose Us?" icon={<Sparkles className="h-5 w-5" />} accent="gold">
-            <ul className="space-y-3">
-              {reasons.map((reason) => <li key={reason} className="flex items-start gap-3 text-sm text-white/75"><Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold-400" />{reason}</li>)}
-            </ul>
-          </InfoCard>
+
+            <div className="mt-8 grid gap-5 sm:grid-cols-3">
+              <PaymentItem
+                title="Booking"
+                value="₹10,000"
+              />
+
+              <PaymentItem
+                title="Balance"
+                value="Before Event"
+              />
+
+              <PaymentItem
+                title="Payment"
+                value="UPI / Bank"
+              />
+            </div>
+          </div>
+
+          <div className="py-10 lg:pl-16">
+            <div className="flex items-center gap-4">
+              <Star
+                className="h-5 w-5 text-[#b89a61]"
+                strokeWidth={1.2}
+              />
+
+              <span className="text-[10px] uppercase tracking-[0.3em] text-white/40">
+                Quotation
+              </span>
+            </div>
+
+            <p className="mt-8 max-w-xl font-serif text-2xl leading-relaxed text-white/70">
+              “We believe photographs should feel as beautiful as the day
+              they came from.”
+            </p>
+
+            <p className="mt-5 text-[10px] uppercase tracking-[0.2em] text-white/25">
+              Quotation valid for 15 days
+            </p>
+          </div>
         </div>
 
-        {/* Quotation screenshot */}
-        
+        {/* ================================= */}
+        {/* WHY US */}
+        {/* ================================= */}
+
+        <div className="mt-24">
+          <div className="mb-10 flex items-end justify-between border-b border-white/10 pb-5">
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.35em] text-[#b89a61]">
+                The difference
+              </span>
+
+              <h3 className="mt-3 font-serif text-3xl font-normal sm:text-4xl">
+                Why couples choose us
+              </h3>
+            </div>
+
+            <Sparkles
+              className="hidden h-5 w-5 text-[#b89a61] sm:block"
+              strokeWidth={1}
+            />
+          </div>
+
+          <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
+            {reasons.map((reason, index) => (
+              <div
+                key={reason}
+                className="reason-item group bg-[#171614] p-7 transition-colors duration-500 hover:bg-[#211f1b]"
+              >
+                <div className="flex items-start justify-between">
+                  <span className="font-serif text-sm italic text-[#b89a61]">
+                    0{index + 1}
+                  </span>
+
+                  <Check
+                    className="h-4 w-4 text-white/20 transition-colors duration-300 group-hover:text-[#b89a61]"
+                    strokeWidth={1.3}
+                  />
+                </div>
+
+                <p className="mt-10 text-sm text-white/65">
+                  {reason}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ================================= */}
+        {/* CTA */}
+        {/* ================================= */}
+
+        <div className="package-cta mt-28 border-t border-white/10 pt-16 text-center">
+          <span className="text-[10px] uppercase tracking-[0.35em] text-[#b89a61]">
+            Planning your wedding?
+          </span>
+
+          <h3 className="mx-auto mt-6 max-w-3xl font-serif text-4xl font-normal leading-tight sm:text-5xl lg:text-6xl">
+            Let&apos;s build a collection
+            <br />
+            <span className="italic text-[#b89a61]">
+              around your story.
+            </span>
+          </h3>
+
+          <a
+            href="#contact"
+            className="group mt-10 inline-flex items-center gap-5 border border-[#b89a61]/50 px-8 py-4 text-[10px] uppercase tracking-[0.25em] text-white transition-all duration-500 hover:border-[#b89a61] hover:bg-[#b89a61] hover:text-[#171614]"
+          >
+            Enquire for your date
+
+            <ArrowUpRight
+              className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
+              strokeWidth={1.2}
+            />
+          </a>
+        </div>
       </div>
     </section>
   );
 }
 
-function PackageCard({ item, featured }: { item: Package; featured: boolean }) {
-  const a = accentMap[item.accent];
-  const Icon = item.icon;
+
+/* ========================================= */
+/* PACKAGE CARD */
+/* ========================================= */
+
+function PackageCard({
+  item,
+  index,
+}: {
+  item: PackageType;
+  index: number;
+}) {
   return (
-    <div className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border ${a.border} bg-gradient-to-br ${a.gradient} p-7 shadow-2xl transition-all duration-500 hover:-translate-y-2 ${a.glow} hover:shadow-2xl ${featured ? 'lg:-translate-y-4 lg:scale-105' : ''}`}>
-      {/* Top accent bar */}
-      <div className={`absolute left-0 right-0 top-0 h-1.5 bg-gradient-to-r ${a.badge}`} />
-
-      {/* Corner flourish */}
-      <div className={`absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br ${a.badge} opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-20`} />
-
-      {/* Featured badge */}
-      {featured && (
-        <div className="absolute right-5 top-5 z-10 flex items-center gap-1.5 rounded-full bg-gradient-to-r from-gold-400 to-gold-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg shadow-gold-900/30">
-          <Crown className="h-3 w-3" />Most Complete
-        </div>
+    <article
+      className={`package-card group relative flex flex-col bg-[#1b1916] p-7 sm:p-9 lg:p-10 ${
+        item.featured ? 'featured-package' : ''
+      }`}
+    >
+      {/* Featured line */}
+      {item.featured && (
+        <div className="absolute left-0 right-0 top-0 h-px bg-[#b89a61]" />
       )}
 
-      {/* Package icon + name */}
-      <div className={`mb-5 inline-flex w-fit items-center gap-2.5 rounded-full bg-gradient-to-r ${a.badge} px-4 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-lg`}>
-        <Icon className="h-4 w-4" />{item.name}
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <span className="font-serif text-sm italic text-[#b89a61]">
+          {item.number}
+        </span>
+
+        {item.featured && (
+          <div className="flex items-center gap-2 text-[9px] uppercase tracking-[0.25em] text-[#b89a61]">
+            <Crown
+              className="h-3.5 w-3.5"
+              strokeWidth={1.2}
+            />
+
+            Most Chosen
+          </div>
+        )}
       </div>
 
-      <p className="text-sm italic text-white/55">{item.subtitle}</p>
+      {/* Name */}
+      <div className="mt-12">
+        <h3 className="font-serif text-4xl font-normal text-white sm:text-5xl">
+          {item.name}
+        </h3>
+
+        <p className="mt-3 max-w-xs font-serif text-lg italic leading-relaxed text-white/45">
+          {item.subtitle}
+        </p>
+      </div>
 
       {/* Price */}
-      <div className="mt-4 flex items-baseline gap-1">
-        <span className={`font-serif text-4xl font-bold ${a.priceText}`}>{item.price}</span>
+      <div className="mt-10 border-y border-white/10 py-7">
+        <div className="flex items-start gap-2">
+          <span className="mt-2 text-xs text-[#b89a61]">
+            ₹
+          </span>
+
+          <span className="font-serif text-5xl font-normal tracking-tight text-[#f3efe6] sm:text-6xl">
+            {item.price}
+          </span>
+
+          <span className="mt-auto mb-2 text-[10px] uppercase tracking-wider text-white/25">
+            onwards
+          </span>
+        </div>
       </div>
 
-      {/* Divider */}
-      <div className="my-5 flex items-center gap-2">
-        <span className={`h-px flex-1 bg-gradient-to-r from-transparent ${item.accent === 'blue' ? 'via-sky-500/30' : item.accent === 'purple' ? 'via-fuchsia-500/30' : 'via-gold-500/40'} to-transparent`} />
-        <span className="text-white/20">✦</span>
-        <span className={`h-px flex-1 bg-gradient-to-l from-transparent ${item.accent === 'blue' ? 'via-sky-500/30' : item.accent === 'purple' ? 'via-fuchsia-500/30' : 'via-gold-500/40'} to-transparent`} />
-      </div>
+      {/* Description */}
+      <p className="mt-7 text-sm leading-7 text-white/45">
+        {item.description}
+      </p>
 
       {/* Features */}
-      <ul className="flex-1 space-y-3">
-        {item.features.map((feature) => (
-          <li key={feature} className="flex items-start gap-3 text-sm leading-relaxed text-white/80 transition-colors duration-300 group-hover:text-white/90">
-            <span className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${a.iconBg}`}>
-              <Check className={`h-3 w-3 ${a.check}`} />
-            </span>
-            {feature}
-          </li>
-        ))}
-      </ul>
+      <div className="mt-10 flex-1">
+        <p className="mb-5 text-[9px] uppercase tracking-[0.3em] text-[#b89a61]">
+          Includes
+        </p>
+
+        <ul className="space-y-4">
+          {item.features.map((feature) => (
+            <li
+              key={feature}
+              className="flex items-start gap-3 text-sm leading-5 text-white/65"
+            >
+              <Check
+                className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#b89a61]"
+                strokeWidth={1.4}
+              />
+
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {/* Team */}
-      <div className={`mt-6 flex items-start gap-3 rounded-2xl ${a.teamBg} p-4 border border-white/5`}>
-        <Users className={`mt-0.5 h-5 w-5 flex-shrink-0 ${a.check}`} />
-        <div>
-          <p className={`text-xs uppercase tracking-wider ${a.check}`}>Team</p>
-          <p className="mt-1 text-sm text-white/75">{item.team}</p>
+      <div className="mt-10 border-t border-white/10 pt-6">
+        <div className="flex gap-3">
+          <Users
+            className="mt-0.5 h-4 w-4 shrink-0 text-[#b89a61]"
+            strokeWidth={1.2}
+          />
+
+          <div>
+            <p className="text-[9px] uppercase tracking-[0.25em] text-[#b89a61]">
+              Creative Team
+            </p>
+
+            <p className="mt-2 text-xs leading-5 text-white/45">
+              {item.team}
+            </p>
+          </div>
         </div>
       </div>
 
       {/* CTA */}
-      <a href="#contact" className={`shimmer-sweep relative mt-6 flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r ${a.btn} py-3.5 text-center text-sm font-semibold text-white shadow-lg transition-all duration-300 ${a.btnHover} hover:shadow-xl`}>
-        Enquire About This Package
+      <a
+        href="#contact"
+        className="package-button group mt-8 flex items-center justify-between border border-white/15 px-5 py-4 text-[10px] uppercase tracking-[0.2em] text-white/70 transition-all duration-500 hover:border-[#b89a61] hover:bg-[#b89a61] hover:text-[#171614]"
+      >
+        <span>Enquire</span>
+
+        <ArrowUpRight
+          className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
+          strokeWidth={1.2}
+        />
       </a>
-    </div>
+    </article>
   );
 }
 
-function InfoCard({ title, icon, children, accent }: { title: string; icon: React.ReactNode; children: React.ReactNode; accent: 'gold' | 'maroon' }) {
-  const headerGradient = accent === 'gold' ? 'from-gold-400 to-gold-600' : 'from-maroon-400 to-maroon-600';
-  const iconBg = accent === 'gold' ? 'bg-gold-500/15 text-gold-300' : 'bg-maroon-500/15 text-maroon-300';
+
+/* ========================================= */
+/* PAYMENT ITEM */
+/* ========================================= */
+
+function PaymentItem({
+  title,
+  value,
+}: {
+  title: string;
+  value: string;
+}) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-gold-500/15 bg-gradient-to-br from-charcoal-800/60 to-charcoal-900/60 p-6 backdrop-blur-sm transition-all duration-500 hover:border-gold-400/30 hover:shadow-xl">
-      <div className={`absolute left-0 right-0 top-0 h-1 bg-gradient-to-r ${headerGradient} opacity-60`} />
-      <div className="mb-5 flex items-center gap-3">
-        <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${iconBg}`}>{icon}</span>
-        <h3 className="font-serif text-xl font-bold text-white">{title}</h3>
-      </div>
-      {children}
+    <div>
+      <p className="text-[9px] uppercase tracking-[0.25em] text-white/25">
+        {title}
+      </p>
+
+      <p className="mt-2 font-serif text-lg text-white/70">
+        {value}
+      </p>
     </div>
   );
 }

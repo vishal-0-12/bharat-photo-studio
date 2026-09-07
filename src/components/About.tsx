@@ -1,47 +1,223 @@
-import { Award, Camera, Heart, MapPin } from 'lucide-react';
+import {
+  Award,
+  ArrowUpRight,
+  Camera,
+  Heart,
+  MapPin,
+} from 'lucide-react';
 import { useReveal } from '../hooks/useReveal';
 import { useCounter } from '../hooks/useAnimations';
 
 const highlights = [
-  { icon: Camera, value: 500, suffix: '+', label: 'Weddings Covered' },
-  { icon: Heart, value: 100, suffix: '%', label: 'Customer Satisfaction' },
-  { icon: Award, value: 15, suffix: '+', label: 'Years of Experience' },
-  { icon: MapPin, value: 0, suffix: 'NCR', label: 'Delhi Coverage', textOnly: true },
+  {
+    icon: Camera,
+    value: 500,
+    suffix: '+',
+    label: 'Weddings Covered',
+  },
+  {
+    icon: Heart,
+    value: 100,
+    suffix: '%',
+    label: 'Customer Satisfaction',
+  },
+  {
+    icon: Award,
+    value: 15,
+    suffix: '+',
+    label: 'Years of Experience',
+  },
+  {
+    icon: MapPin,
+    value: 0,
+    suffix: 'NCR',
+    label: 'Delhi Coverage',
+    textOnly: true,
+  },
 ];
 
 export default function About() {
   const { ref, isVisible } = useReveal();
+
   return (
-    <section className="section-pad bg-cream-50">
-      <div ref={ref} className={`mx-auto max-w-7xl reveal-left ${isVisible ? 'is-visible' : ''}`}>
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-          <div className="relative">
-            <div className="relative overflow-hidden rounded-3xl">
-              <img src="/Screenshot_2026-09-06_at_5.01.01_PM.png" alt="Bharat Photo Studio package quotation" className="h-auto w-full object-cover shadow-xl transition-transform duration-700 hover:scale-105" loading="lazy" />
-            </div>
-            <div className="absolute -bottom-4 -right-4 h-32 w-32 rounded-2xl border-2 border-gold-400/30 sm:-bottom-6 sm:-right-6 sm:h-40 sm:w-40" />
-            <div className="absolute -top-4 -left-4 h-32 w-32 rounded-2xl border-2 border-gold-400/30 sm:-top-6 sm:-left-6 sm:h-40 sm:w-40" />
+    <section id="about" className="about-section">
+      <div className="about-grain" />
+
+      <div
+        ref={ref}
+        className={`about-container ${
+          isVisible ? 'about-visible' : ''
+        }`}
+      >
+        {/* TOP */}
+        <div className="about-top">
+          <div className="about-eyebrow">
+            <span>About the studio</span>
           </div>
-          <div>
-            <span className="text-sm font-medium uppercase tracking-[0.25em] text-gold-600">About Bharat Photo Studio</span>
-            <h2 className="mt-3 font-serif text-3xl font-bold text-charcoal-800 sm:text-4xl">Your memories deserve to be remembered forever.</h2>
-            <div className="mt-4 flex items-center gap-3"><span className="h-px w-12 bg-gold-400" /><span className="text-gold-500">✦</span></div>
-            <p className="mt-5 text-base leading-relaxed text-charcoal-700/70">We do not just take photos; we capture the emotions, energy, and little details that make your celebration uniquely yours. From candid smiles to grand cinematic frames, our experienced team brings every story to life.</p>
-            <p className="mt-3 text-base leading-relaxed text-charcoal-700/70">Based in Badhra on Loharu Road, NCR Delhi, Bharat Photo Studio offers complete wedding coverage for intimate moments and full-day celebrations.</p>
-            <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {highlights.map(({ icon: Icon, value, suffix, label, textOnly }) => {
-                const { ref: cRef, value: cVal } = useCounter(value);
-                return (
-                  <div key={label} className="group rounded-xl border border-gold-200/50 bg-white p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:border-gold-400/50 hover:shadow-md">
-                    <Icon className="mx-auto mb-2 h-6 w-6 text-gold-600 transition-transform duration-300 group-hover:scale-125" />
-                    <p className="font-serif text-xl font-bold text-charcoal-800">
-                      {textOnly ? <span ref={cRef}>{suffix}</span> : <span ref={cRef}>{cVal}{suffix}</span>}
-                    </p>
-                    <p className="mt-0.5 text-[10px] font-medium text-charcoal-700/50">{label}</p>
-                  </div>
-                );
-              })}
+
+          <div className="about-location">
+            <span>Badhra</span>
+            <span className="about-dot">•</span>
+            <span>NCR Delhi</span>
+          </div>
+        </div>
+
+        {/* MAIN */}
+        <div className="about-main">
+
+          {/* ================= IMAGE AREA ================= */}
+          <div className="about-image-column">
+
+            {/* LARGE / UPPER PHOTO */}
+            <div className="about-image-wrap">
+              <img
+                src="https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                alt="Wedding couple portrait"
+                className="about-image"
+                loading="lazy"
+              />
+
+              <div className="about-image-overlay" />
+
+              <div className="about-image-number">
+                01
+              </div>
+
+              <div className="about-image-caption">
+                <span>Behind the photographs</span>
+                <span>BHARAT PHOTO STUDIO</span>
+              </div>
             </div>
+
+            {/* SMALL / LOWER PHOTO */}
+            <div className="about-secondary-image">
+              <img
+                src="https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                alt="Wedding celebration"
+                loading="lazy"
+              />
+
+              <div className="about-secondary-overlay" />
+
+              <div className="about-secondary-label">
+                <span>02</span>
+                <span>Real moments</span>
+              </div>
+            </div>
+
+            {/* DECORATIVE CORNERS */}
+            <div className="about-frame about-frame-top" />
+            <div className="about-frame about-frame-bottom" />
+          </div>
+
+          {/* ================= CONTENT ================= */}
+          <div className="about-content">
+
+            <div className="about-small-heading">
+              <span className="about-line" />
+              <span>Our approach</span>
+            </div>
+
+            <h2 className="about-title">
+              We capture
+              <br />
+              <em>what you felt.</em>
+            </h2>
+
+            <div className="about-divider">
+              <span />
+              <span>✦</span>
+              <span />
+            </div>
+
+            <p className="about-lead">
+              A wedding is more than a collection of photographs.
+              It is laughter between two moments, a quiet glance,
+              the hands of a parent, and the energy of everyone
+              celebrating together.
+            </p>
+
+            <p className="about-text">
+              At Bharat Photo Studio, we document those moments
+              naturally and thoughtfully. From intimate ceremonies
+              to grand celebrations, our approach combines
+              candid photography, cinematic frames, and timeless
+              storytelling.
+            </p>
+
+            <p className="about-text">
+              Based in Badhra on Loharu Road, NCR Delhi, we bring
+              an experienced team and a calm, professional presence
+              to every celebration we photograph.
+            </p>
+
+            {/* CTA */}
+            <a href="#gallery" className="about-link">
+              <span>Explore our stories</span>
+
+              <span className="about-link-icon">
+                <ArrowUpRight />
+              </span>
+            </a>
+
+            {/* STATS */}
+            <div className="about-stats">
+              {highlights.map(
+                ({
+                  icon: Icon,
+                  value,
+                  suffix,
+                  label,
+                  textOnly,
+                }) => {
+                  const {
+                    ref: counterRef,
+                    value: counterValue,
+                  } = useCounter(value);
+
+                  return (
+                    <div
+                      key={label}
+                      className="about-stat"
+                    >
+                      <Icon className="about-stat-icon" />
+
+                      <div className="about-stat-value">
+                        {textOnly ? (
+                          <span ref={counterRef}>
+                            {suffix}
+                          </span>
+                        ) : (
+                          <span ref={counterRef}>
+                            {counterValue}
+                            {suffix}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="about-stat-label">
+                        {label}
+                      </div>
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* BOTTOM STATEMENT */}
+        <div className="about-bottom">
+          <div className="about-bottom-line" />
+
+          <div className="about-bottom-content">
+            <p>
+              We don't simply photograph weddings.
+              <br />
+              <em>We preserve the way they felt.</em>
+            </p>
+
+            <span>Since 2010</span>
           </div>
         </div>
       </div>

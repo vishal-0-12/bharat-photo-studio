@@ -1,0 +1,13 @@
+import Package from '../components/Package';
+import Services from '../components/Services';
+import PageHeader from '../components/PageHeader';
+
+export default function ServicesPage() {
+  return (
+    <>
+      <PageHeader title="Services & Packages" subtitle="Complete wedding photography and cinematic videography services tailored to your celebration." image="https://images.pexels.com/photos/19613670/pexels-photo-19613670.jpeg?auto=compress&cs=tinysrgb&w=1920" />
+      <Services />
+      <Package />
+    </>
+  );
+}

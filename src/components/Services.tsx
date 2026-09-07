@@ -1,77 +1,345 @@
-import { Camera, CirclePlay, Cloud, Film, Heart, Image, Plane, Radio, Users, ArrowUpRight } from 'lucide-react';
+import {
+  ArrowUpRight,
+  Camera,
+  CirclePlay,
+  Heart,
+  Plane,
+  Image as ImageIcon,
+  Cloud,
+  Film,
+  Radio,
+  Users,
+} from 'lucide-react';
+
 import { useReveal } from '../hooks/useReveal';
-import { useTilt } from '../hooks/useAnimations';
 
 const services = [
-  { icon: Camera, title: 'Wedding Photography', desc: 'Full-day coverage, traditional photography, and beautifully edited memories.', accent: 'from-amber-400 to-gold-600' },
-  { icon: CirclePlay, title: 'Cinematic Videography', desc: 'Cinematic highlight films and full-length wedding stories with emotion and style.', accent: 'from-rose-400 to-maroon-600' },
-  { icon: Heart, title: 'Candid Photography', desc: 'Natural, heartfelt moments captured as they happen.', accent: 'from-pink-400 to-rose-600' },
-  { icon: Plane, title: 'Drone Coverage', desc: 'Stunning aerial perspectives for ceremonies, venues, and celebrations.', accent: 'from-sky-400 to-blue-600' },
-  { icon: Image, title: 'Photo Albums', desc: 'Premium wedding and photo albums designed to last for generations.', accent: 'from-violet-400 to-purple-600' },
-  { icon: Cloud, title: 'Online Gallery', desc: 'Convenient online delivery with gallery access for one, three, or six months.', accent: 'from-teal-400 to-emerald-600' },
-  { icon: Film, title: 'Pre-Wedding Shoots', desc: 'Creative outdoor pre-wedding stories made around your personality.', accent: 'from-orange-400 to-amber-600' },
-  { icon: Radio, title: 'Live Streaming', desc: 'Share your wedding day with loved ones through live streaming.', accent: 'from-cyan-400 to-sky-600' },
-  { icon: Users, title: 'Experienced Team', desc: 'Professional photographers, cameramen, and drone pilots working together.', accent: 'from-gold-400 to-gold-700' },
+  {
+    number: '01',
+    title: 'Wedding Photography',
+    short: 'Every emotion. Every ritual. Every detail.',
+    description:
+      'From the quiet moments before the ceremony to the energy of the celebration, our photographers document your wedding with an editorial eye and a documentary heart.',
+    icon: Camera,
+    image:
+      'https://images.pexels.com/photos/3014019/pexels-photo-3014019.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  },
+  {
+    number: '02',
+    title: 'Cinematic Films',
+    short: 'Your wedding, told like a film.',
+    description:
+      'Beautifully composed wedding films built around real moments, natural sound, movement and emotion — designed to bring you back to the day years later.',
+    icon: CirclePlay,
+    image:
+      'https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  },
+  {
+    number: '03',
+    title: 'Candid Photography',
+    short: 'The moments you never planned.',
+    description:
+      'Unscripted laughter, nervous smiles, family embraces and everything that happens between the big moments.',
+    icon: Heart,
+    image:
+      'https://images.pexels.com/photos/2253879/pexels-photo-2253879.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  },
+  {
+    number: '04',
+    title: 'Pre-Wedding Stories',
+    short: 'A story that begins before the wedding.',
+    description:
+      'Relaxed, personality-driven sessions created around your relationship, your locations and your story.',
+    icon: Film,
+    image:
+      'https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  },
+  {
+    number: '05',
+    title: 'Drone Photography',
+    short: 'See the celebration differently.',
+    description:
+      'Cinematic aerial perspectives of venues, ceremonies and celebrations that add scale and atmosphere to your final story.',
+    icon: Plane,
+    image:
+      'https://images.pexels.com/photos/2884864/pexels-photo-2884864.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  },
+  {
+    number: '06',
+    title: 'Premium Albums',
+    short: 'Memories made to be held.',
+    description:
+      'Hand-selected photographs presented in premium albums designed to become part of your family for generations.',
+    icon: ImageIcon,
+    image:
+      'https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  },
+  {
+    number: '07',
+    title: 'Online Gallery',
+    short: 'Your memories, beautifully delivered.',
+    description:
+      'Private online galleries make it simple to view, share and relive your wedding photographs from anywhere.',
+    icon: Cloud,
+    image:
+      'https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  },
+  {
+    number: '08',
+    title: 'Live Streaming',
+    short: 'Let everyone be part of it.',
+    description:
+      'Professional live coverage for family and friends who cannot be there in person.',
+    icon: Radio,
+    image:
+      'https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  },
+  {
+    number: '09',
+    title: 'Our Creative Team',
+    short: 'People behind the photographs.',
+    description:
+      'Photographers, cinematographers, editors and aerial specialists working together as one creative team.',
+    icon: Users,
+    image:
+      'https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  },
 ];
 
 export default function Services() {
   const { ref, isVisible } = useReveal();
-  return (
-    <section id="services" className="section-pad relative overflow-hidden bg-gradient-to-b from-cream-50 via-cream-100 to-cream-50">
-      {/* Decorative background */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div className="absolute left-0 top-1/4 h-72 w-72 rounded-full bg-gold-500 blur-[100px]" />
-        <div className="absolute right-0 bottom-1/4 h-72 w-72 rounded-full bg-maroon-500 blur-[100px]" />
-      </div>
 
-      <div ref={ref} className={`relative mx-auto max-w-7xl reveal ${isVisible ? 'is-visible' : ''}`}>
-        {/* Heading */}
-        <div className="mb-14 text-center">
-          <span className="text-sm font-medium uppercase tracking-[0.25em] text-gold-600">What We Do</span>
-          <h2 className="mt-3 font-serif text-3xl font-bold text-charcoal-800 sm:text-4xl md:text-5xl">Complete Wedding Services</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-charcoal-700/60">From candid moments to cinematic films, we cover every detail of your celebration.</p>
-          <div className="mx-auto mt-5 flex items-center justify-center gap-3">
-            <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold-400" />
-            <span className="text-gold-500">✦</span>
-            <span className="h-px w-16 bg-gradient-to-l from-transparent to-gold-400" />
+  return (
+    <section
+      id="services"
+      className="services-section relative overflow-hidden bg-[#f4f0e8] text-[#171614]"
+    >
+      {/* Background texture */}
+      <div className="services-grain pointer-events-none absolute inset-0" />
+
+      {/* Top border */}
+      <div className="absolute left-0 right-0 top-0 h-px bg-[#171614]/10" />
+
+      <div
+        ref={ref}
+        className={`relative mx-auto max-w-[1400px] px-6 py-24 sm:px-10 lg:px-16 lg:py-32 ${
+          isVisible ? 'services-visible' : ''
+        }`}
+      >
+        {/* -------------------------------- */}
+        {/* HEADER */}
+        {/* -------------------------------- */}
+
+        <div className="grid items-end gap-10 lg:grid-cols-[1fr_420px]">
+          <div>
+            <div className="services-eyebrow mb-6 flex items-center gap-4">
+              <span className="h-px w-12 bg-[#a88952]" />
+
+              <span className="text-[11px] font-medium uppercase tracking-[0.35em] text-[#7c6848]">
+                Our Expertise
+              </span>
+            </div>
+
+            <h2 className="services-title max-w-4xl font-serif text-[clamp(3rem,7vw,7rem)] font-normal leading-[0.88] tracking-[-0.045em]">
+              More than
+              <br />
+
+              <span className="ml-[8vw] italic text-[#9a7b45]">
+                photographs.
+              </span>
+            </h2>
+          </div>
+
+          <div className="services-intro lg:pb-2">
+            <p className="max-w-md text-[15px] leading-7 text-[#171614]/60">
+              We create complete visual stories around your wedding — from
+              intimate preparations to the final celebration.
+            </p>
+
+            <div className="mt-7 flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-[#171614]/40">
+              <span>Photography</span>
+              <span>•</span>
+              <span>Films</span>
+              <span>•</span>
+              <span>Stories</span>
+            </div>
           </div>
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map(({ icon: Icon, title, desc, accent }, i) => <ServiceCard key={title} Icon={Icon} title={title} desc={desc} accent={accent} delay={i * 60} />)}
+        {/* -------------------------------- */}
+        {/* FEATURED SERVICE */}
+        {/* -------------------------------- */}
+
+        <div className="services-feature mt-20 grid overflow-hidden border-y border-[#171614]/10 lg:grid-cols-[1.1fr_0.9fr]">
+          {/* Image */}
+          <div className="services-feature-image relative min-h-[420px] overflow-hidden lg:min-h-[650px]">
+            <img
+              src={services[0].image}
+              alt="Wedding photography"
+              className="h-full w-full object-cover"
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/5" />
+
+            <div className="absolute bottom-7 left-7 flex items-center gap-3 text-white">
+              <span className="text-[10px] uppercase tracking-[0.3em] opacity-70">
+                Featured Service
+              </span>
+
+              <span className="h-px w-10 bg-white/60" />
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="flex flex-col justify-between bg-[#1b1916] p-8 text-[#f4f0e8] sm:p-12 lg:p-16">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="font-serif text-sm italic text-[#b89a61]">
+                  {services[0].number}
+                </span>
+
+                <Camera className="h-5 w-5 text-[#b89a61]" strokeWidth={1.2} />
+              </div>
+
+              <h3 className="mt-20 max-w-xl font-serif text-4xl font-normal leading-tight sm:text-5xl">
+                {services[0].title}
+              </h3>
+
+              <p className="mt-5 max-w-lg font-serif text-xl italic leading-relaxed text-[#f4f0e8]/70">
+                {services[0].short}
+              </p>
+
+              <p className="mt-7 max-w-lg text-sm leading-7 text-[#f4f0e8]/50">
+                {services[0].description}
+              </p>
+            </div>
+
+            <a
+              href="#contact"
+              className="group mt-14 inline-flex w-fit items-center gap-4 border-b border-[#b89a61]/50 pb-3 text-xs uppercase tracking-[0.22em] text-[#f4f0e8]"
+            >
+              Discuss your wedding
+
+              <ArrowUpRight
+                className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
+                strokeWidth={1.3}
+              />
+            </a>
+          </div>
+        </div>
+
+        {/* -------------------------------- */}
+        {/* SERVICES LIST */}
+        {/* -------------------------------- */}
+
+        <div className="mt-20">
+          <div className="mb-5 flex items-center justify-between border-b border-[#171614]/10 pb-4">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#171614]/40">
+              Everything we offer
+            </span>
+
+            <span className="hidden text-[10px] uppercase tracking-[0.25em] text-[#171614]/30 sm:block">
+              Scroll / Explore
+            </span>
+          </div>
+
+          <div>
+            {services.slice(1).map((service) => (
+              <ServiceRow key={service.number} service={service} />
+            ))}
+          </div>
+        </div>
+
+        {/* -------------------------------- */}
+        {/* BOTTOM CTA */}
+        {/* -------------------------------- */}
+
+        <div className="services-cta relative mt-28 overflow-hidden border border-[#171614]/10 bg-[#e9e3d7] px-7 py-16 text-center sm:px-12 lg:py-24">
+          <div className="absolute left-1/2 top-0 h-px w-24 -translate-x-1/2 bg-[#a88952]" />
+
+          <p className="text-[10px] uppercase tracking-[0.35em] text-[#7c6848]">
+            Your story deserves intention
+          </p>
+
+          <h3 className="mx-auto mt-6 max-w-3xl font-serif text-4xl font-normal leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+            Let&apos;s create something
+            <span className="italic text-[#9a7b45]"> unforgettable.</span>
+          </h3>
+
+          <a
+            href="#contact"
+            className="group mt-10 inline-flex items-center gap-5 border border-[#171614] px-7 py-4 text-[10px] uppercase tracking-[0.25em] transition-all duration-500 hover:bg-[#171614] hover:text-[#f4f0e8]"
+          >
+            Start a conversation
+
+            <ArrowUpRight
+              className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
+              strokeWidth={1.3}
+            />
+          </a>
         </div>
       </div>
     </section>
   );
 }
 
-function ServiceCard({ Icon, title, desc, accent, delay }: { Icon: typeof Camera; title: string; desc: string; accent: string; delay: number }) {
-  const tiltRef = useTilt<HTMLDivElement>(5);
+/* ========================================= */
+/* SERVICE ROW */
+/* ========================================= */
+
+function ServiceRow({
+  service,
+}: {
+  service: (typeof services)[number];
+}) {
+  const Icon = service.icon;
+
   return (
-    <div ref={tiltRef} className="group relative overflow-hidden rounded-2xl border border-gold-200/50 bg-white p-7 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gold-900/10" style={{ transitionDelay: `${delay}ms`, transformStyle: 'preserve-3d' }}>
-      {/* Animated gradient corner glow */}
-      <div className={`absolute -right-10 -top-10 h-28 w-28 rounded-full bg-gradient-to-br ${accent} opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-20`} />
+    <div className="service-row group relative border-b border-[#171614]/10">
+      <div className="grid min-h-[120px] items-center gap-6 py-7 lg:grid-cols-[80px_1fr_1fr_80px] lg:py-8">
+        {/* Number */}
+        <span className="font-serif text-sm italic text-[#a88952]">
+          {service.number}
+        </span>
 
-      {/* Top accent bar */}
-      <div className={`absolute left-0 right-0 top-0 h-1 bg-gradient-to-r ${accent} origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100`} />
+        {/* Title */}
+        <div className="flex items-center gap-5">
+          <div className="service-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#171614]/15 transition-all duration-500 group-hover:border-[#a88952] group-hover:bg-[#171614] group-hover:text-[#f4f0e8]">
+            <Icon
+              className="h-4 w-4"
+              strokeWidth={1.2}
+            />
+          </div>
 
-      {/* Arrow */}
-      <div className="absolute right-5 top-5 opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2">
-        <ArrowUpRight className="h-5 w-5 text-gold-500" />
-      </div>
-
-      <div className="relative" style={{ transform: 'translateZ(40px)' }}>
-        {/* Icon */}
-        <div className={`mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${accent} text-white shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-xl`}>
-          <Icon className="h-8 w-8" />
+          <h3 className="font-serif text-2xl font-normal transition-transform duration-500 group-hover:translate-x-2 sm:text-3xl">
+            {service.title}
+          </h3>
         </div>
-        <h3 className="font-serif text-lg font-bold text-charcoal-800 transition-colors duration-300 group-hover:text-gold-700">{title}</h3>
-        <p className="mt-3 text-sm leading-relaxed text-charcoal-700/70">{desc}</p>
+
+        {/* Description */}
+        <p className="max-w-md text-sm leading-6 text-[#171614]/50 lg:justify-self-end">
+          {service.short}
+        </p>
+
+        {/* Arrow */}
+        <div className="hidden justify-end lg:flex">
+          <ArrowUpRight
+            className="h-5 w-5 text-[#171614]/30 transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[#a88952]"
+            strokeWidth={1.2}
+          />
+        </div>
       </div>
 
-      {/* Bottom shine line */}
-      <div className="absolute bottom-0 left-0 h-0.5 w-full bg-gradient-to-r from-transparent via-gold-400/0 to-transparent transition-all duration-500 group-hover:via-gold-400/40" />
+      {/* Hover image */}
+      <div className="pointer-events-none absolute right-[8%] top-1/2 z-20 hidden h-52 w-72 -translate-y-1/2 translate-x-8 overflow-hidden opacity-0 shadow-2xl transition-all duration-700 ease-out group-hover:translate-x-0 group-hover:opacity-100 lg:block">
+        <img
+          src={service.image}
+          alt=""
+          className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+        />
+
+        <div className="absolute inset-0 bg-black/10" />
+      </div>
     </div>
   );
 }
