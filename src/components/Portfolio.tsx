@@ -104,6 +104,17 @@ const services = [
     image:
       'https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
+  {
+    number: '10',
+    title: 'Our Creative Team',
+    short: 'People behind the photographs.',
+    description:
+      'Photographers, cinematographers, editors and aerial specialists working together as one creative team.',
+    icon: Users,
+    image: '/img/13.jpg',
+  },
+
+  
 ];
 
 export default function Services() {
@@ -172,21 +183,21 @@ export default function Services() {
 
         <div className="services-feature mt-20 grid overflow-hidden border-y border-[#171614]/10 lg:grid-cols-[1.1fr_0.9fr]">
           {/* Image */}
-          <div className="services-feature-image relative min-h-[420px] overflow-hidden lg:min-h-[650px]">
+          <div className="services-feature-image group relative min-h-[420px] overflow-hidden lg:min-h-[650px]">
             <img
               src={services[0].image}
               alt="Wedding photography"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.1]"
             />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/5" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/5 transition-opacity duration-700 group-hover:opacity-70" />
 
             <div className="absolute bottom-7 left-7 flex items-center gap-3 text-white">
               <span className="text-[10px] uppercase tracking-[0.3em] opacity-70">
                 Featured Service
               </span>
 
-              <span className="h-px w-10 bg-white/60" />
+              <span className="h-px w-10 bg-white/60 transition-all duration-700 group-hover:w-16" />
             </div>
           </div>
 
@@ -198,7 +209,10 @@ export default function Services() {
                   {services[0].number}
                 </span>
 
-                <Camera className="h-5 w-5 text-[#b89a61]" strokeWidth={1.2} />
+                <Camera
+                  className="h-5 w-5 text-[#b89a61]"
+                  strokeWidth={1.2}
+                />
               </div>
 
               <h3 className="mt-20 max-w-xl font-serif text-4xl font-normal leading-tight sm:text-5xl">
@@ -245,7 +259,10 @@ export default function Services() {
 
           <div>
             {services.slice(1).map((service) => (
-              <ServiceRow key={service.number} service={service} />
+              <ServiceRow
+                key={service.number}
+                service={service}
+              />
             ))}
           </div>
         </div>
@@ -263,7 +280,10 @@ export default function Services() {
 
           <h3 className="mx-auto mt-6 max-w-3xl font-serif text-4xl font-normal leading-tight tracking-tight sm:text-5xl lg:text-6xl">
             Let&apos;s create something
-            <span className="italic text-[#9a7b45]"> unforgettable.</span>
+            <span className="italic text-[#9a7b45]">
+              {' '}
+              unforgettable.
+            </span>
           </h3>
 
           <a
@@ -331,14 +351,14 @@ function ServiceRow({
       </div>
 
       {/* Hover image */}
-      <div className="pointer-events-none absolute right-[8%] top-1/2 z-20 hidden h-52 w-72 -translate-y-1/2 translate-x-8 overflow-hidden opacity-0 shadow-2xl transition-all duration-700 ease-out group-hover:translate-x-0 group-hover:opacity-100 lg:block">
+      <div className="absolute right-[8%] top-1/2 z-20 hidden h-52 w-72 -translate-y-1/2 translate-x-8 overflow-hidden rounded-sm opacity-0 shadow-2xl transition-all duration-700 ease-out group-hover:translate-x-0 group-hover:opacity-100 lg:block">
         <img
           src={service.image}
-          alt=""
-          className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+          alt={service.title}
+          className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out hover:scale-[1.15]"
         />
 
-        <div className="absolute inset-0 bg-black/10" />
+        <div className="pointer-events-none absolute inset-0 bg-black/10" />
       </div>
     </div>
   );

@@ -120,10 +120,10 @@ export default function Navbar({
   };
 
   /* =========================================
-     STORIES
+     PORTFOLIO
   ========================================= */
 
-  const handleStories = () => {
+  const handlePortfolio = () => {
     setIsMenuOpen(false);
 
     /*
@@ -375,42 +375,6 @@ export default function Navbar({
               />
             </button>
 
-            {/* STORIES */}
-
-            <button
-              type="button"
-              onClick={handleStories}
-              className="
-                group
-                relative
-                py-2
-                text-[10px]
-                font-medium
-                uppercase
-                tracking-[0.22em]
-                text-white/80
-                transition-colors
-                duration-300
-                hover:text-white
-              "
-            >
-              STORIES
-
-              <span
-                className="
-                  absolute
-                  bottom-0
-                  left-0
-                  h-px
-                  w-0
-                  bg-[#d6b36a]
-                  transition-all
-                  duration-300
-                  group-hover:w-full
-                "
-              />
-            </button>
-
             {/* SERVICES */}
 
             <button
@@ -431,6 +395,42 @@ export default function Navbar({
               "
             >
               SERVICES
+
+              <span
+                className="
+                  absolute
+                  bottom-0
+                  left-0
+                  h-px
+                  w-0
+                  bg-[#d6b36a]
+                  transition-all
+                  duration-300
+                  group-hover:w-full
+                "
+              />
+            </button>
+
+            {/* PORTFOLIO */}
+
+            <button
+              type="button"
+              onClick={handlePortfolio}
+              className="
+                group
+                relative
+                py-2
+                text-[10px]
+                font-medium
+                uppercase
+                tracking-[0.22em]
+                text-white/80
+                transition-colors
+                duration-300
+                hover:text-white
+              "
+            >
+              PORTFOLIO
 
               <span
                 className="
@@ -622,6 +622,7 @@ export default function Navbar({
                 </defs>
 
                 {/* Outer Instagram shape */}
+
                 <rect
                   x="3"
                   y="3"
@@ -638,6 +639,7 @@ export default function Navbar({
                 />
 
                 {/* Camera lens */}
+
                 <circle
                   cx="12"
                   cy="12"
@@ -652,6 +654,7 @@ export default function Navbar({
                 />
 
                 {/* Camera dot */}
+
                 <circle
                   cx="17.5"
                   cy="6.5"
@@ -933,41 +936,6 @@ export default function Navbar({
               />
             </button>
 
-            {/* STORIES */}
-
-            <button
-              type="button"
-              onClick={handleStories}
-              className="
-                flex
-                items-center
-                justify-between
-                border-b
-                border-white/10
-                py-5
-                text-left
-              "
-            >
-              <span
-                className="
-                  font-serif
-                  text-2xl
-                  text-white
-                "
-              >
-                Stories
-              </span>
-
-              <ArrowUpRight
-                className="
-                  h-5
-                  w-5
-                  text-[#d6b36a]
-                "
-                strokeWidth={1.3}
-              />
-            </button>
-
             {/* SERVICES */}
 
             <button
@@ -991,6 +959,41 @@ export default function Navbar({
                 "
               >
                 Services
+              </span>
+
+              <ArrowUpRight
+                className="
+                  h-5
+                  w-5
+                  text-[#d6b36a]
+                "
+                strokeWidth={1.3}
+              />
+            </button>
+
+            {/* PORTFOLIO */}
+
+            <button
+              type="button"
+              onClick={handlePortfolio}
+              className="
+                flex
+                items-center
+                justify-between
+                border-b
+                border-white/10
+                py-5
+                text-left
+              "
+            >
+              <span
+                className="
+                  font-serif
+                  text-2xl
+                  text-white
+                "
+              >
+                Portfolio
               </span>
 
               <ArrowUpRight

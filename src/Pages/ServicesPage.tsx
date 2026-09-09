@@ -1,5 +1,5 @@
 import Package from '../components/Package';
-import Services from '../components/Services';
+import Services from '../components/Portfolio';
 import PageHeader from '../components/PageHeader';
 
 export default function ServicesPage() {

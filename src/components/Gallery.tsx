@@ -66,6 +66,43 @@ const galleryImages: (LightboxImage & {
     number: '08',
     span: '',
   },
+
+  // YOUR LOCAL IMAGE
+  {
+    url: '/img/13.jpg',
+    alt: 'Wedding photography',
+    label: 'Our Story',
+    number: '09',
+    span: '',
+  },
+
+  {
+    url: '/img/12.jpg',
+    alt: 'Wedding photography',
+    label: 'Our Story',
+    number: '10',
+    span: '',
+  },
+
+
+  {
+    url: '/img/11.jpg',
+    alt: 'Wedding photography',
+    label: 'Our Story',
+    number: '10',
+    span: '',
+  },
+
+
+
+  {
+    url: '/img/12.jpg',
+    alt: 'Wedding photography',
+    label: 'Our Story',
+    number: '10',
+    span: '',
+  },
+
 ];
 
 export default function Gallery() {
@@ -178,7 +215,6 @@ export default function Gallery() {
     </section>
   );
 }
-
 
 /* ========================================= */
 /* GALLERY ITEM */
