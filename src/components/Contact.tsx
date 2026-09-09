@@ -39,7 +39,11 @@ type ContactForm = {
   message: string;
 };
 
-type Status = 'idle' | 'loading' | 'success' | 'error';
+type Status =
+  | 'idle'
+  | 'loading'
+  | 'success'
+  | 'error';
 
 const initialForm: ContactForm = {
   client_name: '',
@@ -55,14 +59,27 @@ const inputClass = 'contact-input';
 export default function Contact() {
   const { ref, isVisible } = useReveal();
 
-  const [form, setForm] = useState<ContactForm>(initialForm);
-  const [status, setStatus] = useState<Status>('idle');
-  const [errorMsg, setErrorMsg] = useState('');
-  const [focused, setFocused] = useState<string | null>(null);
+  const [form, setForm] =
+    useState<ContactForm>(initialForm);
+
+  const [status, setStatus] =
+    useState<Status>('idle');
+
+  const [errorMsg, setErrorMsg] =
+    useState('');
+
+  const [focused, setFocused] =
+    useState<string | null>(null);
+
+  // =========================================================
+  // FORM CHANGE
+  // =========================================================
 
   const handleChange = (
     e: ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      HTMLInputElement |
+      HTMLSelectElement |
+      HTMLTextAreaElement
     >
   ) => {
     const { name, value } = e.target;
@@ -73,25 +90,40 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  // =========================================================
+  // FORM SUBMIT
+  // =========================================================
+
+  const handleSubmit = async (
+    e: FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
 
     setStatus('loading');
     setErrorMsg('');
+
+    // -------------------------------------------------------
+    // FORMAT EVENT DATE
+    // -------------------------------------------------------
 
     let formattedDate = 'Not provided';
 
     if (form.event_date) {
       const date = new Date(form.event_date);
 
-      formattedDate = date.toLocaleDateString('en-IN', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-      });
+      formattedDate =
+        date.toLocaleDateString('en-IN', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        });
     }
 
-    const whatsappNumber = '917404620633';
+    // -------------------------------------------------------
+    // WHATSAPP
+    // -------------------------------------------------------
+
+    const whatsappNumber = '91';
 
     const whatsappMessage = `
 📸 *NEW BOOKING REQUEST*
@@ -120,17 +152,28 @@ ${form.message || 'No message provided'}
 
 📸 *Bharat Photo Studio*
 Wedding Photography | Cinematic Videography
-`.trim();
+    `.trim();
 
-    const encodedMessage = encodeURIComponent(whatsappMessage);
+    const encodedMessage =
+      encodeURIComponent(whatsappMessage);
 
     const whatsappURL =
       `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
-    // Open WhatsApp
-    window.open(whatsappURL, '_blank', 'noopener,noreferrer');
+    // -------------------------------------------------------
+    // OPEN WHATSAPP
+    // -------------------------------------------------------
 
-    // Save enquiry to Supabase
+    window.open(
+      whatsappURL,
+      '_blank',
+      'noopener,noreferrer'
+    );
+
+    // -------------------------------------------------------
+    // SAVE ENQUIRY TO SUPABASE
+    // -------------------------------------------------------
+
     try {
       const { error } = await supabase
         .from('inquiries')
@@ -144,62 +187,81 @@ Wedding Photography | Cinematic Videography
         });
 
       if (error) {
-        console.error('Supabase booking error:', error);
+        console.error(
+          'Supabase booking error:',
+          error
+        );
       }
 
+      // WhatsApp request has already been opened.
       setStatus('success');
       setForm(initialForm);
     } catch (error) {
-      console.error('Supabase connection error:', error);
+      console.error(
+        'Supabase connection error:',
+        error
+      );
 
-      // WhatsApp has already opened,
-      // so still show success to the customer.
+      // Even if Supabase fails,
+      // WhatsApp has already received the request.
       setStatus('success');
       setForm(initialForm);
     }
   };
 
   return (
-    <section id="contact" className="contact-section">
-      {/* Subtle background texture */}
+    <section
+      id="contact"
+      className="contact-section"
+    >
+      {/* =====================================================
+          BACKGROUND TEXTURE
+      ====================================================== */}
+
       <div className="contact-grain" />
 
       <div
         ref={ref}
-        className={`contact-container reveal ${
-          isVisible ? 'is-visible' : ''
-        }`}
+        className={`
+          contact-container
+          reveal
+          ${isVisible ? 'is-visible' : ''}
+        `}
       >
-        {/* =========================================
+
+        {/* ===================================================
             HEADER
-        ========================================= */}
+        ==================================================== */}
 
         <div className="contact-header">
+
           <span className="contact-eyebrow">
-            Get in touch
+            Begin your story
           </span>
 
           <h2 className="contact-title">
-            Let&apos;s plan something
+            Let&apos;s create something
             <br />
             <em>beautiful.</em>
           </h2>
 
           <p className="contact-intro">
-            Tell us a little about your celebration.
-            We&apos;ll take care of the rest.
+            Tell us about your celebration,
+            and let&apos;s start planning the
+            photographs you&apos;ll keep forever.
           </p>
+
         </div>
 
-        {/* =========================================
+        {/* ===================================================
             MAIN CONTENT
-        ========================================= */}
+        ==================================================== */}
 
         <div className="contact-layout">
 
-          {/* =======================================
-              LEFT SIDE
-          ======================================= */}
+          {/* =================================================
+              LEFT INFORMATION
+          ================================================== */}
 
           <div className="contact-information">
 
@@ -210,22 +272,25 @@ Wedding Photography | Cinematic Videography
             <div className="contact-info-line" />
 
             <p className="contact-info-heading">
-              Your story deserves
+              More than a photograph.
               <br />
-              to be remembered.
+              A memory for life.
             </p>
 
             <p className="contact-info-text">
-              From the first conversation to the final
-              photograph, we create a calm, thoughtful
-              experience around your celebration.
+              Every celebration is different.
+              We take time to understand yours,
+              from the people and places to the
+              little moments that matter most.
             </p>
 
-            {/* CONTACT DETAILS */}
+            {/* ===============================================
+                CONTACT DETAILS
+            ================================================ */}
 
             <div className="contact-details">
 
-              {/* Phone */}
+              {/* PHONE */}
 
               <a
                 href="tel:8740000983"
@@ -236,12 +301,17 @@ Wedding Photography | Cinematic Videography
                 </span>
 
                 <span>
-                  <small>Call us</small>
-                  <strong>8740000983</strong>
+                  <small>
+                    Call us
+                  </small>
+
+                  <strong>
+                    8740000983
+                  </strong>
                 </span>
               </a>
 
-              {/* Email */}
+              {/* EMAIL */}
 
               <a
                 href="mailto:bharatstudio4@gmail.com"
@@ -252,47 +322,69 @@ Wedding Photography | Cinematic Videography
                 </span>
 
                 <span>
-                  <small>Email</small>
+                  <small>
+                    Email
+                  </small>
+
                   <strong>
                     bharatstudio4@gmail.com
                   </strong>
                 </span>
               </a>
 
-              {/* Location */}
+              {/* LOCATION */}
 
               <div className="contact-detail">
+
                 <span className="contact-detail-icon">
                   <MapPin />
                 </span>
 
                 <span>
-                  <small>Based in</small>
+                  <small>
+                    Based in
+                  </small>
+
                   <strong>
                     Badhra, Loharu Road,
                     <br />
                     NCR Delhi
                   </strong>
                 </span>
+
               </div>
 
             </div>
 
+            {/* ===============================================
+                QUOTE
+            ================================================ */}
+
             <div className="contact-quote">
+
               <Heart />
+
               <span>
-                Your happiness is our priority.
+                Your moments.
+                Our perspective.
               </span>
+
             </div>
+
           </div>
 
-          {/* =======================================
-              RIGHT SIDE FORM
-          ======================================= */}
+          {/* =================================================
+              RIGHT FORM
+          ================================================== */}
 
           <div className="contact-form-wrapper">
 
             {status === 'success' ? (
+
+              /* =============================================
+                 SUCCESS STATE
+              ============================================== */
+
               <div className="contact-success">
 
                 <div className="success-icon">
@@ -308,37 +400,52 @@ Wedding Photography | Cinematic Videography
                 </h3>
 
                 <p>
-                  Your booking request has been received.
-                  We&apos;ll contact you shortly to discuss
-                  your celebration.
+                  Your booking request has been
+                  received. We&apos;ll contact you
+                  shortly to discuss your celebration.
                 </p>
 
                 <button
                   type="button"
-                  onClick={() => setStatus('idle')}
+                  onClick={() =>
+                    setStatus('idle')
+                  }
                   className="contact-secondary-button"
                 >
                   Send another request
                 </button>
 
               </div>
+
             ) : (
+
+              /* =============================================
+                 CONTACT FORM
+              ============================================== */
+
               <form
                 onSubmit={handleSubmit}
                 className="contact-form"
               >
 
+                {/* FORM HEADER */}
+
                 <div className="form-heading">
+
                   <span>
                     Start a conversation
                   </span>
 
                   <p>
-                    We&apos;d love to hear about your day.
+                    A few details are all we need
+                    to get started.
                   </p>
+
                 </div>
 
-                {/* NAME + PHONE */}
+                {/* =========================================
+                    NAME + PHONE
+                ========================================== */}
 
                 <div className="form-grid">
 
@@ -346,7 +453,9 @@ Wedding Photography | Cinematic Videography
                     icon={<User />}
                     label="Your name"
                     required
-                    focused={focused === 'client_name'}
+                    focused={
+                      focused === 'client_name'
+                    }
                   >
                     <input
                       type="text"
@@ -354,9 +463,13 @@ Wedding Photography | Cinematic Videography
                       value={form.client_name}
                       onChange={handleChange}
                       onFocus={() =>
-                        setFocused('client_name')
+                        setFocused(
+                          'client_name'
+                        )
                       }
-                      onBlur={() => setFocused(null)}
+                      onBlur={() =>
+                        setFocused(null)
+                      }
                       required
                       placeholder="Your full name"
                       className={inputClass}
@@ -367,7 +480,9 @@ Wedding Photography | Cinematic Videography
                     icon={<Phone />}
                     label="Phone number"
                     required
-                    focused={focused === 'phone'}
+                    focused={
+                      focused === 'phone'
+                    }
                   >
                     <input
                       type="tel"
@@ -377,7 +492,9 @@ Wedding Photography | Cinematic Videography
                       onFocus={() =>
                         setFocused('phone')
                       }
-                      onBlur={() => setFocused(null)}
+                      onBlur={() =>
+                        setFocused(null)
+                      }
                       required
                       placeholder="+91 XXXXX XXXXX"
                       className={inputClass}
@@ -386,14 +503,18 @@ Wedding Photography | Cinematic Videography
 
                 </div>
 
-                {/* EMAIL + DATE */}
+                {/* =========================================
+                    EMAIL + DATE
+                ========================================== */}
 
                 <div className="form-grid">
 
                   <Field
                     icon={<Mail />}
                     label="Email"
-                    focused={focused === 'email'}
+                    focused={
+                      focused === 'email'
+                    }
                   >
                     <input
                       type="email"
@@ -403,7 +524,9 @@ Wedding Photography | Cinematic Videography
                       onFocus={() =>
                         setFocused('email')
                       }
-                      onBlur={() => setFocused(null)}
+                      onBlur={() =>
+                        setFocused(null)
+                      }
                       placeholder="email@example.com"
                       className={inputClass}
                     />
@@ -412,7 +535,9 @@ Wedding Photography | Cinematic Videography
                   <Field
                     icon={<Calendar />}
                     label="Event date"
-                    focused={focused === 'event_date'}
+                    focused={
+                      focused === 'event_date'
+                    }
                   >
                     <input
                       type="date"
@@ -420,53 +545,74 @@ Wedding Photography | Cinematic Videography
                       value={form.event_date}
                       onChange={handleChange}
                       onFocus={() =>
-                        setFocused('event_date')
+                        setFocused(
+                          'event_date'
+                        )
                       }
-                      onBlur={() => setFocused(null)}
-                      className={`${inputClass} contact-date-input`}
+                      onBlur={() =>
+                        setFocused(null)
+                      }
+                      className={`
+                        ${inputClass}
+                        contact-date-input
+                      `}
                     />
                   </Field>
 
                 </div>
 
-                {/* PACKAGE */}
+                {/* =========================================
+                    PACKAGE / SERVICE
+                ========================================== */}
 
                 <Field
                   icon={<Calendar />}
                   label="Package or service"
-                  focused={focused === 'event_type'}
+                  focused={
+                    focused === 'event_type'
+                  }
                 >
                   <select
                     name="event_type"
                     value={form.event_type}
                     onChange={handleChange}
                     onFocus={() =>
-                      setFocused('event_type')
+                      setFocused(
+                        'event_type'
+                      )
                     }
-                    onBlur={() => setFocused(null)}
+                    onBlur={() =>
+                      setFocused(null)
+                    }
                     className={inputClass}
                   >
                     <option value="">
                       Select a service
                     </option>
 
-                    {eventTypes.map((type) => (
-                      <option
-                        key={type}
-                        value={type}
-                      >
-                        {type}
-                      </option>
-                    ))}
+                    {eventTypes.map(
+                      (type) => (
+                        <option
+                          key={type}
+                          value={type}
+                        >
+                          {type}
+                        </option>
+                      )
+                    )}
                   </select>
                 </Field>
 
-                {/* MESSAGE */}
+                {/* =========================================
+                    MESSAGE
+                ========================================== */}
 
                 <Field
                   icon={<MessageSquare />}
                   label="Tell us about your day"
-                  focused={focused === 'message'}
+                  focused={
+                    focused === 'message'
+                  }
                 >
                   <textarea
                     name="message"
@@ -475,27 +621,43 @@ Wedding Photography | Cinematic Videography
                     onFocus={() =>
                       setFocused('message')
                     }
-                    onBlur={() => setFocused(null)}
+                    onBlur={() =>
+                      setFocused(null)
+                    }
                     rows={5}
-                    placeholder="Tell us about your wedding, location, guest count or anything you'd like us to know..."
-                    className={`${inputClass} contact-textarea`}
+                    placeholder="Tell us about your wedding, location, guest count or anything you would like us to know..."
+                    className={`
+                      ${inputClass}
+                      contact-textarea
+                    `}
                   />
                 </Field>
 
-                {/* ERROR */}
+                {/* =========================================
+                    ERROR
+                ========================================== */}
 
                 {status === 'error' && (
                   <div className="contact-error">
+
                     <AlertCircle />
-                    <p>{errorMsg}</p>
+
+                    <p>
+                      {errorMsg}
+                    </p>
+
                   </div>
                 )}
 
-                {/* SUBMIT */}
+                {/* =========================================
+                    SUBMIT
+                ========================================== */}
 
                 <button
                   type="submit"
-                  disabled={status === 'loading'}
+                  disabled={
+                    status === 'loading'
+                  }
                   className="contact-submit"
                 >
                   {status === 'loading' ? (
@@ -511,21 +673,26 @@ Wedding Photography | Cinematic Videography
                   )}
                 </button>
 
+                {/* FORM NOTE */}
+
                 <p className="form-note">
-                  Your details are used only to contact
-                  you regarding your photography enquiry.
+                  Your details are used only to
+                  contact you regarding your
+                  photography enquiry.
                 </p>
 
               </form>
             )}
+
           </div>
         </div>
 
-        {/* =========================================
+        {/* ===================================================
             BOTTOM STATEMENT
-        ========================================= */}
+        ==================================================== */}
 
         <div className="contact-bottom">
+
           <span>
             Weddings • Chandigarh • India
           </span>
@@ -535,6 +702,7 @@ Wedding Photography | Cinematic Videography
           <span>
             Bharat Photo Studio
           </span>
+
         </div>
 
       </div>
@@ -563,11 +731,13 @@ function Field({
 }: FieldProps) {
   return (
     <div
-      className={`contact-field ${
-        focused ? 'field-focused' : ''
-      }`}
+      className={`
+        contact-field
+        ${focused ? 'field-focused' : ''}
+      `}
     >
       <label className="contact-label">
+
         <span className="contact-label-icon">
           {icon}
         </span>
@@ -577,8 +747,11 @@ function Field({
         </span>
 
         {required && (
-          <span className="required-mark">*</span>
+          <span className="required-mark">
+            *
+          </span>
         )}
+
       </label>
 
       {children}
