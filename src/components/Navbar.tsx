@@ -1,17 +1,63 @@
-import { useEffect, useState } from 'react';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
+import {
+  useEffect,
+  useState,
+  type MouseEvent,
+} from 'react';
+
+import {
+  ArrowUpRight,
+  Menu,
+  X,
+} from 'lucide-react';
+
+import type { Route } from '../hooks/useRouter';
+
+type NavbarProps = {
+  navigate: (route: Route) => void;
+  scrollToSection: (
+    sectionId: 'gallery' | 'services'
+  ) => void;
+};
 
 const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Stories', href: '#gallery' },
-  { label: 'Services', href: '#services' },
-  { label: 'Packages', href: '#packages' },
-  { label: 'Contact', href: '#contact' },
-];
+  {
+    label: 'Home',
+    type: 'home',
+  },
+  {
+    label: 'Stories',
+    type: 'gallery',
+  },
+  {
+    label: 'Services',
+    type: 'services',
+  },
+  {
+    label: 'Packages',
+    type: 'packages',
+  },
+  {
+    label: 'Contact',
+    type: 'contact',
+  },
+] as const;
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+type NavType =
+  (typeof navLinks)[number]['type'];
+
+export default function Navbar({
+  navigate,
+  scrollToSection,
+}: NavbarProps) {
+  const [scrolled, setScrolled] =
+    useState(false);
+
+  const [menuOpen, setMenuOpen] =
+    useState(false);
+
+  // =========================================================
+  // NAVBAR SCROLL EFFECT
+  // =========================================================
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,21 +66,171 @@ export default function Navbar() {
 
     handleScroll();
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener(
+      'scroll',
+      handleScroll
+    );
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener(
+        'scroll',
+        handleScroll
+      );
     };
   }, []);
 
-  // Prevent background scrolling when mobile menu is open
+  // =========================================================
+  // PREVENT BACKGROUND SCROLL
+  // WHEN MOBILE MENU IS OPEN
+  // =========================================================
+
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    document.body.style.overflow =
+      menuOpen ? 'hidden' : '';
 
     return () => {
       document.body.style.overflow = '';
     };
   }, [menuOpen]);
+
+  // =========================================================
+  // CHECK CURRENT ROUTE
+  // =========================================================
+
+  const isSeparatePage = () => {
+    const hash = window.location.hash;
+
+    return (
+      hash === '#/packages' ||
+      hash === '#/contact'
+    );
+  };
+
+  // =========================================================
+  // RETURN HOME THEN SCROLL
+  // =========================================================
+
+  const goHomeAndScroll = (
+    sectionId: 'gallery' | 'services'
+  ) => {
+    navigate('home');
+
+    /*
+      Wait for App to render the Home page.
+    */
+    setTimeout(() => {
+      scrollToSection(sectionId);
+    }, 200);
+  };
+
+  // =========================================================
+  // NAVIGATION
+  // =========================================================
+
+  const handleNavigation = (
+    type: NavType
+  ) => {
+    // Close mobile menu
+    setMenuOpen(false);
+
+    // -------------------------------------------------------
+    // HOME
+    // -------------------------------------------------------
+
+    if (type === 'home') {
+      if (isSeparatePage()) {
+        navigate('home');
+
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+          });
+        }, 150);
+
+        return;
+      }
+
+      /*
+        Already on Home.
+      */
+
+      window.history.replaceState(
+        null,
+        '',
+        '#/'
+      );
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+
+      return;
+    }
+
+    // -------------------------------------------------------
+    // STORIES
+    // -------------------------------------------------------
+
+    if (type === 'gallery') {
+      if (isSeparatePage()) {
+        goHomeAndScroll('gallery');
+        return;
+      }
+
+      scrollToSection('gallery');
+
+      return;
+    }
+
+    // -------------------------------------------------------
+    // SERVICES
+    // -------------------------------------------------------
+
+    if (type === 'services') {
+      if (isSeparatePage()) {
+        goHomeAndScroll('services');
+        return;
+      }
+
+      scrollToSection('services');
+
+      return;
+    }
+
+    // -------------------------------------------------------
+    // PACKAGES
+    // -------------------------------------------------------
+
+    if (type === 'packages') {
+      navigate('packages');
+
+      return;
+    }
+
+    // -------------------------------------------------------
+    // CONTACT
+    // -------------------------------------------------------
+
+    if (type === 'contact') {
+      navigate('contact');
+
+      return;
+    }
+  };
+
+  // =========================================================
+  // LOGO CLICK
+  // =========================================================
+
+  const handleLogoClick = (
+    event: MouseEvent<HTMLAnchorElement>
+  ) => {
+    event.preventDefault();
+
+    handleNavigation('home');
+  };
 
   return (
     <header
@@ -47,15 +243,24 @@ export default function Navbar() {
         transition-all
         duration-500
         ease-out
+
         ${
           scrolled
-            ? 'border-b border-white/[0.08] bg-[#151513]/95 backdrop-blur-xl'
-            : 'bg-transparent'
+            ? `
+              border-b
+              border-white/[0.08]
+              bg-[#151513]/95
+              backdrop-blur-xl
+            `
+            : `
+              bg-transparent
+            `
         }
       `}
     >
+
       {/* =====================================================
-          NAVIGATION
+          NAVIGATION BAR
       ====================================================== */}
 
       <nav
@@ -65,12 +270,13 @@ export default function Navbar() {
           max-w-[1500px]
           items-center
           justify-between
-          px-6
+          px-5
           transition-all
           duration-500
-          sm:px-10
-          lg:px-14
-          xl:px-20
+          sm:px-8
+          lg:px-12
+          xl:px-16
+
           ${
             scrolled
               ? 'h-[76px]'
@@ -78,44 +284,100 @@ export default function Navbar() {
           }
         `}
       >
+
         {/* =================================================
-            LOGO
+            BRAND / LOGO + COMPANY NAME
         ================================================== */}
 
         <a
-          href="#home"
-          onClick={() => setMenuOpen(false)}
-          className="group relative z-[110] flex flex-col"
+          href="#/"
+          onClick={handleLogoClick}
+          aria-label="Bharat Photo Studio - Home"
+          className="
+            group
+            relative
+            z-[110]
+            flex
+            items-center
+            gap-3
+            sm:gap-4
+          "
         >
-          <span
-            className="
-              font-serif
-              text-[21px]
-              font-medium
-              tracking-[0.22em]
-              text-white
-              transition-colors
-              duration-500
-              group-hover:text-[#d8b878]
-              sm:text-[24px]
-            "
-          >
-            BHARAT
-          </span>
 
-          <span
+          {/* -------------------------------------------------
+              LOGO IMAGE
+          -------------------------------------------------- */}
+
+          <div
             className="
-              mt-1
-              text-[8px]
-              font-medium
-              uppercase
-              tracking-[0.48em]
-              text-[#d8b878]
-              sm:text-[9px]
+              flex
+              h-10
+              w-10
+              shrink-0
+              items-center
+              justify-center
+              sm:h-12
+              sm:w-12
             "
           >
-            Photo Studio
-          </span>
+            <img
+              src="/bharatstudio.jpeg"
+              alt="Bharat Photo Studio logo"
+              className="
+                h-full
+                w-full
+                object-contain
+                transition-transform
+                duration-500
+                group-hover:scale-105
+              "
+            />
+          </div>
+
+          {/* -------------------------------------------------
+              COMPANY NAME
+          -------------------------------------------------- */}
+
+          <div
+            className="
+              flex
+              flex-col
+              justify-center
+            "
+          >
+            <span
+              className="
+                font-serif
+                text-[19px]
+                font-medium
+                leading-none
+                tracking-[0.20em]
+                text-white
+                transition-colors
+                duration-500
+                group-hover:text-[#d8b878]
+                sm:text-[23px]
+              "
+            >
+              BHARAT
+            </span>
+
+            <span
+              className="
+                mt-1.5
+                text-[7px]
+                font-medium
+                uppercase
+                leading-none
+                tracking-[0.42em]
+                text-[#d8b878]
+                sm:text-[9px]
+              "
+            >
+              Photo Studio
+            </span>
+          </div>
+
         </a>
 
         {/* =================================================
@@ -126,15 +388,22 @@ export default function Navbar() {
           className="
             hidden
             items-center
-            gap-9
+            gap-8
             lg:flex
             xl:gap-11
           "
         >
           {navLinks.map((link) => (
-            <li key={link.href}>
+            <li key={link.label}>
               <a
-                href={link.href}
+                href="#"
+                onClick={(event) => {
+                  event.preventDefault();
+
+                  handleNavigation(
+                    link.type
+                  );
+                }}
                 className="
                   group
                   relative
@@ -143,7 +412,7 @@ export default function Navbar() {
                   text-[10px]
                   font-medium
                   uppercase
-                  tracking-[0.32em]
+                  tracking-[0.30em]
                   text-white/70
                   transition-colors
                   duration-300
@@ -177,8 +446,11 @@ export default function Navbar() {
             DESKTOP BOOK BUTTON
         ================================================== */}
 
-        <a
-          href="#contact"
+        <button
+          type="button"
+          onClick={() =>
+            handleNavigation('contact')
+          }
           className="
             group
             hidden
@@ -201,7 +473,9 @@ export default function Navbar() {
             lg:flex
           "
         >
-          <span>Book a Date</span>
+          <span>
+            Book a Date
+          </span>
 
           <span
             className="
@@ -218,9 +492,11 @@ export default function Navbar() {
               group-hover:rotate-45
             "
           >
-            <ArrowUpRight className="h-3 w-3" />
+            <ArrowUpRight
+              className="h-3 w-3"
+            />
           </span>
-        </a>
+        </button>
 
         {/* =================================================
             MOBILE MENU BUTTON
@@ -228,8 +504,16 @@ export default function Navbar() {
 
         <button
           type="button"
-          onClick={() => setMenuOpen((previous) => !previous)}
-          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          onClick={() =>
+            setMenuOpen(
+              (previous) => !previous
+            )
+          }
+          aria-label={
+            menuOpen
+              ? 'Close navigation menu'
+              : 'Open navigation menu'
+          }
           aria-expanded={menuOpen}
           className="
             relative
@@ -258,6 +542,7 @@ export default function Navbar() {
             <Menu className="h-[18px] w-[18px]" />
           )}
         </button>
+
       </nav>
 
       {/* =====================================================
@@ -273,97 +558,202 @@ export default function Navbar() {
           transition-all
           duration-500
           lg:hidden
+
           ${
             menuOpen
-              ? 'pointer-events-auto visible opacity-100'
-              : 'pointer-events-none invisible opacity-0'
+              ? `
+                pointer-events-auto
+                visible
+                opacity-100
+              `
+              : `
+                pointer-events-none
+                invisible
+                opacity-0
+              `
           }
         `}
       >
-        <div className="flex h-full flex-col px-6 pt-32 sm:px-10">
-          {/* Small heading */}
 
-          <div className="border-b border-white/10 pb-5">
-            <span
+        <div
+          className="
+            flex
+            h-full
+            flex-col
+            px-6
+            pt-28
+            sm:px-10
+            sm:pt-32
+          "
+        >
+
+          {/* =================================================
+              MOBILE BRAND
+          ================================================== */}
+
+          <div
+            className="
+              flex
+              items-center
+              gap-3
+              border-b
+              border-white/10
+              pb-5
+            "
+          >
+
+            <div
               className="
-                text-[9px]
-                font-medium
-                uppercase
-                tracking-[0.4em]
-                text-[#d8b878]
+                flex
+                h-10
+                w-10
+                shrink-0
+                items-center
+                justify-center
               "
             >
-              Bharat Photo Studio
-            </span>
+              <img
+                src="/logo.png"
+                alt="Bharat Photo Studio logo"
+                className="
+                  h-full
+                  w-full
+                  object-contain
+                "
+              />
+            </div>
+
+            <div className="flex flex-col">
+
+              <span
+                className="
+                  font-serif
+                  text-[19px]
+                  font-medium
+                  leading-none
+                  tracking-[0.20em]
+                  text-white
+                "
+              >
+                BHARAT
+              </span>
+
+              <span
+                className="
+                  mt-1.5
+                  text-[7px]
+                  font-medium
+                  uppercase
+                  leading-none
+                  tracking-[0.42em]
+                  text-[#d8b878]
+                "
+              >
+                Photo Studio
+              </span>
+
+            </div>
+
           </div>
 
-          {/* Navigation links */}
+          {/* =================================================
+              MOBILE NAVIGATION
+          ================================================== */}
 
           <nav className="mt-8">
             <ul className="space-y-1">
-              {navLinks.map((link, index) => (
-                <li
-                  key={link.href}
-                  className={`
-                    transition-all
-                    duration-500
-                    ${
-                      menuOpen
-                        ? 'translate-y-0 opacity-100'
-                        : 'translate-y-5 opacity-0'
-                    }
-                  `}
-                  style={{
-                    transitionDelay: `${index * 70}ms`,
-                  }}
-                >
-                  <a
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="
-                      group
-                      flex
-                      items-center
-                      justify-between
-                      border-b
-                      border-white/[0.07]
-                      py-5
-                      text-2xl
-                      font-light
-                      text-white
-                      transition-colors
-                      duration-300
-                      hover:text-[#d8b878]
-                      sm:text-3xl
-                    "
-                  >
-                    <span>{link.label}</span>
 
-                    <ArrowUpRight
+              {navLinks.map(
+                (link, index) => (
+                  <li
+                    key={link.label}
+                    className={`
+                      transition-all
+                      duration-500
+
+                      ${
+                        menuOpen
+                          ? `
+                            translate-y-0
+                            opacity-100
+                          `
+                          : `
+                            translate-y-5
+                            opacity-0
+                          `
+                      }
+                    `}
+                    style={{
+                      transitionDelay:
+                        `${index * 70}ms`,
+                    }}
+                  >
+
+                    <a
+                      href="#"
+                      onClick={(event) => {
+                        event.preventDefault();
+
+                        handleNavigation(
+                          link.type
+                        );
+                      }}
                       className="
-                        h-5
-                        w-5
-                        text-[#d8b878]
-                        opacity-40
-                        transition-all
+                        group
+                        flex
+                        items-center
+                        justify-between
+                        border-b
+                        border-white/[0.07]
+                        py-5
+                        text-2xl
+                        font-light
+                        text-white
+                        transition-colors
                         duration-300
-                        group-hover:translate-x-1
-                        group-hover:-translate-y-1
-                        group-hover:opacity-100
+                        hover:text-[#d8b878]
+                        sm:text-3xl
                       "
-                    />
-                  </a>
-                </li>
-              ))}
+                    >
+
+                      <span>
+                        {link.label}
+                      </span>
+
+                      <ArrowUpRight
+                        className="
+                          h-5
+                          w-5
+                          text-[#d8b878]
+                          opacity-40
+                          transition-all
+                          duration-300
+                          group-hover:translate-x-1
+                          group-hover:-translate-y-1
+                          group-hover:opacity-100
+                        "
+                      />
+
+                    </a>
+
+                  </li>
+                )
+              )}
+
             </ul>
           </nav>
 
-          {/* Bottom booking area */}
+          {/* =================================================
+              MOBILE BOOKING AREA
+          ================================================== */}
 
           <div className="mt-auto pb-10">
-            <a
-              href="#contact"
-              onClick={() => setMenuOpen(false)}
+
+            <button
+              type="button"
+              onClick={() =>
+                handleNavigation('contact')
+              }
               className="
                 flex
                 w-full
@@ -384,10 +774,14 @@ export default function Navbar() {
                 hover:bg-[#ead39a]
               "
             >
-              <span>Book Your Date</span>
+              <span>
+                Book Your Date
+              </span>
 
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
+              <ArrowUpRight
+                className="h-4 w-4"
+              />
+            </button>
 
             <p
               className="
@@ -400,7 +794,9 @@ export default function Navbar() {
             >
               Weddings • Stories • Memories
             </p>
+
           </div>
+
         </div>
       </div>
     </header>

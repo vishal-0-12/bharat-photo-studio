@@ -1,28 +1,63 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
-export type Route = 'home' | 'gallery' | 'services' | 'contact';
+export type Route = 'home' | 'packages' | 'contact';
 
-function parseHash(): Route {
-  const hash = window.location.hash.replace('#/', '').replace('#', '');
-  if (hash === 'gallery' || hash === 'services' || hash === 'contact') return hash;
+function getRoute(): Route {
+  const hash = window.location.hash;
+
+  if (hash === '#/packages') return 'packages';
+  if (hash === '#/contact') return 'contact';
+
   return 'home';
 }
 
 export function useRouter() {
-  const [route, setRoute] = useState<Route>(parseHash());
+  const [route, setRoute] = useState<Route>(getRoute);
 
   useEffect(() => {
-    const onHash = () => {
-      setRoute(parseHash());
-      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    const handleHashChange = () => {
+      setRoute(getRoute());
     };
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
   }, []);
 
-  const navigate = useCallback((r: Route) => {
-    window.location.hash = r === 'home' ? '/' : `/${r}`;
-  }, []);
+  const navigate = (newRoute: Route) => {
+    if (newRoute === 'home') {
+      window.location.hash = '#/';
+      return;
+    }
 
-  return { route, navigate };
+    window.location.hash = `#/${newRoute}`;
+  };
+
+  const scrollToSection = (
+    sectionId: 'gallery' | 'services'
+  ) => {
+    const element = document.getElementById(sectionId);
+
+    if (element) {
+      const navbarHeight = 90;
+
+      const top =
+        element.getBoundingClientRect().top +
+        window.scrollY -
+        navbarHeight;
+
+      window.scrollTo({
+        top,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  return {
+    route,
+    navigate,
+    scrollToSection,
+  };
 }

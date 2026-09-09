@@ -744,6 +744,402 @@
 
 
 /* =========================================================
+   GALLERY
+   ========================================================= */
+
+   /* ============================================================
+   GALLERY — TABLET
+============================================================ */
+
+@media (max-width: 1100px) {
+
+  .gallery-section {
+    overflow: hidden;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, 240px);
+    gap: 14px;
+  }
+
+  /*
+    Keep the large first image prominent
+  */
+  .gallery-grid .gallery-item:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  /*
+    Reset the desktop-only wide item
+  */
+  .gallery-grid .gallery-item:nth-child(5) {
+    grid-column: span 2;
+  }
+
+  .gallery-heading h2 {
+    font-size: clamp(4rem, 8vw, 7rem);
+  }
+
+  .gallery-intro {
+    max-width: 420px;
+  }
+
+  .gallery-item {
+    min-height: 210px;
+  }
+
+  .gallery-item .gallery-label p {
+    font-size: 21px;
+  }
+
+  .gallery-zoom {
+    width: 34px;
+    height: 34px;
+  }
+
+  .gallery-zoom svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+
+/* ============================================================
+   GALLERY — SMALL TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+  .gallery-section > div:not(.gallery-grain) {
+    padding-top: 90px;
+    padding-bottom: 90px;
+  }
+
+  .gallery-heading h2 {
+    font-size: clamp(4rem, 10vw, 6.5rem);
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+
+    gap: 12px;
+
+    margin-top: 60px;
+  }
+
+  /*
+    Remove desktop grid spans.
+    This makes the gallery much more stable
+    on tablet screens.
+  */
+
+  .gallery-grid .gallery-item {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 300px;
+  }
+
+  /*
+    First image remains larger
+  */
+
+  .gallery-grid .gallery-item:first-child {
+    grid-column: span 2;
+    min-height: 430px;
+  }
+
+  /*
+    Fifth image stays wide
+  */
+
+  .gallery-grid .gallery-item:nth-child(5) {
+    grid-column: span 2;
+    min-height: 320px;
+  }
+
+  .gallery-item .gallery-label p {
+    font-size: 22px;
+  }
+
+  .gallery-statement {
+    margin-top: 65px;
+  }
+}
+
+
+/* ============================================================
+   GALLERY — PHONE
+============================================================ */
+
+@media (max-width: 640px) {
+
+  .gallery-section {
+    overflow: hidden;
+  }
+
+  .gallery-section > div:not(.gallery-grain) {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+
+
+  /* ==========================================================
+     HEADER
+  ========================================================== */
+
+  .gallery-heading {
+    width: 100%;
+  }
+
+  .gallery-heading > div {
+    margin-bottom: 22px;
+  }
+
+  .gallery-heading h2 {
+    font-size: clamp(43px, 13vw, 62px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+  }
+
+  /*
+    Smaller offset on phone
+  */
+
+  .gallery-heading h2 span {
+    margin-left: 18vw;
+  }
+
+  .gallery-intro {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .gallery-intro p {
+    max-width: 330px;
+
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .gallery-intro > div {
+    margin-top: 20px;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    font-size: 8px;
+    letter-spacing: 0.18em;
+  }
+
+
+  /* ==========================================================
+     GALLERY GRID
+  ========================================================== */
+
+  .gallery-grid {
+    display: grid;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+
+    gap: 10px;
+
+    margin-top: 45px;
+  }
+
+  /*
+    Remove ALL desktop spans on mobile
+  */
+
+  .gallery-grid .gallery-item,
+  .gallery-grid .gallery-item:first-child,
+  .gallery-grid .gallery-item:nth-child(5) {
+    grid-column: auto;
+    grid-row: auto;
+
+    width: 100%;
+    min-height: 0;
+
+    aspect-ratio: 0.88;
+  }
+
+  /*
+    Make first image slightly taller
+  */
+
+  .gallery-grid .gallery-item:first-child {
+    aspect-ratio: 0.78;
+  }
+
+  /*
+    Wide fifth image
+  */
+
+  .gallery-grid .gallery-item:nth-child(5) {
+    aspect-ratio: 1.15;
+  }
+
+
+  /* ==========================================================
+     IMAGE
+  ========================================================== */
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
+
+
+  /* ==========================================================
+     TOP INFORMATION
+  ========================================================== */
+
+  .gallery-item > div.absolute.left-5 {
+    left: 15px;
+    right: 15px;
+    top: 15px;
+  }
+
+  .gallery-number {
+    font-size: 8px;
+    letter-spacing: 0.18em;
+  }
+
+  .gallery-zoom {
+    width: 32px;
+    height: 32px;
+
+    backdrop-filter: blur(4px);
+  }
+
+  .gallery-zoom svg {
+    width: 13px;
+    height: 13px;
+  }
+
+
+  /* ==========================================================
+     BOTTOM INFORMATION
+  ========================================================== */
+
+  .gallery-item > div.absolute.bottom-0 {
+    padding: 17px;
+  }
+
+  .gallery-label {
+    gap: 12px;
+  }
+
+  .gallery-label p {
+    font-size: 20px !important;
+    line-height: 1.1;
+  }
+
+  .gallery-label span {
+    margin-top: 7px;
+
+    width: 25px;
+  }
+
+  .gallery-label > svg {
+    width: 17px;
+    height: 17px;
+  }
+
+
+  /* ==========================================================
+     BOTTOM STATEMENT
+  ========================================================== */
+
+  .gallery-statement {
+    display: flex;
+    flex-direction: column;
+
+    gap: 30px;
+
+    margin-top: 50px;
+
+    padding-top: 28px;
+  }
+
+  .gallery-statement p {
+    max-width: 330px;
+
+    margin-top: 15px;
+
+    font-size: 21px;
+    line-height: 1.45;
+  }
+
+  .gallery-view-button {
+    align-self: flex-start;
+
+    gap: 12px;
+
+    padding-bottom: 9px;
+
+    font-size: 8px;
+    letter-spacing: 0.2em;
+  }
+
+  .gallery-view-button svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+
+/* ============================================================
+   GALLERY — VERY SMALL PHONES
+============================================================ */
+
+@media (max-width: 380px) {
+
+  .gallery-section > div:not(.gallery-grain) {
+    padding-left: 14px;
+    padding-right: 14px;
+
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .gallery-heading h2 {
+    font-size: 42px;
+  }
+
+  .gallery-intro p {
+    font-size: 12px;
+  }
+
+  .gallery-grid {
+    gap: 8px;
+    margin-top: 38px;
+  }
+
+  .gallery-grid .gallery-item,
+  .gallery-grid .gallery-item:first-child {
+    aspect-ratio: 0.82;
+  }
+
+  .gallery-grid .gallery-item:nth-child(5) {
+    aspect-ratio: 1.05;
+  }
+
+  .gallery-label p {
+    font-size: 18px !important;
+  }
+
+  .gallery-statement p {
+    font-size: 19px;
+  }
+}
+/* =========================================================
    TIMELINE
    ========================================================= */
 
@@ -1366,6 +1762,642 @@
   background: #171614;
   color: #f4f0e8;
   padding: 120px 48px 50px;
+}
+/* ============================================================
+   CONTACT — TABLET
+============================================================ */
+
+@media (max-width: 1100px) {
+
+  .contact-section {
+    overflow: hidden;
+  }
+
+  .contact-container {
+    width: min(100% - 64px, 1100px);
+  }
+
+  .contact-header {
+    max-width: 850px;
+  }
+
+  .contact-title {
+    font-size: clamp(58px, 7vw, 86px);
+    line-height: 0.95;
+  }
+
+  .contact-intro {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .contact-layout {
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+    gap: 48px;
+  }
+
+  .contact-information {
+    padding-right: 20px;
+  }
+
+  .contact-number {
+    font-size: 58px;
+  }
+
+  .contact-info-heading {
+    font-size: 27px;
+    line-height: 1.15;
+  }
+
+  .contact-info-text {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .contact-form-wrapper {
+    min-width: 0;
+  }
+
+  .contact-form {
+    padding: 0;
+  }
+
+  .form-grid {
+    gap: 28px;
+  }
+
+  .contact-label {
+    font-size: 9px;
+  }
+
+  .contact-input {
+    font-size: 14px;
+  }
+}
+
+
+/* ============================================================
+   CONTACT — TABLET / SMALL LAPTOP
+============================================================ */
+
+@media (max-width: 900px) {
+
+  .contact-container {
+    width: min(100% - 48px, 760px);
+  }
+
+  .contact-header {
+    margin-bottom: 60px;
+  }
+
+  .contact-title {
+    font-size: clamp(54px, 8vw, 76px);
+  }
+
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 65px;
+  }
+
+  /* -----------------------------------------
+     INFORMATION
+  ----------------------------------------- */
+
+  .contact-information {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    column-gap: 32px;
+
+    padding-right: 0;
+  }
+
+  .contact-number {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+
+    font-size: 58px;
+  }
+
+  .contact-info-line {
+    grid-column: 1;
+    grid-row: 2;
+
+    width: 50px;
+  }
+
+  .contact-info-heading {
+    grid-column: 2;
+    grid-row: 1;
+
+    margin: 0;
+  }
+
+  .contact-info-text {
+    grid-column: 2;
+    grid-row: 2;
+
+    max-width: 520px;
+  }
+
+  .contact-details {
+    grid-column: 1 / -1;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+
+    margin-top: 45px;
+  }
+
+  .contact-detail {
+    min-width: 0;
+  }
+
+  .contact-quote {
+    grid-column: 1 / -1;
+
+    margin-top: 25px;
+  }
+
+  /* -----------------------------------------
+     FORM
+  ----------------------------------------- */
+
+  .contact-form-wrapper {
+    border-top: 1px solid rgba(244, 240, 232, 0.12);
+    padding-top: 45px;
+  }
+
+  .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .form-heading span {
+    font-size: 25px;
+  }
+
+  .form-heading p {
+    font-size: 13px;
+  }
+}
+
+
+/* ============================================================
+   CONTACT — PHONE
+============================================================ */
+
+@media (max-width: 640px) {
+
+  .contact-section {
+    overflow: hidden;
+  }
+
+  .contact-container {
+    width: calc(100% - 36px);
+    margin: 0 auto;
+  }
+
+
+  /* ==========================================================
+     HEADER
+  ========================================================== */
+
+  .contact-header {
+    margin-bottom: 45px;
+  }
+
+  .contact-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+  }
+
+  .contact-title {
+    margin-top: 22px;
+
+    font-size: clamp(42px, 12.5vw, 60px);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+
+  .contact-intro {
+    max-width: 330px;
+
+    margin-top: 22px;
+
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+
+  /* ==========================================================
+     MAIN LAYOUT
+  ========================================================== */
+
+  .contact-layout {
+    display: flex;
+    flex-direction: column;
+
+    gap: 50px;
+  }
+
+
+  /* ==========================================================
+     INFORMATION
+  ========================================================== */
+
+  .contact-information {
+    display: block;
+
+    padding: 0;
+  }
+
+  .contact-number {
+    font-size: 48px;
+    line-height: 1;
+  }
+
+  .contact-info-line {
+    width: 38px;
+    margin: 20px 0 28px;
+  }
+
+  .contact-info-heading {
+    margin: 0;
+
+    font-size: 25px;
+    line-height: 1.18;
+  }
+
+  .contact-info-text {
+    max-width: 100%;
+
+    margin-top: 20px;
+
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+
+  /* ==========================================================
+     CONTACT DETAILS
+  ========================================================== */
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0;
+
+    margin-top: 35px;
+  }
+
+  .contact-detail {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 17px 0;
+
+    border-bottom: 1px solid rgba(244, 240, 232, 0.10);
+
+    text-decoration: none;
+  }
+
+  .contact-detail:first-child {
+    border-top: 1px solid rgba(244, 240, 232, 0.10);
+  }
+
+  .contact-detail-icon {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(168, 137, 82, 0.35);
+  }
+
+  .contact-detail-icon svg {
+    width: 15px;
+    height: 15px;
+
+    stroke-width: 1.4;
+  }
+
+  .contact-detail small {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .contact-detail strong {
+    display: block;
+
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .contact-quote {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-top: 25px;
+
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  .contact-quote svg {
+    width: 15px;
+    height: 15px;
+
+    flex-shrink: 0;
+  }
+
+
+  /* ==========================================================
+     FORM
+  ========================================================== */
+
+  .contact-form-wrapper {
+    border-top: 1px solid rgba(244, 240, 232, 0.12);
+
+    padding-top: 38px;
+  }
+
+  .form-heading {
+    margin-bottom: 32px;
+  }
+
+  .form-heading span {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  .form-heading p {
+    margin-top: 8px;
+
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap: 0;
+  }
+
+  .contact-field {
+    margin-bottom: 25px;
+  }
+
+  .contact-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 9px;
+
+    font-size: 8px;
+    letter-spacing: 0.18em;
+  }
+
+  .contact-label-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  .contact-label-icon svg {
+    width: 14px;
+    height: 14px;
+
+    stroke-width: 1.4;
+  }
+
+  .required-mark {
+    margin-left: 1px;
+  }
+
+
+  /* ==========================================================
+     INPUTS
+  ========================================================== */
+
+  .contact-input {
+    width: 100%;
+
+    padding: 12px 0;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    border-bottom-width: 1px;
+  }
+
+  .contact-input::placeholder {
+    font-size: 13px;
+  }
+
+  .contact-textarea {
+    min-height: 115px;
+
+    resize: vertical;
+  }
+
+  .contact-date-input {
+    min-height: 42px;
+  }
+
+  select.contact-input {
+    min-height: 42px;
+  }
+
+
+  /* ==========================================================
+     ERROR
+  ========================================================== */
+
+  .contact-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+
+    margin-top: 10px;
+
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .contact-error svg {
+    width: 15px;
+    height: 15px;
+
+    flex-shrink: 0;
+  }
+
+
+  /* ==========================================================
+     SUBMIT BUTTON
+  ========================================================== */
+
+  .contact-submit {
+    width: 100%;
+
+    min-height: 52px;
+
+    margin-top: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    font-size: 9px;
+    letter-spacing: 0.18em;
+  }
+
+  .contact-submit svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .form-note {
+    max-width: 310px;
+
+    margin-top: 14px;
+
+    font-size: 9px;
+    line-height: 1.6;
+  }
+
+
+  /* ==========================================================
+     SUCCESS STATE
+  ========================================================== */
+
+  .contact-success {
+    min-height: 400px;
+
+    padding: 45px 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .success-icon {
+    width: 48px;
+    height: 48px;
+
+    margin-bottom: 25px;
+  }
+
+  .success-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .contact-success h3 {
+    margin-top: 18px;
+
+    font-size: 38px;
+    line-height: 1;
+  }
+
+  .contact-success p {
+    max-width: 330px;
+
+    margin-top: 18px;
+
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .contact-secondary-button {
+    margin-top: 25px;
+
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+
+  /* ==========================================================
+     BOTTOM
+  ========================================================== */
+
+  .contact-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 14px;
+
+    margin-top: 50px;
+
+    padding-top: 20px;
+  }
+
+  .contact-bottom span {
+    font-size: 8px;
+    letter-spacing: 0.18em;
+  }
+
+  .contact-bottom-line {
+    width: 35px;
+  }
+}
+
+
+/* ============================================================
+   CONTACT — VERY SMALL PHONES
+============================================================ */
+
+@media (max-width: 380px) {
+
+  .contact-container {
+    width: calc(100% - 28px);
+  }
+
+  .contact-title {
+    font-size: 40px;
+  }
+
+  .contact-info-heading {
+    font-size: 23px;
+  }
+
+  .contact-info-text {
+    font-size: 13px;
+  }
+
+  .contact-detail strong {
+    font-size: 12px;
+  }
+
+  .form-heading span {
+    font-size: 22px;
+  }
+
+  .contact-input {
+    font-size: 13px;
+  }
+
+  .contact-success h3 {
+    font-size: 34px;
+  }
 }
 
 /* ---------------------------------------------------------
@@ -3209,16 +4241,12 @@ header::selection {
 }
 
 .footer-about p {
-  max-width: 300px;
-
-  margin: 0;
-
-  font-size: 13px;
-  line-height: 1.9;
-
-  color: rgba(255, 255, 255, 0.45);
+  max-width: 420px;
+  color: #a8a39b;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.65;
 }
-
 .footer-love {
   display: flex;
   align-items: center;
@@ -3244,193 +4272,1066 @@ header::selection {
 /* =========================================================
    LINKS
    ========================================================= */
+   
+  /* ============================================================
+   FOOTER EXPLORE / LINKS
+============================================================ */
 
 .footer-links {
   margin: 0;
   padding: 0;
-
   list-style: none;
 }
 
 .footer-links li {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.footer-links li:first-child {
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(244, 240, 232, 0.12);
 }
 
 .footer-links a {
   display: grid;
-  grid-template-columns: 25px 1fr auto;
+  grid-template-columns: 30px 1fr auto;
   align-items: center;
+  gap: 16px;
 
-  min-height: 43px;
+  padding: 17px 0;
 
+  color: #a8a39b;
   text-decoration: none;
-
-  transition: padding 0.35s ease;
-}
-
-.footer-link-number {
-  font-size: 7px;
-  letter-spacing: 0.1em;
-
-  color: rgba(216, 184, 120, 0.55);
-}
-
-.footer-link-label {
-  font-size: 11px;
-  font-weight: 500;
-
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-
-  color: rgba(255, 255, 255, 0.55);
-
-  transition: color 0.3s ease;
-}
-
-.footer-link-arrow {
-  width: 13px;
-  height: 13px;
-
-  color: #d8b878;
-
-  opacity: 0;
-
-  transform: translate(-5px, 5px);
-
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-}
-
-.footer-links a:hover {
-  padding-left: 5px;
-}
-
-.footer-links a:hover .footer-link-label {
-  color: #fff;
-}
-
-.footer-links a:hover .footer-link-arrow {
-  opacity: 1;
-  transform: translate(0, 0);
-}
-
-/* =========================================================
-   SERVICES
-   ========================================================= */
-
-.footer-service-list {
-  margin: 0;
-  padding: 0;
-
-  list-style: none;
-}
-
-.footer-service-list li {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-
-  padding: 7px 0;
-
-  font-size: 11px;
-  line-height: 1.5;
-
-  color: rgba(255, 255, 255, 0.45);
 
   transition:
     color 0.3s ease,
     transform 0.3s ease;
 }
 
-.footer-service-list li:hover {
-  color: rgba(255, 255, 255, 0.8);
+.footer-links a:hover {
+  color: #f4f0e8;
   transform: translateX(4px);
 }
 
-.footer-service-number {
-  min-width: 18px;
 
-  font-size: 7px;
-  letter-spacing: 0.1em;
+/* ============================================================
+   LINK NUMBER
+============================================================ */
 
-  color: rgba(216, 184, 120, 0.5);
+.footer-link-number {
+  color: #a88952;
+
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.12em;
 }
 
-/* =========================================================
-   CONTACT
+
+/* ============================================================
+   LINK NAME
+============================================================ */
+
+.footer-link-label {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+/* ============================================================
+   SMALL SQUARE ARROW BOX
+============================================================ */
+
+.footer-link-arrow {
+  width: 12px;
+  height: 12px;
+
+  padding: 7px;
+  box-sizing: content-box;
+
+  border: 1px solid rgba(244, 240, 232, 0.22);
+
+  color: #a8a39b;
+
+  opacity: 0.75;
+
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+/* ============================================================
+   HOVER
+============================================================ */
+
+.footer-links a:hover .footer-link-arrow {
+  color: #171614;
+  border-color: #a88952;
+  background: #a88952;
+
+  transform: translate(2px, -2px);
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 640px) {
+  .footer-links a {
+    grid-template-columns: 26px 1fr auto;
+    gap: 13px;
+    padding: 15px 0;
+  }
+
+  .footer-link-number {
+    font-size: 9px;
+  }
+
+  .footer-link-label {
+    font-size: 10px;
+  }
+
+  .footer-link-arrow {
+    width: 10px;
+    height: 10px;
+    padding: 6px;
+  }
+}
+  /* =========================================================
+   CREDITs
    ========================================================= */
+   .footer-credit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+  
+    padding: 22px 0 8px;
+  
+    color: #77716a;
+  
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  
+    border-top: 1px solid rgba(244, 240, 232, 0.08);
+  }
+  
+  .footer-credit-brand {
+    color: #a88952;
+    font-weight: 600;
+  }
+  
+  .footer-credit-heart {
+    color: #b66b61;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+/* =========================================================
+   SERVICES
+   ========================================================= */
+
+   .footer-service-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .footer-service-list li {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  
+    color: #a8a39b;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.4;
+  
+    transition:
+      color 0.3s ease,
+      transform 0.3s ease;
+  }
+  
+  .footer-service-list li:hover {
+    color: #f4f0e8;
+    transform: translateX(4px);
+  }
+  
+  .footer-service-number {
+    min-width: 28px;
+    color: #a88952;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+/* ============================================================
+   CONTACT SECTION
+   Warm editorial counterpart to the dark Package section
+============================================================ */
 
 .footer-contact-list {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 30px;
+  margin-top: 8px;
 }
 
 .footer-contact {
-  display: flex;
-  align-items: flex-start;
-  gap: 13px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 18px;
 
+  color: #f4f0e8;
   text-decoration: none;
 
-  font-size: 11px;
-  line-height: 1.6;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.55;
 
-  color: rgba(255, 255, 255, 0.5);
+  min-width: 0;
 
   transition: color 0.3s ease;
 }
 
-a.footer-contact:hover {
+.footer-contact:hover {
   color: #d8b878;
 }
 
 .footer-contact-icon {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
-  flex-shrink: 0;
+  width: 34px;
+  height: 28px;
 
-  width: 32px;
-  height: 32px;
-
-  border: 1px solid rgba(216, 184, 120, 0.25);
-
-  color: #d8b878;
-
-  transition:
-    border-color 0.3s ease,
-    background 0.3s ease;
-}
-
-.footer-contact:hover .footer-contact-icon {
-  border-color: rgba(216, 184, 120, 0.65);
-  background: rgba(216, 184, 120, 0.08);
+  color: #f4f0e8;
 }
 
 .footer-contact-icon svg {
-  width: 13px;
-  height: 13px;
+  width: 27px;
+  height: 27px;
+  stroke-width: 1.5;
 }
 
 .footer-contact small {
   display: block;
 
-  margin-bottom: 2px;
+  margin-bottom: 6px;
 
-  font-size: 7px;
+  color: #a88952;
+
+  font-size: 9px;
   font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
 
+/* ============================================================
+   SUBTLE PAPER TEXTURE
+============================================================ */
+
+.contact-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image:
+    radial-gradient(
+      rgba(23, 22, 20, 0.45) 0.6px,
+      transparent 0.6px
+    );
+  background-size: 5px 5px;
+}
+
+
+/* ============================================================
+   MAIN CONTAINER
+============================================================ */
+
+.contact-container {
+  position: relative;
+  z-index: 1;
+  width: min(1280px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.contact-header {
+  max-width: 1100px;
+  margin-bottom: 95px;
+}
+
+.contact-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+
+  color: #9a7b45;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+}
+
+.contact-eyebrow::before {
+  content: '';
+  width: 34px;
+  height: 1px;
+  background: #9a7b45;
+}
+
+
+.contact-title {
+  margin: 22px 0 25px;
+
+  color: #171614;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(58px, 7vw, 104px);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+}
+
+.contact-title em {
+  color: #a88952;
+  font-style: italic;
+}
+
+
+.contact-intro {
+  max-width: 570px;
+
+  color: #706d66;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+
+/* ============================================================
+   MAIN LAYOUT
+============================================================ */
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+
+  border-top: 1px solid rgba(23, 22, 20, 0.18);
+}
+
+
+/* ============================================================
+   LEFT INFORMATION
+============================================================ */
+
+.contact-information {
+  padding: 70px 80px 70px 0;
+  border-right: 1px solid rgba(23, 22, 20, 0.18);
+}
+
+
+.contact-number {
+  color: #a88952;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+
+.contact-info-line {
+  width: 58px;
+  height: 1px;
+  margin: 30px 0 40px;
+  background: #a88952;
+}
+
+
+.contact-info-heading {
+  max-width: 390px;
+  margin: 0 0 24px;
+
+  color: #171614;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+
+.contact-info-text {
+  max-width: 440px;
+
+  color: #706d66;
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+
+/* ============================================================
+   CONTACT DETAILS
+============================================================ */
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 55px;
+}
+
+
+.contact-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 17px;
+
+  color: #171614;
+  text-decoration: none;
+
+  transition:
+    transform 0.35s ease,
+    color 0.35s ease;
+}
+
+.contact-detail:hover {
+  transform: translateX(5px);
+  color: #9a7b45;
+}
+
+
+.contact-detail-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 35px;
+  height: 35px;
+
+  border: 1px solid rgba(23, 22, 20, 0.2);
+  color: #9a7b45;
+
+  flex-shrink: 0;
+}
+
+
+.contact-detail-icon svg {
+  width: 15px;
+  height: 15px;
+  stroke-width: 1.4;
+}
+
+
+.contact-detail small {
+  display: block;
+  margin-bottom: 5px;
+
+  color: #8b877e;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+
+.contact-detail strong {
+  display: block;
+
+  color: #292722;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   QUOTE
+============================================================ */
+
+.contact-quote {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 65px;
+
+  color: #9a7b45;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  font-style: italic;
+}
+
+
+.contact-quote svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.4;
+}
+
+
+/* ============================================================
+   FORM WRAPPER
+============================================================ */
+
+.contact-form-wrapper {
+  padding: 70px 0 70px 80px;
+}
+
+
+/* ============================================================
+   FORM
+============================================================ */
+
+.contact-form {
+  width: 100%;
+  max-width: 760px;
+}
+
+
+.form-heading {
+  margin-bottom: 48px;
+}
+
+
+.form-heading > span {
+  display: block;
+
+  color: #171614;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+
+.form-heading p {
+  margin-top: 9px;
+
+  color: #858078;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   FORM GRID
+============================================================ */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+}
+
+
+/* ============================================================
+   FORM FIELD
+============================================================ */
+
+.contact-field {
+  margin-bottom: 32px;
+}
+
+
+.contact-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-bottom: 13px;
+
+  color: #5f5b54;
+  font-size: 9px;
+  font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+}
 
-  color: rgba(255, 255, 255, 0.25);
+
+.contact-label-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.contact-label-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 1.5;
+}
+
+
+.required-mark {
+  color: #a88952;
+}
+
+
+/* ============================================================
+   INPUTS
+============================================================ */
+
+.contact-input {
+  width: 100%;
+  height: 52px;
+
+  padding: 0;
+
+  border: 0;
+  border-bottom: 1px solid rgba(23, 22, 20, 0.22);
+  outline: none;
+
+  background: transparent;
+
+  color: #171614;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+
+.contact-input::placeholder {
+  color: #aaa59c;
+}
+
+
+.contact-input:focus {
+  border-bottom-color: #a88952;
+}
+
+
+.field-focused .contact-label {
+  color: #9a7b45;
+}
+
+
+/* ============================================================
+   DATE
+============================================================ */
+
+.contact-date-input {
+  color-scheme: light;
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   SELECT
+============================================================ */
+
+select.contact-input {
+  cursor: pointer;
+  appearance: none;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, #9a7b45 50%),
+    linear-gradient(135deg, #9a7b45 50%, transparent 50%);
+
+  background-position:
+    calc(100% - 8px) 22px,
+    calc(100% - 3px) 22px;
+
+  background-size:
+    5px 5px,
+    5px 5px;
+
+  background-repeat: no-repeat;
+}
+
+
+select.contact-input option {
+  background: #f4f0e8;
+  color: #171614;
+}
+
+
+/* ============================================================
+   TEXTAREA
+============================================================ */
+
+.contact-textarea {
+  height: auto;
+  min-height: 125px;
+
+  padding: 15px 0;
+
+  resize: vertical;
+  line-height: 1.7;
+}
+
+
+/* ============================================================
+   ERROR
+============================================================ */
+
+.contact-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 5px 0 20px;
+  padding: 14px 16px;
+
+  border: 1px solid rgba(150, 60, 50, 0.25);
+
+  color: #8a4037;
+  background: rgba(150, 60, 50, 0.04);
+}
+
+
+.contact-error svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+
+.contact-error p {
+  margin: 0;
+  font-size: 12px;
+}
+
+
+/* ============================================================
+   SUBMIT BUTTON
+============================================================ */
+
+.contact-submit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  width: 100%;
+  min-height: 60px;
+
+  margin-top: 15px;
+  padding: 0 22px 0 25px;
+
+  border: 1px solid #a88952;
+
+  background: #a88952;
+  color: #171614;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
+}
+
+
+.contact-submit svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.5;
+
+  transition: transform 0.35s ease;
+}
+
+
+.contact-submit:hover {
+  background: #171614;
+  color: #f4f0e8;
+  transform: translateY(-2px);
+}
+
+
+.contact-submit:hover svg {
+  transform: translateX(4px);
+}
+
+
+.contact-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* ============================================================
+   SPINNER
+============================================================ */
+
+.contact-spinner {
+  width: 17px;
+  height: 17px;
+
+  border: 1px solid rgba(23, 22, 20, 0.3);
+  border-top-color: #171614;
+  border-radius: 50%;
+
+  animation: contact-spin 0.8s linear infinite;
+}
+
+
+@keyframes contact-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ============================================================
+   FORM NOTE
+============================================================ */
+
+.form-note {
+  margin-top: 18px;
+
+  color: #918c83;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+
+/* ============================================================
+   SUCCESS STATE
+============================================================ */
+
+.contact-success {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  min-height: 500px;
+  max-width: 520px;
+}
+
+
+.success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 58px;
+  height: 58px;
+
+  margin-bottom: 30px;
+
+  border: 1px solid #a88952;
+
+  color: #a88952;
+}
+
+
+.success-icon svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 1.4;
+}
+
+
+.contact-success h3 {
+  margin: 18px 0 14px;
+
+  color: #171614;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 50px;
+  font-weight: 400;
+}
+
+
+.contact-success p {
+  max-width: 460px;
+
+  color: #706d66;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+
+.contact-secondary-button {
+  margin-top: 30px;
+  padding: 15px 22px;
+
+  border: 1px solid rgba(23, 22, 20, 0.3);
+  background: transparent;
+  color: #171614;
+
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+
+.contact-secondary-button:hover {
+  border-color: #171614;
+  background: #171614;
+  color: #f4f0e8;
+}
+
+
+/* ============================================================
+   BOTTOM LINE
+============================================================ */
+
+.contact-bottom {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+
+  padding-top: 28px;
+
+  border-top: 1px solid rgba(23, 22, 20, 0.18);
+
+  color: #858078;
+
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+
+.contact-bottom-line {
+  width: 70px;
+  height: 1px;
+  background: #a88952;
+}
+
+
+/* ============================================================
+   REVEAL
+============================================================ */
+
+.contact-container.reveal {
+  opacity: 0;
+  transform: translateY(35px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+
+.contact-container.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 900px) {
+  .contact-section {
+    padding: 120px 0 60px;
+  }
+
+  .contact-container {
+    width: min(100% - 36px, 720px);
+  }
+
+  .contact-header {
+    margin-bottom: 70px;
+  }
+
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-information {
+    padding: 55px 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(23, 22, 20, 0.18);
+  }
+
+  .contact-form-wrapper {
+    padding: 60px 0 20px;
+  }
+}
+
+
+@media (max-width: 640px) {
+  .contact-section {
+    padding: 105px 0 45px;
+  }
+
+  .contact-container {
+    width: calc(100% - 30px);
+  }
+
+  .contact-title {
+    font-size: clamp(48px, 14vw, 70px);
+  }
+
+  .contact-intro {
+    font-size: 14px;
+  }
+
+  .contact-information {
+    padding: 45px 0;
+  }
+
+  .contact-number {
+    font-size: 54px;
+  }
+
+  .contact-info-heading {
+    font-size: 32px;
+  }
+
+  .contact-details {
+    margin-top: 45px;
+  }
+
+  .contact-form-wrapper {
+    padding: 50px 0 10px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-heading {
+    margin-bottom: 38px;
+  }
+
+  .form-heading > span {
+    font-size: 27px;
+  }
+
+  .contact-bottom {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 24px;
+  }
+
+  .contact-bottom-line {
+    width: 35px;
+  }
 }
 
 /* =========================================================

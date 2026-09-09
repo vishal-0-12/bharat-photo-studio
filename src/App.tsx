@@ -10,19 +10,54 @@ import Schedule from './components/Schedule';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
+import { useRouter } from './hooks/useRouter';
+
 function App() {
+  const {
+    route,
+    navigate,
+    scrollToSection,
+  } = useRouter();
+
   return (
-    <div className="min-h-screen bg-cream-50">
-      <Navbar />
+    <div
+      className={
+        route === 'home'
+          ? 'min-h-screen bg-cream-50'
+          : 'min-h-screen bg-[#171614]'
+      }
+    >
+      {/* IMPORTANT:
+          Pass router functions to Navbar
+      */}
+      <Navbar
+        navigate={navigate}
+        scrollToSection={scrollToSection}
+      />
 
       <main>
-        <Hero />
-        <About />
-        <Services />
-        <Package />
-        <Gallery />
-        <Schedule />
-        <Contact />
+        {/* HOME */}
+        {route === 'home' && (
+          <>
+            <Hero />
+            <About />
+            <Services />
+            <Package />
+            <Gallery />
+            <Schedule />
+            <Contact />
+          </>
+        )}
+
+        {/* PACKAGES PAGE */}
+        {route === 'packages' && (
+          <Package />
+        )}
+
+        {/* CONTACT PAGE */}
+        {route === 'contact' && (
+          <Contact />
+        )}
       </main>
 
       <Footer />

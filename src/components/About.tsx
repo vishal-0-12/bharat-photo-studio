@@ -5,6 +5,7 @@ import {
   Heart,
   MapPin,
 } from 'lucide-react';
+
 import { useReveal } from '../hooks/useReveal';
 import { useCounter } from '../hooks/useAnimations';
 
@@ -49,8 +50,12 @@ export default function About() {
           isVisible ? 'about-visible' : ''
         }`}
       >
-        {/* TOP */}
+        {/* =====================================================
+            TOP
+        ====================================================== */}
+
         <div className="about-top">
+
           <div className="about-eyebrow">
             <span>About the studio</span>
           </div>
@@ -60,16 +65,25 @@ export default function About() {
             <span className="about-dot">•</span>
             <span>NCR Delhi</span>
           </div>
+
         </div>
 
-        {/* MAIN */}
+        {/* =====================================================
+            MAIN CONTENT
+        ====================================================== */}
+
         <div className="about-main">
 
-          {/* ================= IMAGE AREA ================= */}
+          {/* ===================================================
+              IMAGE AREA
+          ==================================================== */}
+
           <div className="about-image-column">
 
-            {/* LARGE / UPPER PHOTO */}
+            {/* LARGE IMAGE */}
+
             <div className="about-image-wrap">
+
               <img
                 src="https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=1600"
                 alt="Wedding couple portrait"
@@ -87,10 +101,13 @@ export default function About() {
                 <span>Behind the photographs</span>
                 <span>BHARAT PHOTO STUDIO</span>
               </div>
+
             </div>
 
-            {/* SMALL / LOWER PHOTO */}
+            {/* SECONDARY IMAGE */}
+
             <div className="about-secondary-image">
+
               <img
                 src="https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1200"
                 alt="Wedding celebration"
@@ -103,14 +120,20 @@ export default function About() {
                 <span>02</span>
                 <span>Real moments</span>
               </div>
+
             </div>
 
-            {/* DECORATIVE CORNERS */}
+            {/* DECORATIVE FRAMES */}
+
             <div className="about-frame about-frame-top" />
             <div className="about-frame about-frame-bottom" />
+
           </div>
 
-          {/* ================= CONTENT ================= */}
+          {/* ===================================================
+              CONTENT
+          ==================================================== */}
+
           <div className="about-content">
 
             <div className="about-small-heading">
@@ -152,7 +175,11 @@ export default function About() {
             </p>
 
             {/* CTA */}
-            <a href="#gallery" className="about-link">
+
+            <a
+              href="#gallery"
+              className="about-link"
+            >
               <span>Explore our stories</span>
 
               <span className="about-link-icon">
@@ -160,8 +187,12 @@ export default function About() {
               </span>
             </a>
 
-            {/* STATS */}
+            {/* =================================================
+                STATS
+            ================================================== */}
+
             <div className="about-stats">
+
               {highlights.map(
                 ({
                   icon: Icon,
@@ -170,6 +201,7 @@ export default function About() {
                   label,
                   textOnly,
                 }) => {
+
                   const {
                     ref: counterRef,
                     value: counterValue,
@@ -183,6 +215,7 @@ export default function About() {
                       <Icon className="about-stat-icon" />
 
                       <div className="about-stat-value">
+
                         {textOnly ? (
                           <span ref={counterRef}>
                             {suffix}
@@ -193,33 +226,47 @@ export default function About() {
                             {suffix}
                           </span>
                         )}
+
                       </div>
 
                       <div className="about-stat-label">
                         {label}
                       </div>
+
                     </div>
                   );
                 }
               )}
+
             </div>
+
           </div>
         </div>
 
-        {/* BOTTOM STATEMENT */}
+        {/* =====================================================
+            BOTTOM STATEMENT
+        ====================================================== */}
+
         <div className="about-bottom">
+
           <div className="about-bottom-line" />
 
           <div className="about-bottom-content">
+
             <p>
               We don't simply photograph weddings.
               <br />
               <em>We preserve the way they felt.</em>
             </p>
 
-            <span>Since 2010</span>
+            <span>
+              Since 2010
+            </span>
+
           </div>
+
         </div>
+
       </div>
     </section>
   );

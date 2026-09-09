@@ -9,11 +9,11 @@ import {
 } from 'lucide-react';
 
 const links = [
-  { label: 'Home', href: '#home' },
+  { label: 'Home', href: '#/' },
   { label: 'Stories', href: '#gallery' },
   { label: 'Services', href: '#services' },
-  { label: 'Packages', href: '#packages' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Packages', href: '#/packages' },
+  { label: 'Contact', href: '#/contact' },
 ];
 
 const services = [
@@ -28,18 +28,22 @@ const services = [
 export default function Footer() {
   return (
     <footer className="footer-section">
-      {/* Thin top line */}
+      {/* =====================================================
+          TOP LINE
+      ====================================================== */}
+
       <div className="footer-top-line" />
 
       <div className="footer-container">
 
-        {/* =================================================
-            TOP BRAND STATEMENT
-        ================================================= */}
+        {/* =====================================================
+            BRAND INTRO
+        ====================================================== */}
 
         <div className="footer-intro">
 
           <div className="footer-brand-mark">
+
             <div className="footer-camera">
               <Camera />
             </div>
@@ -53,6 +57,7 @@ export default function Footer() {
                 Photo Studio
               </span>
             </div>
+
           </div>
 
           <div className="footer-statement">
@@ -67,44 +72,57 @@ export default function Footer() {
             <span>EST.</span>
             <strong>2010</strong>
           </div>
+
         </div>
 
-        {/* =================================================
+        {/* =====================================================
             MAIN FOOTER GRID
-        ================================================= */}
+        ====================================================== */}
 
         <div className="footer-grid">
 
-          {/* BRAND */}
+          {/* ===================================================
+              ABOUT THE STUDIO
+          ==================================================== */}
+
           <div className="footer-column footer-about">
+
             <div className="footer-heading">
               <span>About the studio</span>
             </div>
 
             <p>
-              Wedding photography and cinematic storytelling
-              for celebrations that deserve to live beyond
-              the day itself.
+              Wedding photography and cinematic
+              storytelling for celebrations that
+              deserve to live beyond the day itself.
             </p>
 
             <div className="footer-love">
               <Heart />
               <span>Crafted with love</span>
             </div>
+
           </div>
 
-          {/* QUICK LINKS */}
+          {/* ===================================================
+              EXPLORE
+          ==================================================== */}
+
           <div className="footer-column">
+
             <div className="footer-heading">
               <span>Explore</span>
             </div>
 
             <ul className="footer-links">
+
               {links.map((link, index) => (
                 <li key={link.href}>
+
                   <a href={link.href}>
+
                     <span className="footer-link-number">
-                      0{index + 1}
+                      {String(index + 1).padStart(2, '0')}
                     </span>
 
                     <span className="footer-link-label">
@@ -112,38 +130,59 @@ export default function Footer() {
                     </span>
 
                     <ArrowUpRight className="footer-link-arrow" />
+
                   </a>
+
                 </li>
               ))}
+
             </ul>
+
           </div>
 
-          {/* SERVICES */}
+          {/* ===================================================
+              WHAT WE DO
+          ==================================================== */}
+
           <div className="footer-column">
+
             <div className="footer-heading">
               <span>What we do</span>
             </div>
 
             <ul className="footer-service-list">
+
               {services.map((service, index) => (
                 <li key={service}>
+
                   <span className="footer-service-number">
                     {String(index + 1).padStart(2, '0')}
                   </span>
 
-                  <span>{service}</span>
+                  <span>
+                    {service}
+                  </span>
+
                 </li>
               ))}
+
             </ul>
+
           </div>
 
-          {/* CONTACT */}
+          {/* ===================================================
+              GET IN TOUCH
+          ==================================================== */}
+
           <div className="footer-column">
+
             <div className="footer-heading">
               <span>Get in touch</span>
             </div>
 
             <div className="footer-contact-list">
+
+              {/* PHONE */}
 
               <a
                 href="tel:9813220325"
@@ -155,9 +194,11 @@ export default function Footer() {
 
                 <span>
                   <small>Call us</small>
-                  9813220325
+                  <strong>9813220325</strong>
                 </span>
               </a>
+
+              {/* EMAIL */}
 
               <a
                 href="mailto:bharatstudio4@gmail.com"
@@ -169,33 +210,45 @@ export default function Footer() {
 
                 <span>
                   <small>Email</small>
-                  bharatstudio4@gmail.com
+                  <strong>
+                    bharatstudio4@gmail.com
+                  </strong>
                 </span>
               </a>
 
+              {/* LOCATION */}
+
               <div className="footer-contact">
+
                 <span className="footer-contact-icon">
                   <MapPin />
                 </span>
 
                 <span>
                   <small>Studio</small>
-                  Badhra, Loharu Road,
-                  <br />
-                  NCR Delhi
+                  <strong>
+                    Badhra, Loharu Road,
+                    <br />
+                    NCR Delhi
+                  </strong>
                 </span>
+
               </div>
 
             </div>
+
           </div>
+
         </div>
 
-        {/* =================================================
+        {/* =====================================================
             BOOKING CTA
-        ================================================= */}
+        ====================================================== */}
 
         <div className="footer-cta">
-          <div>
+
+          <div className="footer-cta-content">
+
             <span className="footer-cta-label">
               Let's create something timeless
             </span>
@@ -204,23 +257,27 @@ export default function Footer() {
               Planning your
               <em> wedding?</em>
             </h3>
+
           </div>
 
           <a
-            href="#contact"
+            href="#/contact"
             className="footer-cta-button"
           >
-            <span>Book your date</span>
+            <span>
+              Book your date
+            </span>
 
             <span className="footer-cta-icon">
               <ArrowUpRight />
             </span>
           </a>
+
         </div>
 
-        {/* =================================================
+        {/* =====================================================
             BOTTOM BAR
-        ================================================= */}
+        ====================================================== */}
 
         <div className="footer-bottom">
 
@@ -230,18 +287,20 @@ export default function Footer() {
           </p>
 
           <div className="footer-bottom-center">
-            Weddings
+            <span>Weddings</span>
             <span>•</span>
-            Stories
+            <span>Stories</span>
             <span>•</span>
-            Memories
+            <span>Memories</span>
           </div>
 
           <a
-            href="#home"
+            href="#/"
             className="footer-back-top"
           >
-            <span>Back to top</span>
+            <span>
+              Back to top
+            </span>
 
             <span className="footer-back-icon">
               <ArrowUp />
@@ -249,6 +308,27 @@ export default function Footer() {
           </a>
 
         </div>
+
+        {/* =====================================================
+            WEBSITE CREDIT
+        ====================================================== */}
+
+        <div className="footer-credit">
+
+          <span>
+            Made by
+          </span>
+
+          <span className="footer-credit-brand">
+            YR IT Solutions
+          </span>
+
+          <span className="footer-credit-heart">
+            ♥
+          </span>
+
+        </div>
+
       </div>
     </footer>
   );
