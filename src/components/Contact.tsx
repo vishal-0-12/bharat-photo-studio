@@ -5,6 +5,8 @@ import {
   type ReactNode,
 } from 'react';
 
+import emailjs from '@emailjs/browser';
+
 import {
   AlertCircle,
   CheckCircle2,
@@ -39,11 +41,7 @@ type ContactForm = {
   message: string;
 };
 
-type Status =
-  | 'idle'
-  | 'loading'
-  | 'success'
-  | 'error';
+type Status = 'idle' | 'loading' | 'success' | 'error';
 
 const initialForm: ContactForm = {
   client_name: '',
@@ -59,27 +57,20 @@ const inputClass = 'contact-input';
 export default function Contact() {
   const { ref, isVisible } = useReveal();
 
-  const [form, setForm] =
-    useState<ContactForm>(initialForm);
+  const [form, setForm] = useState<ContactForm>(initialForm);
 
-  const [status, setStatus] =
-    useState<Status>('idle');
+  const [status, setStatus] = useState<Status>('idle');
 
-  const [errorMsg, setErrorMsg] =
-    useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const [focused, setFocused] =
-    useState<string | null>(null);
+  const [focused, setFocused] = useState<string | null>(null);
 
-  // =========================================================
-  // FORM CHANGE
-  // =========================================================
+  // WhatsApp URL for the successful booking
+  const [whatsappURL, setWhatsappURL] = useState('');
 
   const handleChange = (
     e: ChangeEvent<
-      HTMLInputElement |
-      HTMLSelectElement |
-      HTMLTextAreaElement
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
     const { name, value } = e.target;
@@ -90,10 +81,6 @@ export default function Contact() {
     }));
   };
 
-  // =========================================================
-  // FORM SUBMIT
-  // =========================================================
-
   const handleSubmit = async (
     e: FormEvent<HTMLFormElement>
   ) => {
@@ -101,31 +88,129 @@ export default function Contact() {
 
     setStatus('loading');
     setErrorMsg('');
+    setWhatsappURL('');
 
-    // -------------------------------------------------------
+    // ========================================================
     // FORMAT EVENT DATE
-    // -------------------------------------------------------
+    // ========================================================
 
     let formattedDate = 'Not provided';
 
     if (form.event_date) {
       const date = new Date(form.event_date);
 
-      formattedDate =
-        date.toLocaleDateString('en-IN', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric',
-        });
+      formattedDate = date.toLocaleDateString('en-IN', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      });
     }
 
-    // -------------------------------------------------------
-    // WHATSAPP
-    // -------------------------------------------------------
+    // ========================================================
+    // EMAILJS
+    // ========================================================
 
-    const whatsappNumber = '91';
+    const serviceId =
+      import.meta.env.VITE_EMAILJS_SERVICE_ID;
 
-    const whatsappMessage = `
+    const templateId =
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+
+    const publicKey =
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    // ========================================================
+    // EMAIL PARAMETERS
+    // ========================================================
+
+    const emailParams = {
+      to_email: 'vishalathwal2003@gmail.com',
+
+      client_name: form.client_name,
+
+      phone: form.phone,
+
+      client_email: form.email || 'Not provided',
+
+      event_date: formattedDate,
+
+      event_type: form.event_type || 'Not selected',
+
+      message: form.message || 'No message provided',
+
+      company_name: 'Bharat Photo Studio',
+    };
+
+    try {
+      // ======================================================
+      // CHECK EMAILJS CONFIGURATION
+      // ======================================================
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error(
+          'EmailJS environment variables are missing. Check .env.local and restart Vite.'
+        );
+      }
+
+      // ======================================================
+      // 1. SEND EMAIL
+      // ======================================================
+
+      console.log('Sending booking email...');
+
+      await emailjs.send(
+        serviceId,
+        templateId,
+        emailParams,
+        publicKey
+      );
+
+      console.log('Booking email sent successfully.');
+
+      // ======================================================
+      // 2. SAVE TO SUPABASE
+      // ======================================================
+
+      console.log('Saving booking to Supabase...');
+
+      const { error } = await supabase
+        .from('inquiries')
+        .insert({
+          client_name: form.client_name,
+
+          phone: form.phone,
+
+          email: form.email || null,
+
+          event_type: form.event_type || null,
+
+          event_date: form.event_date || null,
+
+          message: form.message || null,
+        });
+
+      if (error) {
+        console.error(
+          'Supabase booking error:',
+          error
+        );
+
+        throw new Error(
+          'Your email was sent, but the booking could not be saved to the database.'
+        );
+      }
+
+      console.log(
+        'Booking saved to Supabase successfully.'
+      );
+
+      // ======================================================
+      // 3. CREATE WHATSAPP MESSAGE
+      // ======================================================
+
+      const whatsappNumber = '917404620633';
+
+      const whatsappMessage = `
 📸 *NEW BOOKING REQUEST*
 
 ━━━━━━━━━━━━━━━━━━━━
@@ -152,60 +237,52 @@ ${form.message || 'No message provided'}
 
 📸 *Bharat Photo Studio*
 Wedding Photography | Cinematic Videography
-    `.trim();
+      `.trim();
 
-    const encodedMessage =
-      encodeURIComponent(whatsappMessage);
+      // ======================================================
+      // 4. CREATE WHATSAPP URL
+      // ======================================================
 
-    const whatsappURL =
-      `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+      const encodedMessage =
+        encodeURIComponent(whatsappMessage);
 
-    // -------------------------------------------------------
-    // OPEN WHATSAPP
-    // -------------------------------------------------------
+      const generatedWhatsappURL =
+        `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
-    window.open(
-      whatsappURL,
-      '_blank',
-      'noopener,noreferrer'
-    );
+      console.log(
+        'WhatsApp URL:',
+        generatedWhatsappURL
+      );
 
-    // -------------------------------------------------------
-    // SAVE ENQUIRY TO SUPABASE
-    // -------------------------------------------------------
+      // ======================================================
+      // 5. STORE WHATSAPP URL
+      // ======================================================
 
-    try {
-      const { error } = await supabase
-        .from('inquiries')
-        .insert({
-          client_name: form.client_name,
-          phone: form.phone,
-          email: form.email || null,
-          event_type: form.event_type || null,
-          event_date: form.event_date || null,
-          message: form.message || null,
-        });
+      setWhatsappURL(generatedWhatsappURL);
 
-      if (error) {
-        console.error(
-          'Supabase booking error:',
-          error
-        );
-      }
+      // ======================================================
+      // 6. SHOW SUCCESS
+      // ======================================================
 
-      // WhatsApp request has already been opened.
       setStatus('success');
+
+      // Clear form
       setForm(initialForm);
     } catch (error) {
       console.error(
-        'Supabase connection error:',
+        'BOOKING SUBMISSION ERROR:',
         error
       );
 
-      // Even if Supabase fails,
-      // WhatsApp has already received the request.
-      setStatus('success');
-      setForm(initialForm);
+      setStatus('error');
+
+      if (error instanceof Error) {
+        setErrorMsg(error.message);
+      } else {
+        setErrorMsg(
+          'We could not send your booking request. Please try again or contact us directly on WhatsApp.'
+        );
+      }
     }
   };
 
@@ -214,54 +291,45 @@ Wedding Photography | Cinematic Videography
       id="contact"
       className="contact-section"
     >
-      {/* =====================================================
-          BACKGROUND TEXTURE
-      ====================================================== */}
-
+      {/* Subtle background texture */}
       <div className="contact-grain" />
 
       <div
         ref={ref}
-        className={`
-          contact-container
-          reveal
-          ${isVisible ? 'is-visible' : ''}
-        `}
+        className={`contact-container reveal ${
+          isVisible ? 'is-visible' : ''
+        }`}
       >
-
-        {/* ===================================================
+        {/* =========================================
             HEADER
-        ==================================================== */}
+        ========================================= */}
 
         <div className="contact-header">
-
           <span className="contact-eyebrow">
-            Begin your story
+            Get in touch
           </span>
 
           <h2 className="contact-title">
-            Let&apos;s create something
+            Let&apos;s plan something
             <br />
             <em>beautiful.</em>
           </h2>
 
           <p className="contact-intro">
-            Tell us about your celebration,
-            and let&apos;s start planning the
-            photographs you&apos;ll keep forever.
+            Tell us a little about your celebration.
+            We&apos;ll take care of the rest.
           </p>
-
         </div>
 
-        {/* ===================================================
+        {/* =========================================
             MAIN CONTENT
-        ==================================================== */}
+        ========================================= */}
 
         <div className="contact-layout">
 
-          {/* =================================================
-              LEFT INFORMATION
-          ================================================== */}
+          {/* =======================================
+              LEFT SIDE
+          ======================================= */}
 
           <div className="contact-information">
 
@@ -272,25 +340,22 @@ Wedding Photography | Cinematic Videography
             <div className="contact-info-line" />
 
             <p className="contact-info-heading">
-              More than a photograph.
+              Your story deserves
               <br />
-              A memory for life.
+              to be remembered.
             </p>
 
             <p className="contact-info-text">
-              Every celebration is different.
-              We take time to understand yours,
-              from the people and places to the
-              little moments that matter most.
+              From the first conversation to the final
+              photograph, we create a calm, thoughtful
+              experience around your celebration.
             </p>
 
-            {/* ===============================================
-                CONTACT DETAILS
-            ================================================ */}
+            {/* CONTACT DETAILS */}
 
             <div className="contact-details">
 
-              {/* PHONE */}
+              {/* Phone */}
 
               <a
                 href="tel:8740000983"
@@ -301,9 +366,7 @@ Wedding Photography | Cinematic Videography
                 </span>
 
                 <span>
-                  <small>
-                    Call us
-                  </small>
+                  <small>Call us</small>
 
                   <strong>
                     8740000983
@@ -311,7 +374,7 @@ Wedding Photography | Cinematic Videography
                 </span>
               </a>
 
-              {/* EMAIL */}
+              {/* Email */}
 
               <a
                 href="mailto:bharatstudio4@gmail.com"
@@ -322,9 +385,7 @@ Wedding Photography | Cinematic Videography
                 </span>
 
                 <span>
-                  <small>
-                    Email
-                  </small>
+                  <small>Email</small>
 
                   <strong>
                     bharatstudio4@gmail.com
@@ -332,18 +393,15 @@ Wedding Photography | Cinematic Videography
                 </span>
               </a>
 
-              {/* LOCATION */}
+              {/* Location */}
 
               <div className="contact-detail">
-
                 <span className="contact-detail-icon">
                   <MapPin />
                 </span>
 
                 <span>
-                  <small>
-                    Based in
-                  </small>
+                  <small>Based in</small>
 
                   <strong>
                     Badhra, Loharu Road,
@@ -351,39 +409,26 @@ Wedding Photography | Cinematic Videography
                     NCR Delhi
                   </strong>
                 </span>
-
               </div>
 
             </div>
 
-            {/* ===============================================
-                QUOTE
-            ================================================ */}
-
             <div className="contact-quote">
-
               <Heart />
 
               <span>
-                Your moments.
-                Our perspective.
+                Your happiness is our priority.
               </span>
-
             </div>
-
           </div>
 
-          {/* =================================================
-              RIGHT FORM
-          ================================================== */}
+          {/* =======================================
+              RIGHT SIDE FORM
+          ======================================= */}
 
           <div className="contact-form-wrapper">
 
             {status === 'success' ? (
-
-              /* =============================================
-                 SUCCESS STATE
-              ============================================== */
 
               <div className="contact-success">
 
@@ -400,16 +445,37 @@ Wedding Photography | Cinematic Videography
                 </h3>
 
                 <p>
-                  Your booking request has been
-                  received. We&apos;ll contact you
-                  shortly to discuss your celebration.
+                  Your booking request has been received.
+                  We&apos;ll contact you shortly to discuss
+                  your celebration.
                 </p>
+
+                {/* =================================
+                    WHATSAPP BUTTON
+                ================================= */}
+
+                {whatsappURL && (
+                  <a
+                    href={whatsappURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-secondary-button"
+                  >
+                    Send booking on WhatsApp
+                  </a>
+                )}
+
+                {/* =================================
+                    SEND ANOTHER REQUEST
+                ================================= */}
 
                 <button
                   type="button"
-                  onClick={() =>
-                    setStatus('idle')
-                  }
+                  onClick={() => {
+                    setStatus('idle');
+                    setWhatsappURL('');
+                    setErrorMsg('');
+                  }}
                   className="contact-secondary-button"
                 >
                   Send another request
@@ -419,33 +485,22 @@ Wedding Photography | Cinematic Videography
 
             ) : (
 
-              /* =============================================
-                 CONTACT FORM
-              ============================================== */
-
               <form
                 onSubmit={handleSubmit}
                 className="contact-form"
               >
 
-                {/* FORM HEADER */}
-
                 <div className="form-heading">
-
                   <span>
                     Start a conversation
                   </span>
 
                   <p>
-                    A few details are all we need
-                    to get started.
+                    We&apos;d love to hear about your day.
                   </p>
-
                 </div>
 
-                {/* =========================================
-                    NAME + PHONE
-                ========================================== */}
+                {/* NAME + PHONE */}
 
                 <div className="form-grid">
 
@@ -463,9 +518,7 @@ Wedding Photography | Cinematic Videography
                       value={form.client_name}
                       onChange={handleChange}
                       onFocus={() =>
-                        setFocused(
-                          'client_name'
-                        )
+                        setFocused('client_name')
                       }
                       onBlur={() =>
                         setFocused(null)
@@ -503,9 +556,7 @@ Wedding Photography | Cinematic Videography
 
                 </div>
 
-                {/* =========================================
-                    EMAIL + DATE
-                ========================================== */}
+                {/* EMAIL + DATE */}
 
                 <div className="form-grid">
 
@@ -545,25 +596,18 @@ Wedding Photography | Cinematic Videography
                       value={form.event_date}
                       onChange={handleChange}
                       onFocus={() =>
-                        setFocused(
-                          'event_date'
-                        )
+                        setFocused('event_date')
                       }
                       onBlur={() =>
                         setFocused(null)
                       }
-                      className={`
-                        ${inputClass}
-                        contact-date-input
-                      `}
+                      className={`${inputClass} contact-date-input`}
                     />
                   </Field>
 
                 </div>
 
-                {/* =========================================
-                    PACKAGE / SERVICE
-                ========================================== */}
+                {/* PACKAGE */}
 
                 <Field
                   icon={<Calendar />}
@@ -577,9 +621,7 @@ Wedding Photography | Cinematic Videography
                     value={form.event_type}
                     onChange={handleChange}
                     onFocus={() =>
-                      setFocused(
-                        'event_type'
-                      )
+                      setFocused('event_type')
                     }
                     onBlur={() =>
                       setFocused(null)
@@ -590,22 +632,18 @@ Wedding Photography | Cinematic Videography
                       Select a service
                     </option>
 
-                    {eventTypes.map(
-                      (type) => (
-                        <option
-                          key={type}
-                          value={type}
-                        >
-                          {type}
-                        </option>
-                      )
-                    )}
+                    {eventTypes.map((type) => (
+                      <option
+                        key={type}
+                        value={type}
+                      >
+                        {type}
+                      </option>
+                    ))}
                   </select>
                 </Field>
 
-                {/* =========================================
-                    MESSAGE
-                ========================================== */}
+                {/* MESSAGE */}
 
                 <Field
                   icon={<MessageSquare />}
@@ -625,33 +663,24 @@ Wedding Photography | Cinematic Videography
                       setFocused(null)
                     }
                     rows={5}
-                    placeholder="Tell us about your wedding, location, guest count or anything you would like us to know..."
-                    className={`
-                      ${inputClass}
-                      contact-textarea
-                    `}
+                    placeholder="Tell us about your wedding, location, guest count or anything you'd like us to know..."
+                    className={`${inputClass} contact-textarea`}
                   />
                 </Field>
 
-                {/* =========================================
-                    ERROR
-                ========================================== */}
+                {/* ERROR */}
 
                 {status === 'error' && (
                   <div className="contact-error">
-
                     <AlertCircle />
 
                     <p>
                       {errorMsg}
                     </p>
-
                   </div>
                 )}
 
-                {/* =========================================
-                    SUBMIT
-                ========================================== */}
+                {/* SUBMIT */}
 
                 <button
                   type="submit"
@@ -663,22 +692,21 @@ Wedding Photography | Cinematic Videography
                   {status === 'loading' ? (
                     <>
                       <span className="contact-spinner" />
+
                       Sending request...
                     </>
                   ) : (
                     <>
                       Send booking request
+
                       <Send />
                     </>
                   )}
                 </button>
 
-                {/* FORM NOTE */}
-
                 <p className="form-note">
-                  Your details are used only to
-                  contact you regarding your
-                  photography enquiry.
+                  Your details are used only to contact
+                  you regarding your photography enquiry.
                 </p>
 
               </form>
@@ -687,9 +715,9 @@ Wedding Photography | Cinematic Videography
           </div>
         </div>
 
-        {/* ===================================================
+        {/* =========================================
             BOTTOM STATEMENT
-        ==================================================== */}
+        ========================================= */}
 
         <div className="contact-bottom">
 
@@ -731,10 +759,9 @@ function Field({
 }: FieldProps) {
   return (
     <div
-      className={`
-        contact-field
-        ${focused ? 'field-focused' : ''}
-      `}
+      className={`contact-field ${
+        focused ? 'field-focused' : ''
+      }`}
     >
       <label className="contact-label">
 
@@ -755,6 +782,7 @@ function Field({
       </label>
 
       {children}
+
     </div>
   );
 }

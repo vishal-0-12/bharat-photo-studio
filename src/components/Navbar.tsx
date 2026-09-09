@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowUpRight, CalendarDays, Menu, X } from 'lucide-react';
+import {
+  ArrowUpRight,
+  CalendarDays,
+  Menu,
+  X,
+} from 'lucide-react';
 
 import type { Route } from '../hooks/useRouter';
 
@@ -26,6 +31,16 @@ export default function Navbar({
   );
 
   /* =========================================
+     SOCIAL LINKS
+  ========================================= */
+
+  const INSTAGRAM_URL =
+    'https://www.instagram.com/bharat_digitalstudio/';
+
+  const FACEBOOK_URL =
+    'https://www.facebook.com/profile.php?id=61594215032715';
+
+  /* =========================================
      SCROLL
   ========================================= */
 
@@ -39,7 +54,10 @@ export default function Navbar({
     window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener(
+        'scroll',
+        handleScroll
+      );
     };
   }, []);
 
@@ -195,8 +213,6 @@ export default function Navbar({
 
   /* =========================================
      NAVBAR BACKGROUND
-     
-     THIS IS THE IMPORTANT PART.
   ========================================= */
 
   const navbarBackground = isContactPage
@@ -268,17 +284,21 @@ export default function Navbar({
                 overflow-hidden
               "
             >
-             <img
-  src={`${import.meta.env.BASE_URL}bharatstudio.jpeg`}
-  alt="Bharat Photo Studio"
-  className="h-full w-full object-contain"
-  onError={(e) => {
-    console.error(
-      'Navbar logo failed to load:',
-      e.currentTarget.src
-    );
-  }}
-/>
+              <img
+                src={`${import.meta.env.BASE_URL}bharatstudio.jpeg`}
+                alt="Bharat Photo Studio"
+                className="
+                  h-full
+                  w-full
+                  object-contain
+                "
+                onError={(e) => {
+                  console.error(
+                    'Navbar logo failed to load:',
+                    e.currentTarget.src
+                  );
+                }}
+              />
             </div>
 
             <div className="flex flex-col leading-none">
@@ -501,6 +521,192 @@ export default function Navbar({
           </nav>
 
           {/* =====================================
+              DESKTOP SOCIAL LINKS
+          ===================================== */}
+
+          <div
+            className="
+              hidden
+              items-center
+              gap-2.5
+              lg:flex
+            "
+          >
+            {/* =================================
+                INSTAGRAM
+            ================================= */}
+
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="
+                group
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/20
+                text-white
+                transition-all
+                duration-300
+                hover:border-[#E1306C]
+                hover:bg-[#E1306C]/5
+              "
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="
+                  h-[18px]
+                  w-[18px]
+                "
+                fill="none"
+              >
+                <defs>
+                  <linearGradient
+                    id="instagramGradientDesktop"
+                    x1="3"
+                    y1="21"
+                    x2="21"
+                    y2="3"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop
+                      offset="0%"
+                      stopColor="#F58529"
+                      className="
+                        opacity-0
+                        transition-opacity
+                        duration-300
+                        group-hover:opacity-100
+                      "
+                    />
+
+                    <stop
+                      offset="35%"
+                      stopColor="#E1306C"
+                      className="
+                        opacity-0
+                        transition-opacity
+                        duration-300
+                        group-hover:opacity-100
+                      "
+                    />
+
+                    <stop
+                      offset="70%"
+                      stopColor="#C13584"
+                      className="
+                        opacity-0
+                        transition-opacity
+                        duration-300
+                        group-hover:opacity-100
+                      "
+                    />
+
+                    <stop
+                      offset="100%"
+                      stopColor="#833AB4"
+                      className="
+                        opacity-0
+                        transition-opacity
+                        duration-300
+                        group-hover:opacity-100
+                      "
+                    />
+                  </linearGradient>
+                </defs>
+
+                {/* Outer Instagram shape */}
+                <rect
+                  x="3"
+                  y="3"
+                  width="18"
+                  height="18"
+                  rx="5"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  className="
+                    transition-colors
+                    duration-300
+                    group-hover:text-[#E1306C]
+                  "
+                />
+
+                {/* Camera lens */}
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="4"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  className="
+                    transition-colors
+                    duration-300
+                    group-hover:text-white
+                  "
+                />
+
+                {/* Camera dot */}
+                <circle
+                  cx="17.5"
+                  cy="6.5"
+                  r="1"
+                  fill="currentColor"
+                  className="
+                    transition-colors
+                    duration-300
+                    group-hover:text-white
+                  "
+                />
+              </svg>
+            </a>
+
+            {/* =================================
+                FACEBOOK
+            ================================= */}
+
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="
+                group
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/20
+                text-white
+                transition-all
+                duration-300
+                hover:border-[#1877F2]
+                hover:bg-[#1877F2]/5
+                hover:text-[#1877F2]
+              "
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="
+                  h-[18px]
+                  w-[18px]
+                "
+                fill="currentColor"
+              >
+                <path d="M14 8h3V4h-3c-3.31 0-5 1.69-5 5v3H6v4h3v6h4v-6h3.2l.8-4H13V9c0-.66.34-1 1-1Z" />
+              </svg>
+            </a>
+          </div>
+
+          {/* =====================================
               BOOK A DATE
           ===================================== */}
 
@@ -619,7 +825,9 @@ export default function Navbar({
             sm:px-10
           "
         >
-          {/* MOBILE LOGO */}
+          {/* =====================================
+              MOBILE LOGO
+          ===================================== */}
 
           <div
             className="
@@ -642,17 +850,21 @@ export default function Navbar({
                 overflow-hidden
               "
             >
-             <img
-  src={`${import.meta.env.BASE_URL}bharatstudio.jpeg`}
-  alt="Bharat Photo Studio"
-  className="h-full w-full object-contain"
-  onError={(e) => {
-    console.error(
-      'Navbar logo failed to load:',
-      e.currentTarget.src
-    );
-  }}
-/>
+              <img
+                src={`${import.meta.env.BASE_URL}bharatstudio.jpeg`}
+                alt="Bharat Photo Studio"
+                className="
+                  h-full
+                  w-full
+                  object-contain
+                "
+                onError={(e) => {
+                  console.error(
+                    'Navbar logo failed to load:',
+                    e.currentTarget.src
+                  );
+                }}
+              />
             </div>
 
             <div className="flex flex-col leading-none">
@@ -681,9 +893,13 @@ export default function Navbar({
             </div>
           </div>
 
-          {/* MOBILE LINKS */}
+          {/* =====================================
+              MOBILE LINKS
+          ===================================== */}
 
           <nav className="flex flex-col">
+            {/* HOME */}
+
             <button
               type="button"
               onClick={handleHome}
@@ -697,15 +913,27 @@ export default function Navbar({
                 text-left
               "
             >
-              <span className="font-serif text-2xl text-white">
+              <span
+                className="
+                  font-serif
+                  text-2xl
+                  text-white
+                "
+              >
                 Home
               </span>
 
               <ArrowUpRight
-                className="h-5 w-5 text-[#d6b36a]"
+                className="
+                  h-5
+                  w-5
+                  text-[#d6b36a]
+                "
                 strokeWidth={1.3}
               />
             </button>
+
+            {/* STORIES */}
 
             <button
               type="button"
@@ -720,15 +948,27 @@ export default function Navbar({
                 text-left
               "
             >
-              <span className="font-serif text-2xl text-white">
+              <span
+                className="
+                  font-serif
+                  text-2xl
+                  text-white
+                "
+              >
                 Stories
               </span>
 
               <ArrowUpRight
-                className="h-5 w-5 text-[#d6b36a]"
+                className="
+                  h-5
+                  w-5
+                  text-[#d6b36a]
+                "
                 strokeWidth={1.3}
               />
             </button>
+
+            {/* SERVICES */}
 
             <button
               type="button"
@@ -743,15 +983,27 @@ export default function Navbar({
                 text-left
               "
             >
-              <span className="font-serif text-2xl text-white">
+              <span
+                className="
+                  font-serif
+                  text-2xl
+                  text-white
+                "
+              >
                 Services
               </span>
 
               <ArrowUpRight
-                className="h-5 w-5 text-[#d6b36a]"
+                className="
+                  h-5
+                  w-5
+                  text-[#d6b36a]
+                "
                 strokeWidth={1.3}
               />
             </button>
+
+            {/* PACKAGES */}
 
             <button
               type="button"
@@ -766,15 +1018,27 @@ export default function Navbar({
                 text-left
               "
             >
-              <span className="font-serif text-2xl text-white">
+              <span
+                className="
+                  font-serif
+                  text-2xl
+                  text-white
+                "
+              >
                 Packages
               </span>
 
               <ArrowUpRight
-                className="h-5 w-5 text-[#d6b36a]"
+                className="
+                  h-5
+                  w-5
+                  text-[#d6b36a]
+                "
                 strokeWidth={1.3}
               />
             </button>
+
+            {/* CONTACT */}
 
             <button
               type="button"
@@ -789,18 +1053,30 @@ export default function Navbar({
                 text-left
               "
             >
-              <span className="font-serif text-2xl text-white">
+              <span
+                className="
+                  font-serif
+                  text-2xl
+                  text-white
+                "
+              >
                 Contact
               </span>
 
               <ArrowUpRight
-                className="h-5 w-5 text-[#d6b36a]"
+                className="
+                  h-5
+                  w-5
+                  text-[#d6b36a]
+                "
                 strokeWidth={1.3}
               />
             </button>
           </nav>
 
-          {/* MOBILE BOOK A DATE */}
+          {/* =====================================
+              MOBILE BOOK A DATE
+          ===================================== */}
 
           <button
             type="button"
@@ -824,17 +1100,152 @@ export default function Navbar({
             "
           >
             <CalendarDays
-              className="h-4 w-4"
+              className="
+                h-4
+                w-4
+              "
               strokeWidth={1.3}
             />
 
             BOOK A DATE
 
             <ArrowUpRight
-              className="h-4 w-4"
+              className="
+                h-4
+                w-4
+              "
               strokeWidth={1.3}
             />
           </button>
+
+          {/* =====================================
+              MOBILE SOCIAL LINKS
+          ===================================== */}
+
+          <div
+            className="
+              mt-auto
+              flex
+              items-center
+              gap-3
+              pt-8
+            "
+          >
+            {/* =================================
+                MOBILE INSTAGRAM
+            ================================= */}
+
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="
+                group
+                flex
+                h-12
+                w-12
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/20
+                text-white
+                transition-all
+                duration-300
+                hover:border-[#E1306C]
+                hover:bg-[#E1306C]/5
+              "
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="
+                  h-5
+                  w-5
+                "
+                fill="none"
+              >
+                <rect
+                  x="3"
+                  y="3"
+                  width="18"
+                  height="18"
+                  rx="5"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  className="
+                    transition-colors
+                    duration-300
+                    group-hover:text-[#E1306C]
+                  "
+                />
+
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="4"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  className="
+                    transition-colors
+                    duration-300
+                    group-hover:text-white
+                  "
+                />
+
+                <circle
+                  cx="17.5"
+                  cy="6.5"
+                  r="1"
+                  fill="currentColor"
+                  className="
+                    transition-colors
+                    duration-300
+                    group-hover:text-white
+                  "
+                />
+              </svg>
+            </a>
+
+            {/* =================================
+                MOBILE FACEBOOK
+            ================================= */}
+
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="
+                group
+                flex
+                h-12
+                w-12
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/20
+                text-white
+                transition-all
+                duration-300
+                hover:border-[#1877F2]
+                hover:bg-[#1877F2]/5
+                hover:text-[#1877F2]
+              "
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="
+                  h-5
+                  w-5
+                "
+                fill="currentColor"
+              >
+                <path d="M14 8h3V4h-3c-3.31 0-5 1.69-5 5v3H6v4h3v6h4v-6h3.2l.8-4H13V9c0-.66.34-1 1-1Z" />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </>
