@@ -27,16 +27,17 @@ function App() {
           : 'min-h-screen bg-[#171614]'
       }
     >
-      {/* IMPORTANT:
-          Pass router functions to Navbar
-      */}
+      {/* Navbar */}
       <Navbar
         navigate={navigate}
         scrollToSection={scrollToSection}
       />
 
       <main>
-        {/* HOME */}
+        {/* ========================================= */}
+        {/* HOME PAGE */}
+        {/* ========================================= */}
+
         {route === 'home' && (
           <>
             <Hero />
@@ -49,17 +50,24 @@ function App() {
           </>
         )}
 
+        {/* ========================================= */}
         {/* PACKAGES PAGE */}
+        {/* ========================================= */}
+
         {route === 'packages' && (
           <Package />
         )}
 
+        {/* ========================================= */}
         {/* CONTACT PAGE */}
+        {/* ========================================= */}
+
         {route === 'contact' && (
           <Contact />
         )}
       </main>
 
+      {/* Footer appears on all pages */}
       <Footer />
     </div>
   );

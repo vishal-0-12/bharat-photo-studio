@@ -1,4 +1,5 @@
 import {
+  ArrowUp,
   ArrowUpRight,
   Check,
   Crown,
@@ -8,6 +9,7 @@ import {
   Users,
 } from 'lucide-react';
 
+import { useEffect, useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
 
 type PackageType = {
@@ -105,6 +107,29 @@ const reasons = [
 
 export default function Package() {
   const { ref, isVisible } = useReveal();
+
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 500);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
   return (
     <section
@@ -377,6 +402,26 @@ export default function Package() {
           </a>
         </div>
       </div>
+
+      {/* ================================= */}
+      {/* SCROLL TO TOP */}
+      {/* ================================= */}
+
+      <button
+        type="button"
+        onClick={scrollToTop}
+        aria-label="Scroll to top"
+        className={`fixed bottom-7 right-7 z-50 flex h-12 w-12 items-center justify-center border border-[#b89a61]/50 bg-[#171614] text-[#b89a61] shadow-lg transition-all duration-500 hover:border-[#b89a61] hover:bg-[#b89a61] hover:text-[#171614] sm:bottom-8 sm:right-8 ${
+          showScrollTop
+            ? 'translate-y-0 opacity-100'
+            : 'pointer-events-none translate-y-4 opacity-0'
+        }`}
+      >
+        <ArrowUp
+          className="h-4 w-4"
+          strokeWidth={1.4}
+        />
+      </button>
     </section>
   );
 }
