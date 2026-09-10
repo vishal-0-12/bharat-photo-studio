@@ -9,7 +9,7 @@ import {
   Users,
 } from 'lucide-react';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
 
 type PackageType = {
@@ -136,11 +136,11 @@ export default function Package() {
       id="packages"
       className="package-section relative overflow-hidden bg-[#171614] text-[#f3efe6]"
     >
-      {/* subtle background texture */}
+      {/* Background texture */}
       <div className="package-grain pointer-events-none absolute inset-0" />
 
-      {/* ambient light */}
-      <div className="pointer-events-none absolute -right-40 top-40 h-[500px] w-[500px] rounded-full bg-[#a88952]/10 blur-[160px]" />
+      {/* Ambient light */}
+      <div className="pointer-events-none absolute -right-40 top-40 h-[500px] w-[500px] animate-pulse rounded-full bg-[#a88952]/10 blur-[160px]" />
 
       <div
         ref={ref}
@@ -153,9 +153,19 @@ export default function Package() {
         {/* ================================= */}
 
         <div className="grid gap-10 lg:grid-cols-[1fr_430px] lg:items-end">
-          <div className="package-header">
+          <div
+            className={`package-header transition-all duration-[1200ms] ease-out ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-12 opacity-0'
+            }`}
+          >
             <div className="mb-6 flex items-center gap-4">
-              <span className="h-px w-12 bg-[#b89a61]" />
+              <span
+                className={`h-px bg-[#b89a61] transition-all duration-[1200ms] ${
+                  isVisible ? 'w-12' : 'w-0'
+                }`}
+              />
 
               <span className="text-[10px] uppercase tracking-[0.35em] text-[#b89a61]">
                 Investment
@@ -171,7 +181,13 @@ export default function Package() {
             </h2>
           </div>
 
-          <div className="package-intro lg:pb-2">
+          <div
+            className={`package-intro transition-all delay-200 duration-[1200ms] ease-out lg:pb-2 ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-12 opacity-0'
+            }`}
+          >
             <p className="max-w-md text-sm leading-7 text-white/50">
               Every wedding is different. Our collections are designed to
               give you a clear starting point while leaving room to create
@@ -198,6 +214,7 @@ export default function Package() {
               key={item.name}
               item={item}
               index={index}
+              isVisible={isVisible}
             />
           ))}
         </div>
@@ -206,12 +223,16 @@ export default function Package() {
         {/* NOTE */}
         {/* ================================= */}
 
-        <div className="mt-5 flex flex-col justify-between gap-3 border-b border-white/10 pb-6 text-[10px] uppercase tracking-[0.22em] text-white/30 sm:flex-row">
+        <div
+          className={`mt-5 flex flex-col justify-between gap-3 border-b border-white/10 pb-6 text-[10px] uppercase tracking-[0.22em] text-white/30 transition-all duration-1000 ${
+            isVisible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-6 opacity-0'
+          } sm:flex-row`}
+        >
           <span>All prices are exclusive of GST</span>
 
-          <span>
-            Custom collections available on request
-          </span>
+          <span>Custom collections available on request</span>
         </div>
 
         {/* ================================= */}
@@ -219,7 +240,13 @@ export default function Package() {
         {/* ================================= */}
 
         <div className="mt-24 grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
-          <div>
+          <div
+            className={`transition-all duration-[1200ms] ${
+              isVisible
+                ? 'translate-x-0 opacity-100'
+                : '-translate-x-10 opacity-0'
+            }`}
+          >
             <span className="text-[10px] uppercase tracking-[0.35em] text-[#b89a61]">
               Beyond the collection
             </span>
@@ -241,27 +268,20 @@ export default function Package() {
 
           <div className="border-t border-white/10">
             {extraServices.map(([name, price], index) => (
-              <div
+              <ExtraService
                 key={name}
-                className="extra-service group flex items-center justify-between gap-6 border-b border-white/10 py-6"
-              >
-                <div className="flex items-center gap-5">
-                  <span className="font-serif text-sm italic text-[#b89a61]/70">
-                    0{index + 1}
-                  </span>
-
-                  <span className="text-sm text-white/70 transition-colors duration-300 group-hover:text-white">
-                    {name}
-                  </span>
-                </div>
-
-                <span className="font-serif text-lg text-[#b89a61]">
-                  {price}
-                </span>
-              </div>
+                name={name}
+                price={price}
+                index={index}
+                isVisible={isVisible}
+              />
             ))}
 
-            <p className="mt-5 text-[10px] leading-5 uppercase tracking-[0.15em] text-white/25">
+            <p
+              className={`mt-5 text-[10px] leading-5 uppercase tracking-[0.15em] text-white/25 transition-all duration-1000 ${
+                isVisible ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
               GST 18% applicable on all services.
             </p>
           </div>
@@ -271,7 +291,13 @@ export default function Package() {
         {/* PAYMENT */}
         {/* ================================= */}
 
-        <div className="mt-24 grid border-y border-white/10 lg:grid-cols-2">
+        <div
+          className={`mt-24 grid border-y border-white/10 transition-all duration-[1200ms] ${
+            isVisible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-10 opacity-0'
+          } lg:grid-cols-2`}
+        >
           <div className="border-b border-white/10 py-10 lg:border-b-0 lg:border-r lg:pr-16">
             <div className="flex items-center gap-4">
               <IndianRupee
@@ -288,16 +314,19 @@ export default function Package() {
               <PaymentItem
                 title="Booking"
                 value="₹10,000"
+                isVisible={isVisible}
               />
 
               <PaymentItem
                 title="Balance"
                 value="Before Event"
+                isVisible={isVisible}
               />
 
               <PaymentItem
                 title="Payment"
                 value="UPI / Bank"
+                isVisible={isVisible}
               />
             </div>
           </div>
@@ -305,7 +334,7 @@ export default function Package() {
           <div className="py-10 lg:pl-16">
             <div className="flex items-center gap-4">
               <Star
-                className="h-5 w-5 text-[#b89a61]"
+                className="h-5 w-5 text-[#b89a61] transition-transform duration-700 hover:rotate-180"
                 strokeWidth={1.2}
               />
 
@@ -314,7 +343,7 @@ export default function Package() {
               </span>
             </div>
 
-            <p className="mt-8 max-w-xl font-serif text-2xl leading-relaxed text-white/70">
+            <p className="mt-8 max-w-xl font-serif text-2xl leading-relaxed text-white/70 transition-colors duration-500 hover:text-white">
               “We believe photographs should feel as beautiful as the day
               they came from.”
             </p>
@@ -330,7 +359,13 @@ export default function Package() {
         {/* ================================= */}
 
         <div className="mt-24">
-          <div className="mb-10 flex items-end justify-between border-b border-white/10 pb-5">
+          <div
+            className={`mb-10 flex items-end justify-between border-b border-white/10 pb-5 transition-all duration-[1200ms] ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-8 opacity-0'
+            }`}
+          >
             <div>
               <span className="text-[10px] uppercase tracking-[0.35em] text-[#b89a61]">
                 The difference
@@ -342,32 +377,19 @@ export default function Package() {
             </div>
 
             <Sparkles
-              className="hidden h-5 w-5 text-[#b89a61] sm:block"
+              className="hidden h-5 w-5 animate-pulse text-[#b89a61] sm:block"
               strokeWidth={1}
             />
           </div>
 
           <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
             {reasons.map((reason, index) => (
-              <div
+              <ReasonCard
                 key={reason}
-                className="reason-item group bg-[#171614] p-7 transition-colors duration-500 hover:bg-[#211f1b]"
-              >
-                <div className="flex items-start justify-between">
-                  <span className="font-serif text-sm italic text-[#b89a61]">
-                    0{index + 1}
-                  </span>
-
-                  <Check
-                    className="h-4 w-4 text-white/20 transition-colors duration-300 group-hover:text-[#b89a61]"
-                    strokeWidth={1.3}
-                  />
-                </div>
-
-                <p className="mt-10 text-sm text-white/65">
-                  {reason}
-                </p>
-              </div>
+                reason={reason}
+                index={index}
+                isVisible={isVisible}
+              />
             ))}
           </div>
         </div>
@@ -376,7 +398,13 @@ export default function Package() {
         {/* CTA */}
         {/* ================================= */}
 
-        <div className="package-cta mt-28 border-t border-white/10 pt-16 text-center">
+        <div
+          className={`package-cta mt-28 border-t border-white/10 pt-16 text-center transition-all duration-[1400ms] ${
+            isVisible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-12 opacity-0'
+          }`}
+        >
           <span className="text-[10px] uppercase tracking-[0.35em] text-[#b89a61]">
             Planning your wedding?
           </span>
@@ -391,7 +419,7 @@ export default function Package() {
 
           <a
             href="#contact"
-            className="group mt-10 inline-flex items-center gap-5 border border-[#b89a61]/50 px-8 py-4 text-[10px] uppercase tracking-[0.25em] text-white transition-all duration-500 hover:border-[#b89a61] hover:bg-[#b89a61] hover:text-[#171614]"
+            className="group mt-10 inline-flex items-center gap-5 border border-[#b89a61]/50 px-8 py-4 text-[10px] uppercase tracking-[0.25em] text-white transition-all duration-500 hover:-translate-y-1 hover:border-[#b89a61] hover:bg-[#b89a61] hover:text-[#171614] hover:shadow-[0_15px_40px_rgba(184,154,97,0.15)]"
           >
             Enquire for your date
 
@@ -411,7 +439,7 @@ export default function Package() {
         type="button"
         onClick={scrollToTop}
         aria-label="Scroll to top"
-        className={`fixed bottom-7 right-7 z-50 flex h-12 w-12 items-center justify-center border border-[#b89a61]/50 bg-[#171614] text-[#b89a61] shadow-lg transition-all duration-500 hover:border-[#b89a61] hover:bg-[#b89a61] hover:text-[#171614] sm:bottom-8 sm:right-8 ${
+        className={`fixed bottom-7 right-7 z-50 flex h-12 w-12 items-center justify-center border border-[#b89a61]/50 bg-[#171614] text-[#b89a61] shadow-lg transition-all duration-500 hover:-translate-y-1 hover:border-[#b89a61] hover:bg-[#b89a61] hover:text-[#171614] sm:bottom-8 sm:right-8 ${
           showScrollTop
             ? 'translate-y-0 opacity-100'
             : 'pointer-events-none translate-y-4 opacity-0'
@@ -422,10 +450,68 @@ export default function Package() {
           strokeWidth={1.4}
         />
       </button>
+
+      {/* ================================= */}
+      {/* ANIMATION STYLES */}
+      {/* ================================= */}
+
+      <style>{`
+        .package-card {
+          transform: translateY(40px);
+          opacity: 0;
+          transition:
+            transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 900ms ease,
+            background-color 500ms ease,
+            box-shadow 500ms ease;
+        }
+
+        .package-visible .package-card {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .package-visible .package-card:nth-child(1) {
+          transition-delay: 100ms;
+        }
+
+        .package-visible .package-card:nth-child(2) {
+          transition-delay: 250ms;
+        }
+
+        .package-visible .package-card:nth-child(3) {
+          transition-delay: 400ms;
+        }
+
+        .package-card:hover {
+          transform: translateY(-8px);
+          background-color: #211f1b;
+          box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+        }
+
+        .featured-package {
+          box-shadow: inset 0 1px 0 rgba(184, 154, 97, 0.2);
+        }
+
+        .package-grain {
+          opacity: 0.035;
+          background-image:
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .package-card,
+          .package-header,
+          .package-intro {
+            transition: none !important;
+            transform: none !important;
+            opacity: 1 !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
-
 
 /* ========================================= */
 /* PACKAGE CARD */
@@ -434,31 +520,38 @@ export default function Package() {
 function PackageCard({
   item,
   index,
+  isVisible,
 }: {
   item: PackageType;
   index: number;
+  isVisible: boolean;
 }) {
+  const targetPrice = Number(item.price.replace(/,/g, ''));
+
   return (
     <article
       className={`package-card group relative flex flex-col bg-[#1b1916] p-7 sm:p-9 lg:p-10 ${
         item.featured ? 'featured-package' : ''
       }`}
+      style={{
+        transitionDelay: isVisible ? `${100 + index * 150}ms` : '0ms',
+      }}
     >
       {/* Featured line */}
       {item.featured && (
-        <div className="absolute left-0 right-0 top-0 h-px bg-[#b89a61]" />
+        <div className="absolute left-0 right-0 top-0 h-px bg-[#b89a61] transition-all duration-700 group-hover:h-[2px]" />
       )}
 
       {/* Header */}
       <div className="flex items-start justify-between">
-        <span className="font-serif text-sm italic text-[#b89a61]">
+        <span className="font-serif text-sm italic text-[#b89a61] transition-transform duration-500 group-hover:-translate-y-1">
           {item.number}
         </span>
 
         {item.featured && (
           <div className="flex items-center gap-2 text-[9px] uppercase tracking-[0.25em] text-[#b89a61]">
             <Crown
-              className="h-3.5 w-3.5"
+              className="h-3.5 w-3.5 transition-transform duration-500 group-hover:rotate-12"
               strokeWidth={1.2}
             />
 
@@ -469,25 +562,26 @@ function PackageCard({
 
       {/* Name */}
       <div className="mt-12">
-        <h3 className="font-serif text-4xl font-normal text-white sm:text-5xl">
+        <h3 className="font-serif text-4xl font-normal text-white transition-transform duration-500 group-hover:translate-x-1 sm:text-5xl">
           {item.name}
         </h3>
 
-        <p className="mt-3 max-w-xs font-serif text-lg italic leading-relaxed text-white/45">
+        <p className="mt-3 max-w-xs font-serif text-lg italic leading-relaxed text-white/45 transition-colors duration-500 group-hover:text-white/60">
           {item.subtitle}
         </p>
       </div>
 
       {/* Price */}
-      <div className="mt-10 border-y border-white/10 py-7">
+      <div className="mt-10 border-y border-white/10 py-7 transition-colors duration-500 group-hover:border-[#b89a61]/30">
         <div className="flex items-start gap-2">
           <span className="mt-2 text-xs text-[#b89a61]">
             ₹
           </span>
 
-          <span className="font-serif text-5xl font-normal tracking-tight text-[#f3efe6] sm:text-6xl">
-            {item.price}
-          </span>
+          <AnimatedPrice
+            target={targetPrice}
+            isVisible={isVisible}
+          />
 
           <span className="mt-auto mb-2 text-[10px] uppercase tracking-wider text-white/25">
             onwards
@@ -496,7 +590,7 @@ function PackageCard({
       </div>
 
       {/* Description */}
-      <p className="mt-7 text-sm leading-7 text-white/45">
+      <p className="mt-7 text-sm leading-7 text-white/45 transition-colors duration-500 group-hover:text-white/60">
         {item.description}
       </p>
 
@@ -507,13 +601,16 @@ function PackageCard({
         </p>
 
         <ul className="space-y-4">
-          {item.features.map((feature) => (
+          {item.features.map((feature, featureIndex) => (
             <li
               key={feature}
-              className="flex items-start gap-3 text-sm leading-5 text-white/65"
+              className="flex items-start gap-3 text-sm leading-5 text-white/65 transition-all duration-500 hover:translate-x-1 hover:text-white"
+              style={{
+                transitionDelay: `${featureIndex * 25}ms`,
+              }}
             >
               <Check
-                className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#b89a61]"
+                className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#b89a61] transition-transform duration-500 hover:scale-125"
                 strokeWidth={1.4}
               />
 
@@ -527,7 +624,7 @@ function PackageCard({
       <div className="mt-10 border-t border-white/10 pt-6">
         <div className="flex gap-3">
           <Users
-            className="mt-0.5 h-4 w-4 shrink-0 text-[#b89a61]"
+            className="mt-0.5 h-4 w-4 shrink-0 text-[#b89a61] transition-transform duration-500 group-hover:scale-110"
             strokeWidth={1.2}
           />
 
@@ -546,7 +643,7 @@ function PackageCard({
       {/* CTA */}
       <a
         href="#contact"
-        className="package-button group mt-8 flex items-center justify-between border border-white/15 px-5 py-4 text-[10px] uppercase tracking-[0.2em] text-white/70 transition-all duration-500 hover:border-[#b89a61] hover:bg-[#b89a61] hover:text-[#171614]"
+        className="package-button group mt-8 flex items-center justify-between border border-white/15 px-5 py-4 text-[10px] uppercase tracking-[0.2em] text-white/70 transition-all duration-500 hover:-translate-y-1 hover:border-[#b89a61] hover:bg-[#b89a61] hover:text-[#171614]"
       >
         <span>Enquire</span>
 
@@ -559,6 +656,103 @@ function PackageCard({
   );
 }
 
+/* ========================================= */
+/* ANIMATED PRICE */
+/* ========================================= */
+
+function AnimatedPrice({
+  target,
+  isVisible,
+}: {
+  target: number;
+  isVisible: boolean;
+}) {
+  const [displayValue, setDisplayValue] = useState(0);
+  const animationStarted = useRef(false);
+
+  useEffect(() => {
+    if (!isVisible || animationStarted.current) {
+      return;
+    }
+
+    animationStarted.current = true;
+
+    const duration = 1500;
+    const startTime = performance.now();
+
+    const easeOut = (progress: number) => {
+      return 1 - Math.pow(1 - progress, 4);
+    };
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      const easedProgress = easeOut(progress);
+      const currentValue = Math.round(target * easedProgress);
+
+      setDisplayValue(currentValue);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        // Permanently lock the final value to the exact price.
+        setDisplayValue(target);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [isVisible, target]);
+
+  return (
+    <span className="font-serif text-5xl font-normal tracking-tight text-[#f3efe6] tabular-nums sm:text-6xl">
+      {displayValue.toLocaleString('en-IN')}
+    </span>
+  );
+}
+
+/* ========================================= */
+/* EXTRA SERVICE */
+/* ========================================= */
+
+function ExtraService({
+  name,
+  price,
+  index,
+  isVisible,
+}: {
+  name: string;
+  price: string;
+  index: number;
+  isVisible: boolean;
+}) {
+  return (
+    <div
+      className={`extra-service group flex items-center justify-between gap-6 border-b border-white/10 py-6 transition-all duration-700 hover:bg-white/[0.025] ${
+        isVisible
+          ? 'translate-x-0 opacity-100'
+          : 'translate-x-8 opacity-0'
+      }`}
+      style={{
+        transitionDelay: `${500 + index * 100}ms`,
+      }}
+    >
+      <div className="flex items-center gap-5">
+        <span className="font-serif text-sm italic text-[#b89a61]/70 transition-transform duration-500 group-hover:translate-x-1">
+          0{index + 1}
+        </span>
+
+        <span className="text-sm text-white/70 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white">
+          {name}
+        </span>
+      </div>
+
+      <span className="font-serif text-lg text-[#b89a61] transition-transform duration-500 group-hover:-translate-x-1">
+        {price}
+      </span>
+    </div>
+  );
+}
 
 /* ========================================= */
 /* PAYMENT ITEM */
@@ -567,18 +761,68 @@ function PackageCard({
 function PaymentItem({
   title,
   value,
+  isVisible,
 }: {
   title: string;
   value: string;
+  isVisible: boolean;
 }) {
   return (
-    <div>
+    <div
+      className={`transition-all duration-700 ${
+        isVisible
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-5 opacity-0'
+      }`}
+    >
       <p className="text-[9px] uppercase tracking-[0.25em] text-white/25">
         {title}
       </p>
 
-      <p className="mt-2 font-serif text-lg text-white/70">
+      <p className="mt-2 font-serif text-lg text-white/70 transition-colors duration-300 hover:text-[#b89a61]">
         {value}
+      </p>
+    </div>
+  );
+}
+
+/* ========================================= */
+/* REASON CARD */
+/* ========================================= */
+
+function ReasonCard({
+  reason,
+  index,
+  isVisible,
+}: {
+  reason: string;
+  index: number;
+  isVisible: boolean;
+}) {
+  return (
+    <div
+      className={`reason-item group bg-[#171614] p-7 transition-all duration-700 hover:-translate-y-1 hover:bg-[#211f1b] ${
+        isVisible
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-8 opacity-0'
+      }`}
+      style={{
+        transitionDelay: `${700 + index * 100}ms`,
+      }}
+    >
+      <div className="flex items-start justify-between">
+        <span className="font-serif text-sm italic text-[#b89a61]">
+          0{index + 1}
+        </span>
+
+        <Check
+          className="h-4 w-4 text-white/20 transition-all duration-500 group-hover:scale-125 group-hover:text-[#b89a61]"
+          strokeWidth={1.3}
+        />
+      </div>
+
+      <p className="mt-10 text-sm text-white/65 transition-colors duration-300 group-hover:text-white">
+        {reason}
       </p>
     </div>
   );
