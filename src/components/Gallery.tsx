@@ -152,7 +152,7 @@ export default function Gallery() {
       id="gallery"
       className="gallery-section relative overflow-hidden bg-[#f4f0e8]"
     >
-      {/* subtle texture */}
+      {/* Subtle texture */}
       <div className="gallery-grain pointer-events-none absolute inset-0" />
 
       <div
@@ -191,7 +191,7 @@ export default function Gallery() {
               privilege of documenting. Nothing staged. Nothing repeated.
             </p>
 
-            <div className="mt-7 flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-[#171614]/35">
+            <div className="mt-7 flex flex-wrap items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-[#171614]/35">
               <span>Weddings</span>
               <span>•</span>
               <span>Chandigarh</span>
@@ -248,8 +248,9 @@ export default function Gallery() {
           </div>
 
           <button
+            type="button"
             onClick={() => lb.show(0)}
-            className="gallery-view-button group flex items-center gap-4 border-b border-[#171614]/20 pb-3 text-[10px] uppercase tracking-[0.25em] text-[#171614]/60 transition-colors duration-300 hover:border-[#9a7b45] hover:text-[#9a7b45]"
+            className="gallery-view-button group flex w-fit items-center gap-4 border-b border-[#171614]/20 pb-3 text-[10px] uppercase tracking-[0.25em] text-[#171614]/60 transition-colors duration-300 hover:border-[#9a7b45] hover:text-[#9a7b45]"
           >
             View full gallery
 
@@ -288,25 +289,32 @@ function GalleryItem({
         ${image.span}
         group
         relative
-        h-full
-        min-h-0
+        min-h-[380px]
         w-full
         cursor-pointer
         overflow-hidden
+        rounded-sm
         text-left
-        !aspect-auto
+        sm:min-h-[340px]
+        lg:min-h-0
+        lg:h-full
       `}
       aria-label={`Open ${image.label}`}
     >
-      {/* Image */}
+      {/* ================================= */}
+      {/* IMAGE */}
+      {/* ================================= */}
+
       <img
         src={image.url}
         alt={image.alt}
         loading={index < 4 ? 'eager' : 'lazy'}
+        decoding="async"
         className="
           gallery-image
           absolute
           inset-0
+          block
           h-full
           w-full
           object-cover
@@ -317,16 +325,36 @@ function GalleryItem({
           group-hover:scale-[1.04]
         "
         onError={(e) => {
-          console.error('Gallery image failed to load:', image.url);
-          e.currentTarget.style.display = 'none';
+          console.error(
+            `Gallery image failed to load: ${image.url}`
+          );
+
+          e.currentTarget.style.opacity = '0';
         }}
       />
 
-      {/* Soft cinematic overlay */}
-      <div className="gallery-overlay absolute inset-0" />
+      {/* ================================= */}
+      {/* CINEMATIC OVERLAY */}
+      {/* ================================= */}
 
-      {/* Top information */}
-      <div className="absolute left-5 right-5 top-5 flex items-center justify-between">
+      <div
+        className="
+          gallery-overlay
+          pointer-events-none
+          absolute
+          inset-0
+          bg-gradient-to-b
+          from-black/10
+          via-transparent
+          to-black/65
+        "
+      />
+
+      {/* ================================= */}
+      {/* TOP INFORMATION */}
+      {/* ================================= */}
+
+      <div className="pointer-events-none absolute left-5 right-5 top-5 flex items-center justify-between">
         <span className="gallery-number text-[10px] tracking-[0.2em] text-white/70">
           {image.number}
         </span>
@@ -339,8 +367,11 @@ function GalleryItem({
         </span>
       </div>
 
-      {/* Bottom information */}
-      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
+      {/* ================================= */}
+      {/* BOTTOM INFORMATION */}
+      {/* ================================= */}
+
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 p-5 sm:p-7">
         <div className="gallery-label flex items-end justify-between gap-4">
           <div>
             <p className="font-serif text-xl font-normal text-white sm:text-2xl">
