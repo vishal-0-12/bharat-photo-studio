@@ -67,42 +67,80 @@ const galleryImages: (LightboxImage & {
     span: '',
   },
 
-  // YOUR LOCAL IMAGE
+  /* =============================== */
+  /* LOCAL PHOTOS */
+  /* =============================== */
+
   {
-    url: '/img/13.jpg',
+    url: '/img/img1.JPG',
     alt: 'Wedding photography',
     label: 'Our Story',
     number: '09',
     span: '',
   },
-
   {
-    url: '/img/12.jpg',
+    url: '/img/img2.jpg',
     alt: 'Wedding photography',
     label: 'Our Story',
     number: '10',
     span: '',
   },
-
-
   {
-    url: '/img/11.jpg',
+    url: '/img/img3.JPG',
     alt: 'Wedding photography',
     label: 'Our Story',
-    number: '10',
+    number: '11',
     span: '',
   },
-
-
-
   {
-    url: '/img/12.jpg',
+    url: '/img/img5.JPG',
     alt: 'Wedding photography',
     label: 'Our Story',
-    number: '10',
+    number: '12',
     span: '',
   },
-
+  {
+    url: '/img/img7.JPG',
+    alt: 'Wedding photography',
+    label: 'Our Story',
+    number: '13',
+    span: '',
+  },
+  {
+    url: '/img/img8.JPG',
+    alt: 'Wedding photography',
+    label: 'Our Story',
+    number: '14',
+    span: '',
+  },
+  {
+    url: '/img/img9.JPG',
+    alt: 'Wedding photography',
+    label: 'Our Story',
+    number: '15',
+    span: '',
+  },
+  {
+    url: '/img/img10.JPG',
+    alt: 'Wedding photography',
+    label: 'Our Story',
+    number: '16',
+    span: '',
+  },
+  {
+    url: '/img/img11.JPG',
+    alt: 'Wedding photography',
+    label: 'Our Story',
+    number: '17',
+    span: '',
+  },
+  {
+    url: '/img/img12.JPG',
+    alt: 'Wedding photography',
+    label: 'Our Story',
+    number: '18',
+    span: '',
+  },
 ];
 
 export default function Gallery() {
@@ -167,10 +205,22 @@ export default function Gallery() {
         {/* GALLERY GRID */}
         {/* ================================= */}
 
-        <div className="gallery-grid mt-20 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4 lg:grid-rows-[260px_260px_260px]">
+        <div
+          className="
+            gallery-grid
+            mt-20
+            grid
+            grid-cols-1
+            gap-4
+            sm:grid-cols-2
+            sm:gap-5
+            lg:grid-cols-4
+            lg:auto-rows-[260px]
+          "
+        >
           {galleryImages.map((image, index) => (
             <GalleryItem
-              key={image.number}
+              key={`${image.number}-${image.url}`}
               image={image}
               index={index}
               onClick={() => lb.show(index)}
@@ -233,7 +283,19 @@ function GalleryItem({
     <button
       type="button"
       onClick={onClick}
-      className={`gallery-item ${image.span} group relative min-h-[220px] cursor-pointer overflow-hidden text-left`}
+      className={`
+        gallery-item
+        ${image.span}
+        group
+        relative
+        h-full
+        min-h-0
+        w-full
+        cursor-pointer
+        overflow-hidden
+        text-left
+        !aspect-auto
+      `}
       aria-label={`Open ${image.label}`}
     >
       {/* Image */}
@@ -241,7 +303,23 @@ function GalleryItem({
         src={image.url}
         alt={image.alt}
         loading={index < 4 ? 'eager' : 'lazy'}
-        className="gallery-image h-full w-full object-cover"
+        className="
+          gallery-image
+          absolute
+          inset-0
+          h-full
+          w-full
+          object-cover
+          object-center
+          transition-transform
+          duration-700
+          ease-out
+          group-hover:scale-[1.04]
+        "
+        onError={(e) => {
+          console.error('Gallery image failed to load:', image.url);
+          e.currentTarget.style.display = 'none';
+        }}
       />
 
       {/* Soft cinematic overlay */}

@@ -58,14 +58,9 @@ export default function Contact() {
   const { ref, isVisible } = useReveal();
 
   const [form, setForm] = useState<ContactForm>(initialForm);
-
   const [status, setStatus] = useState<Status>('idle');
-
   const [errorMsg, setErrorMsg] = useState('');
-
   const [focused, setFocused] = useState<string | null>(null);
-
-  // WhatsApp URL for the successful booking
   const [whatsappURL, setWhatsappURL] = useState('');
 
   const handleChange = (
@@ -81,132 +76,140 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = async (
-    e: FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setStatus('loading');
     setErrorMsg('');
     setWhatsappURL('');
 
-    // ========================================================
-    // FORMAT EVENT DATE
-    // ========================================================
-
-    let formattedDate = 'Not provided';
-
-    if (form.event_date) {
-      const date = new Date(form.event_date);
-
-      formattedDate = date.toLocaleDateString('en-IN', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-      });
-    }
-
-    // ========================================================
-    // EMAILJS
-    // ========================================================
-
-    const serviceId =
-      import.meta.env.VITE_EMAILJS_SERVICE_ID;
-
-    const templateId =
-      import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-
-    const publicKey =
-      import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-    // ========================================================
-    // EMAIL PARAMETERS
-    // ========================================================
-
-    const emailParams = {
-      to_email: 'vishalathwal2003@gmail.com',
-
-      client_name: form.client_name,
-
-      phone: form.phone,
-
-      client_email: form.email || 'Not provided',
-
-      event_date: formattedDate,
-
-      event_type: form.event_type || 'Not selected',
-
-      message: form.message || 'No message provided',
-
-      company_name: 'Bharat Photo Studio',
-    };
-
     try {
-      // ======================================================
-      // CHECK EMAILJS CONFIGURATION
-      // ======================================================
+      // ============================================================
+      // ENVIRONMENT VARIABLES
+      // ============================================================
+
+      const serviceId =
+        import.meta.env.VITE_EMAILJS_SERVICE_ID;
+
+      const templateId =
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+
+      const publicKey =
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
       if (!serviceId || !templateId || !publicKey) {
         throw new Error(
-          'EmailJS environment variables are missing. Check .env.local and restart Vite.'
+          'EmailJS environment variables are missing. Please check your .env.local file.'
         );
       }
 
-      // ======================================================
-      // 1. SEND EMAIL
-      // ======================================================
+      // ============================================================
+      // FORMAT DATE
+      // ============================================================
 
-      console.log('Sending booking email...');
+      let formattedDate = 'Not provided';
 
-      await emailjs.send(
-        serviceId,
-        templateId,
-        emailParams,
-        publicKey
+      if (form.event_date) {
+        const date = new Date(form.event_date);
+
+        formattedDate = date.toLocaleDateString('en-IN', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        });
+      }
+
+      // ============================================================
+      // EMAILJS PARAMETERS
+      // These names MUST match your EmailJS template variables.
+      // ============================================================
+
+      const emailParams = {
+        to_email: 'vishalathwal2003@gmail.com',
+
+        client_name:
+          form.client_name || 'Not provided',
+
+        phone:
+          form.phone || 'Not provided',
+
+        client_email:
+          form.email || 'Not provided',
+
+        event_date:
+          formattedDate,
+
+        event_type:
+          form.event_type || 'Not selected',
+
+        message:
+          form.message || 'No message provided',
+
+        company_name:
+          'Bharat Photo Studio',
+      };
+
+      console.log(
+        'Sending booking email...',
+        emailParams
       );
 
-      console.log('Booking email sent successfully.');
-
-      // ======================================================
-      // 2. SAVE TO SUPABASE
-      // ======================================================
+      // ============================================================
+      // SUPABASE
+      // ============================================================
 
       console.log('Saving booking to Supabase...');
 
-      const { error } = await supabase
+      const { error: supabaseError } = await supabase
         .from('inquiries')
         .insert({
           client_name: form.client_name,
-
           phone: form.phone,
-
           email: form.email || null,
-
           event_type: form.event_type || null,
-
           event_date: form.event_date || null,
-
           message: form.message || null,
         });
 
-      if (error) {
+      if (supabaseError) {
         console.error(
           'Supabase booking error:',
-          error
+          supabaseError
         );
 
         throw new Error(
-          'Your email was sent, but the booking could not be saved to the database.'
+          `Supabase error: ${supabaseError.message}`
         );
       }
 
       console.log(
-        'Booking saved to Supabase successfully.'
+        'Booking successfully saved to Supabase.'
       );
 
-      // ======================================================
-      // 3. CREATE WHATSAPP MESSAGE
-      // ======================================================
+      // ============================================================
+      // EMAILJS
+      // ============================================================
+
+      console.log('Sending booking email through EmailJS...');
+
+      const emailResponse = await emailjs.send(
+        serviceId,
+        templateId,
+        emailParams,
+        {
+          publicKey,
+        }
+      );
+
+      console.log(
+        'Booking email sent successfully:',
+        emailResponse.status,
+        emailResponse.text
+      );
+
+      // ============================================================
+      // WHATSAPP
+      // ============================================================
 
       const whatsappNumber = '917404620633';
 
@@ -239,45 +242,65 @@ ${form.message || 'No message provided'}
 Wedding Photography | Cinematic Videography
       `.trim();
 
-      // ======================================================
-      // 4. CREATE WHATSAPP URL
-      // ======================================================
-
       const encodedMessage =
         encodeURIComponent(whatsappMessage);
 
       const generatedWhatsappURL =
         `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
-      console.log(
-        'WhatsApp URL:',
-        generatedWhatsappURL
-      );
-
-      // ======================================================
-      // 5. STORE WHATSAPP URL
-      // ======================================================
-
       setWhatsappURL(generatedWhatsappURL);
 
-      // ======================================================
-      // 6. SHOW SUCCESS
-      // ======================================================
+      // ============================================================
+      // SUCCESS
+      // ============================================================
 
       setStatus('success');
-
-      // Clear form
       setForm(initialForm);
+
+      console.log(
+        'Booking submission completed successfully.'
+      );
     } catch (error) {
       console.error(
         'BOOKING SUBMISSION ERROR:',
         error
       );
 
+      // ============================================================
+      // EMAILJS ERROR DETAILS
+      // ============================================================
+
+      const emailError = error as {
+        status?: number;
+        text?: string;
+        message?: string;
+      };
+
+      console.error(
+        'EmailJS status:',
+        emailError.status
+      );
+
+      console.error(
+        'EmailJS response:',
+        emailError.text
+      );
+
+      console.error(
+        'EmailJS message:',
+        emailError.message
+      );
+
       setStatus('error');
 
-      if (error instanceof Error) {
-        setErrorMsg(error.message);
+      if (emailError.text) {
+        setErrorMsg(
+          `EmailJS error: ${emailError.text}`
+        );
+      } else if (emailError.message) {
+        setErrorMsg(
+          emailError.message
+        );
       } else {
         setErrorMsg(
           'We could not send your booking request. Please try again or contact us directly on WhatsApp.'
@@ -326,13 +349,11 @@ Wedding Photography | Cinematic Videography
         ========================================= */}
 
         <div className="contact-layout">
-
           {/* =======================================
               LEFT SIDE
           ======================================= */}
 
           <div className="contact-information">
-
             <div className="contact-number">
               04
             </div>
@@ -354,7 +375,6 @@ Wedding Photography | Cinematic Videography
             {/* CONTACT DETAILS */}
 
             <div className="contact-details">
-
               {/* Phone */}
 
               <a
@@ -367,7 +387,6 @@ Wedding Photography | Cinematic Videography
 
                 <span>
                   <small>Call us</small>
-
                   <strong>
                     8740000983
                   </strong>
@@ -386,7 +405,6 @@ Wedding Photography | Cinematic Videography
 
                 <span>
                   <small>Email</small>
-
                   <strong>
                     bharatstudio4@gmail.com
                   </strong>
@@ -402,7 +420,6 @@ Wedding Photography | Cinematic Videography
 
                 <span>
                   <small>Based in</small>
-
                   <strong>
                     Badhra, Loharu Road,
                     <br />
@@ -410,7 +427,6 @@ Wedding Photography | Cinematic Videography
                   </strong>
                 </span>
               </div>
-
             </div>
 
             <div className="contact-quote">
@@ -427,11 +443,8 @@ Wedding Photography | Cinematic Videography
           ======================================= */}
 
           <div className="contact-form-wrapper">
-
             {status === 'success' ? (
-
               <div className="contact-success">
-
                 <div className="success-icon">
                   <CheckCircle2 />
                 </div>
@@ -450,24 +463,21 @@ Wedding Photography | Cinematic Videography
                   your celebration.
                 </p>
 
-                {/* =================================
-                    WHATSAPP BUTTON
-                ================================= */}
+                {/* WhatsApp */}
 
                 {whatsappURL && (
                   <a
                     href={whatsappURL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="contact-secondary-button"
+                    className="contact-submit"
                   >
                     Send booking on WhatsApp
+                    <Send />
                   </a>
                 )}
 
-                {/* =================================
-                    SEND ANOTHER REQUEST
-                ================================= */}
+                {/* Send another request */}
 
                 <button
                   type="button"
@@ -480,16 +490,12 @@ Wedding Photography | Cinematic Videography
                 >
                   Send another request
                 </button>
-
               </div>
-
             ) : (
-
               <form
                 onSubmit={handleSubmit}
                 className="contact-form"
               >
-
                 <div className="form-heading">
                   <span>
                     Start a conversation
@@ -503,7 +509,6 @@ Wedding Photography | Cinematic Videography
                 {/* NAME + PHONE */}
 
                 <div className="form-grid">
-
                   <Field
                     icon={<User />}
                     label="Your name"
@@ -553,13 +558,11 @@ Wedding Photography | Cinematic Videography
                       className={inputClass}
                     />
                   </Field>
-
                 </div>
 
                 {/* EMAIL + DATE */}
 
                 <div className="form-grid">
-
                   <Field
                     icon={<Mail />}
                     label="Email"
@@ -604,7 +607,6 @@ Wedding Photography | Cinematic Videography
                       className={`${inputClass} contact-date-input`}
                     />
                   </Field>
-
                 </div>
 
                 {/* PACKAGE */}
@@ -698,7 +700,6 @@ Wedding Photography | Cinematic Videography
                   ) : (
                     <>
                       Send booking request
-
                       <Send />
                     </>
                   )}
@@ -708,10 +709,8 @@ Wedding Photography | Cinematic Videography
                   Your details are used only to contact
                   you regarding your photography enquiry.
                 </p>
-
               </form>
             )}
-
           </div>
         </div>
 
@@ -720,7 +719,6 @@ Wedding Photography | Cinematic Videography
         ========================================= */}
 
         <div className="contact-bottom">
-
           <span>
             Weddings • Chandigarh • India
           </span>
@@ -730,9 +728,7 @@ Wedding Photography | Cinematic Videography
           <span>
             Bharat Photo Studio
           </span>
-
         </div>
-
       </div>
     </section>
   );
@@ -764,7 +760,6 @@ function Field({
       }`}
     >
       <label className="contact-label">
-
         <span className="contact-label-icon">
           {icon}
         </span>
@@ -778,11 +773,9 @@ function Field({
             *
           </span>
         )}
-
       </label>
 
       {children}
-
     </div>
   );
 }
