@@ -229,7 +229,7 @@ export default function Services() {
             </div>
 
             <a
-              href="#contact"
+              href="/contact"
               className="group mt-14 inline-flex w-fit items-center gap-4 border-b border-[#b89a61]/50 pb-3 text-xs uppercase tracking-[0.22em] text-[#f4f0e8]"
             >
               Discuss your wedding
@@ -287,7 +287,7 @@ export default function Services() {
           </h3>
 
           <a
-            href="#contact"
+            href="/contact"
             className="group mt-10 inline-flex items-center gap-5 border border-[#171614] px-7 py-4 text-[10px] uppercase tracking-[0.25em] transition-all duration-500 hover:bg-[#171614] hover:text-[#f4f0e8]"
           >
             Start a conversation
