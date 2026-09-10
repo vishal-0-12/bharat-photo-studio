@@ -1,111 +1,36 @@
 import {
+  ArrowUpRight,
   Check,
   Crown,
   IndianRupee,
   Sparkles,
   Star,
   Users,
-  Zap,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import { useReveal } from '../hooks/useReveal';
 import ParticleField from '../components/ParticleField';
 import type { Route } from '../hooks/useRouter';
 
-type AccentKey = 'blue' | 'purple' | 'gold';
-
-type Package = {
+type PackageItem = {
   name: string;
-  price: string;
+  price: number;
   subtitle: string;
-  accent: AccentKey;
   features: string[];
   team: string;
-  icon: typeof Crown;
+  featured?: boolean;
 };
 
 type PackageProps = {
   navigate: (route: Route) => void;
 };
 
-const accentMap: Record<
-  AccentKey,
-  {
-    gradient: string;
-    border: string;
-    glow: string;
-    badge: string;
-    iconBg: string;
-    priceText: string;
-    check: string;
-    teamBg: string;
-    btn: string;
-    btnHover: string;
-    ring: string;
-  }
-> = {
-  blue: {
-    gradient:
-      'from-sky-900/60 via-charcoal-800/80 to-charcoal-800/80',
-    border: 'border-sky-400/30',
-    glow: 'group-hover:shadow-sky-500/20',
-    badge: 'from-sky-600 to-sky-800',
-    iconBg:
-      'from-sky-400/20 to-sky-600/20 text-sky-300',
-    priceText: 'text-sky-200',
-    check: 'text-sky-400',
-    teamBg: 'bg-sky-500/10',
-    btn: 'from-sky-600 to-sky-700',
-    btnHover:
-      'hover:from-sky-500 hover:to-sky-600',
-    ring: 'ring-sky-400/30',
-  },
-
-  purple: {
-    gradient:
-      'from-fuchsia-900/50 via-charcoal-800/80 to-charcoal-800/80',
-    border: 'border-fuchsia-400/30',
-    glow:
-      'group-hover:shadow-fuchsia-500/20',
-    badge: 'from-fuchsia-700 to-fuchsia-900',
-    iconBg:
-      'from-fuchsia-400/20 to-fuchsia-600/20 text-fuchsia-300',
-    priceText: 'text-fuchsia-200',
-    check: 'text-fuchsia-400',
-    teamBg: 'bg-fuchsia-500/10',
-    btn: 'from-fuchsia-600 to-fuchsia-700',
-    btnHover:
-      'hover:from-fuchsia-500 hover:to-fuchsia-600',
-    ring: 'ring-fuchsia-400/30',
-  },
-
-  gold: {
-    gradient:
-      'from-gold-900/50 via-charcoal-800/80 to-charcoal-800/80',
-    border: 'border-gold-400/50',
-    glow:
-      'group-hover:shadow-gold-500/30',
-    badge: 'from-gold-500 to-gold-700',
-    iconBg:
-      'from-gold-400/20 to-gold-600/20 text-gold-300',
-    priceText: 'text-gold-300',
-    check: 'text-gold-400',
-    teamBg: 'bg-gold-500/10',
-    btn: 'from-gold-500 to-gold-600',
-    btnHover:
-      'hover:from-gold-400 hover:to-gold-500',
-    ring: 'ring-gold-400/40',
-  },
-};
-
-const packages: Package[] = [
+const packages: PackageItem[] = [
   {
     name: 'Normal Package',
-    price: '₹25,000/-',
-    subtitle:
-      'Simple Moments, Beautiful Memories',
-    accent: 'blue',
-    icon: Sparkles,
+    price: 25000,
+    subtitle: 'Simple moments, beautifully preserved.',
     features: [
       'Full Day Photography (8 Hours)',
       'Candid Photography',
@@ -120,11 +45,8 @@ const packages: Package[] = [
 
   {
     name: 'Medium Package',
-    price: '₹45,000/-',
-    subtitle:
-      'More Coverage, More Emotions',
-    accent: 'purple',
-    icon: Zap,
+    price: 45000,
+    subtitle: 'A richer visual story of your celebration.',
     features: [
       'Full Day Photography (10–14 Hours)',
       'Candid Photography',
@@ -136,15 +58,13 @@ const packages: Package[] = [
       '1 Premium Photo Album (12x18)',
     ],
     team: '2 Photographers + 1 Cameraman',
+    featured: true,
   },
 
   {
     name: 'Gold Package',
-    price: '₹75,000/-',
-    subtitle:
-      'Luxury Coverage, Lifetime Memories',
-    accent: 'gold',
-    icon: Crown,
+    price: 75000,
+    subtitle: 'Complete coverage for an unforgettable story.',
     features: [
       'Full Day Photography (12–14 Hours)',
       'Candid Photography',
@@ -180,9 +100,7 @@ const reasons = [
   'Customer Satisfaction 100%',
 ];
 
-export default function Package({
-  navigate,
-}: PackageProps) {
+export default function Package({ navigate }: PackageProps) {
   const { ref, isVisible } = useReveal();
 
   const handleEnquire = () => {
@@ -196,285 +114,178 @@ export default function Package({
         section-pad
         relative
         overflow-hidden
-        bg-gradient-to-b
-        from-charcoal-950
-        via-charcoal-900
-        to-charcoal-950
+        bg-[#171614]
+        text-[#f4f0e8]
       "
     >
-      {/* =========================================
-          AMBIENT GLOWS
-      ========================================= */}
+      {/* Background */}
 
-      <div className="absolute inset-0 opacity-10">
+      <div className="pointer-events-none absolute inset-0">
         <div
           className="
             absolute
-            -left-32
-            top-20
-            h-96
-            w-96
+            left-[-180px]
+            top-24
+            h-[420px]
+            w-[420px]
             rounded-full
-            bg-gold-500
-            blur-[120px]
+            bg-[#b89452]/5
+            blur-[130px]
           "
         />
 
         <div
           className="
             absolute
-            right-0
-            top-1/3
-            h-80
-            w-80
+            bottom-20
+            right-[-180px]
+            h-[400px]
+            w-[400px]
             rounded-full
-            bg-maroon-600
-            blur-[100px]
-          "
-        />
-
-        <div
-          className="
-            absolute
-            bottom-0
-            left-1/3
-            h-72
-            w-72
-            rounded-full
-            bg-gold-400
-            blur-[100px]
+            bg-[#b89452]/4
+            blur-[130px]
           "
         />
       </div>
 
-      <ParticleField
-        count={30}
-        color="212,168,74"
-      />
+      <div className="pointer-events-none absolute inset-0 opacity-20">
+        <ParticleField
+          count={18}
+          color="184,148,82"
+        />
+      </div>
 
       <div
         ref={ref}
-        className={`
-          relative
-          mx-auto
-          w-full
-          max-w-7xl
-          reveal
-          ${
-            isVisible
-              ? 'is-visible'
-              : ''
-          }
-        `}
+        className={`relative mx-auto max-w-7xl reveal ${
+          isVisible ? 'is-visible' : ''
+        }`}
       >
-        {/* =========================================
-            HEADING
-        ========================================= */}
+        {/* Heading */}
 
-        <div
-          className="
-            mb-12
-            text-center
-            sm:mb-14
-            md:mb-16
-          "
-        >
-          <span
+        <div className="mx-auto mb-16 max-w-3xl text-center">
+          <p
             className="
-              text-[10px]
+              text-[11px]
               font-medium
               uppercase
-              tracking-[0.2em]
-              text-gold-400
-              sm:text-xs
-              md:text-sm
-              md:tracking-[0.25em]
+              tracking-[0.35em]
+              text-[#b89452]
             "
           >
-            Wedding Photography Packages
-          </span>
+            Wedding Collections
+          </p>
 
           <h2
             className="
-              mt-3
+              mt-5
               font-serif
-              text-2xl
-              font-bold
-              leading-tight
-              text-white
-              sm:text-3xl
-              md:text-4xl
-              lg:text-5xl
+              text-4xl
+              font-normal
+              leading-[1.08]
+              tracking-tight
+              text-[#f4f0e8]
+              sm:text-5xl
+              md:text-6xl
             "
           >
-            Choose Your Perfect Package
+            Choose how your
+            <br />
+            <span className="italic text-[#c7a35d]">
+              story lives.
+            </span>
           </h2>
 
           <p
             className="
               mx-auto
-              mt-4
-              max-w-2xl
-              px-2
+              mt-6
+              max-w-xl
               text-sm
-              leading-relaxed
-              text-white/60
+              leading-7
+              text-[#f4f0e8]/55
               sm:text-base
             "
           >
-            We do not just take photos, we capture
-            your emotions for a lifetime.
+            Thoughtfully created collections for couples who want
+            their wedding memories captured with intention,
+            emotion and timeless style.
           </p>
 
-          <div
-            className="
-              mx-auto
-              mt-5
-              flex
-              items-center
-              justify-center
-              gap-2
-              sm:gap-3
-            "
-          >
-            <span
-              className="
-                h-px
-                w-10
-                bg-gradient-to-r
-                from-transparent
-                to-gold-500/60
-                sm:w-16
-              "
-            />
+          <div className="mx-auto mt-8 flex items-center justify-center gap-4">
+            <span className="h-px w-12 bg-[#b89452]/40" />
 
-            <span className="text-gold-400">
+            <span className="text-[10px] text-[#b89452]">
               ✦
             </span>
 
-            <span
-              className="
-                h-px
-                w-10
-                bg-gradient-to-l
-                from-transparent
-                to-gold-500/60
-                sm:w-16
-              "
-            />
+            <span className="h-px w-12 bg-[#b89452]/40" />
           </div>
         </div>
 
-        {/* =========================================
-            PACKAGE CARDS
+        {/* Package Cards */}
 
-            PHONE  : 1 column
-            TABLET : 2 columns
-            DESKTOP: 3 columns
-        ========================================= */}
-
-        <div
-          className="
-            grid
-            grid-cols-1
-            gap-5
-            sm:gap-6
-            md:grid-cols-2
-            lg:grid-cols-3
-          "
-        >
-          {packages.map((item, i) => (
-            <div
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+          {packages.map((item, index) => (
+            <PackageCard
               key={item.name}
-              className={`
-                ${
-                  i === 2
-                    ? 'md:col-span-2 lg:col-span-1'
-                    : ''
-                }
-              `}
-            >
-              <PackageCard
-                item={item}
-                featured={i === 2}
-                onEnquire={handleEnquire}
-              />
-            </div>
+              item={item}
+              index={index}
+              animate={isVisible}
+              onEnquire={handleEnquire}
+            />
           ))}
         </div>
 
-        {/* =========================================
-            INFORMATION CARDS
+        {/* Information Cards */}
 
-            PHONE  : 1 column
-            TABLET : 2 columns
-            DESKTOP: 3 columns
-        ========================================= */}
-
-        <div
-          className="
-            mt-6
-            grid
-            grid-cols-1
-            gap-5
-            sm:gap-6
-            md:grid-cols-2
-            lg:mt-8
-            lg:grid-cols-3
-          "
-        >
+        <div className="mt-20 grid grid-cols-1 gap-5 lg:grid-cols-3">
           {/* Additional Services */}
 
           <InfoCard
             title="Additional Services"
-            icon={
-              <Star className="h-5 w-5" />
-            }
-            accent="gold"
+            icon={<Star className="h-[18px] w-[18px]" />}
           >
-            <ul className="space-y-3">
-              {extraServices.map(
-                (service) => (
-                  <li
-                    key={service}
+            <ul className="space-y-4">
+              {extraServices.map((service) => (
+                <li
+                  key={service}
+                  className="
+                    flex
+                    items-start
+                    gap-3
+                    text-sm
+                    leading-6
+                    text-[#f4f0e8]/65
+                  "
+                >
+                  <Check
                     className="
-                      flex
-                      items-start
-                      gap-3
-                      text-sm
-                      leading-relaxed
-                      text-white/75
+                      mt-1
+                      h-3.5
+                      w-3.5
+                      flex-shrink-0
+                      text-[#b89452]
                     "
-                  >
-                    <Check
-                      className="
-                        mt-0.5
-                        h-4
-                        w-4
-                        flex-shrink-0
-                        text-gold-400
-                      "
-                    />
+                  />
 
-                    <span>
-                      {service}
-                    </span>
-                  </li>
-                )
-              )}
+                  <span>{service}</span>
+                </li>
+              ))}
             </ul>
 
             <p
               className="
-                mt-5
+                mt-6
+                border-t
+                border-[#f4f0e8]/10
+                pt-5
                 text-[11px]
-                leading-relaxed
-                text-white/40
-                sm:text-xs
+                leading-5
+                text-[#f4f0e8]/35
               "
             >
-              All prices are subject to GST
-              18% applicable.
+              All prices are subject to GST 18% applicable.
             </p>
           </InfoCard>
 
@@ -482,101 +293,39 @@ export default function Package({
 
           <InfoCard
             title="Payment Terms"
-            icon={
-              <IndianRupee className="h-5 w-5" />
-            }
-            accent="maroon"
+            icon={<IndianRupee className="h-[18px] w-[18px]" />}
           >
-            <ul
-              className="
-                space-y-4
-                text-sm
-                text-white/75
-              "
-            >
-              <li
-                className="
-                  flex
-                  items-start
-                  justify-between
-                  gap-4
-                "
-              >
-                <span>
-                  Booking Advance
-                </span>
+            <div className="space-y-5">
+              <PaymentRow
+                label="Booking Advance"
+                value="₹10,000/-"
+              />
 
-                <strong
-                  className="
-                    whitespace-nowrap
-                    text-gold-300
-                  "
-                >
-                  ₹10,000/-
-                </strong>
-              </li>
+              <PaymentRow
+                label="Balance Before Event"
+                value="As per package"
+              />
 
-              <li
-                className="
-                  flex
-                  items-start
-                  justify-between
-                  gap-4
-                "
-              >
-                <span>
-                  Balance Before Event
-                </span>
-
-                <span
-                  className="
-                    text-right
-                    text-gold-300
-                  "
-                >
-                  As per package
-                </span>
-              </li>
-
-              <li
-                className="
-                  flex
-                  items-start
-                  justify-between
-                  gap-4
-                "
-              >
-                <span>
-                  Mode of Payment
-                </span>
-
-                <span
-                  className="
-                    max-w-[55%]
-                    text-right
-                    text-gold-300
-                  "
-                >
-                  Cash / UPI / Bank Transfer
-                </span>
-              </li>
-            </ul>
+              <PaymentRow
+                label="Mode of Payment"
+                value="Cash / UPI / Bank Transfer"
+              />
+            </div>
 
             <div
               className="
-                mt-5
+                mt-7
                 border-t
-                border-white/10
-                pt-4
+                border-[#f4f0e8]/10
+                pt-5
               "
             >
               <p
                 className="
                   text-[10px]
                   uppercase
-                  tracking-wider
-                  text-gold-400
-                  sm:text-xs
+                  tracking-[0.25em]
+                  text-[#b89452]
                 "
               >
                 Quotation Validity
@@ -584,60 +333,180 @@ export default function Package({
 
               <p
                 className="
-                  mt-1
-                  text-sm
-                  leading-relaxed
-                  text-white/70
+                  mt-2
+                  text-xs
+                  leading-6
+                  text-[#f4f0e8]/45
                 "
               >
-                This quotation is valid for
-                15 days from the date of issue.
+                This quotation is valid for 15 days from the
+                date of issue.
               </p>
             </div>
           </InfoCard>
 
           {/* Why Choose Us */}
 
-          <div className="md:col-span-2 lg:col-span-1">
-            <InfoCard
-              title="Why Choose Us?"
-              icon={
-                <Sparkles className="h-5 w-5" />
-              }
-              accent="gold"
-            >
-              <ul className="space-y-3">
-                {reasons.map(
-                  (reason) => (
-                    <li
-                      key={reason}
-                      className="
-                        flex
-                        items-start
-                        gap-3
-                        text-sm
-                        leading-relaxed
-                        text-white/75
-                      "
-                    >
-                      <Check
-                        className="
-                          mt-0.5
-                          h-4
-                          w-4
-                          flex-shrink-0
-                          text-gold-400
-                        "
-                      />
+          <InfoCard
+            title="Why Choose Us?"
+            icon={<Sparkles className="h-[18px] w-[18px]" />}
+          >
+            <ul className="space-y-4">
+              {reasons.map((reason) => (
+                <li
+                  key={reason}
+                  className="
+                    flex
+                    items-start
+                    gap-3
+                    text-sm
+                    leading-6
+                    text-[#f4f0e8]/65
+                  "
+                >
+                  <Check
+                    className="
+                      mt-1
+                      h-3.5
+                      w-3.5
+                      flex-shrink-0
+                      text-[#b89452]
+                    "
+                  />
 
-                      <span>
-                        {reason}
-                      </span>
-                    </li>
-                  )
-                )}
-              </ul>
-            </InfoCard>
+                  <span>{reason}</span>
+                </li>
+              ))}
+            </ul>
+          </InfoCard>
+        </div>
+
+        {/* Final CTA */}
+
+        <div
+          className="
+            relative
+            mt-20
+            overflow-hidden
+            border
+            border-[#b89452]/20
+            bg-[#1c1a17]
+            px-7
+            py-10
+            sm:px-10
+            sm:py-12
+          "
+        >
+          <div
+            className="
+              absolute
+              right-0
+              top-0
+              h-48
+              w-48
+              rounded-full
+              bg-[#b89452]/5
+              blur-[100px]
+            "
+          />
+
+          <div
+            className="
+              relative
+              flex
+              flex-col
+              items-start
+              justify-between
+              gap-8
+              md:flex-row
+              md:items-center
+            "
+          >
+            <div>
+              <div className="mb-4 flex items-center gap-3">
+                <Crown
+                  className="h-4 w-4 text-[#b89452]"
+                  strokeWidth={1.4}
+                />
+
+                <span
+                  className="
+                    text-[10px]
+                    uppercase
+                    tracking-[0.3em]
+                    text-[#b89452]
+                  "
+                >
+                  Your story starts here
+                </span>
+              </div>
+
+              <h3
+                className="
+                  font-serif
+                  text-3xl
+                  font-normal
+                  text-[#f4f0e8]
+                  sm:text-4xl
+                "
+              >
+                Let's create something
+                <span className="italic text-[#c7a35d]">
+                  {' '}timeless.
+                </span>
+              </h3>
+
+              <p
+                className="
+                  mt-3
+                  max-w-xl
+                  text-sm
+                  leading-6
+                  text-[#f4f0e8]/45
+                "
+              >
+                Tell us about your celebration and we'll help
+                you select the right collection for your day.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleEnquire}
+              className="
+                group
+                inline-flex
+                items-center
+                gap-3
+                border
+                border-[#b89452]/50
+                px-7
+                py-3.5
+                text-xs
+                font-medium
+                uppercase
+                tracking-[0.18em]
+                text-[#c7a35d]
+                transition-all
+                duration-300
+                hover:bg-[#b89452]
+                hover:text-[#171614]
+              "
+            >
+              Enquire Now
+
+              <ArrowUpRight
+                className="
+                  h-4
+                  w-4
+                  transition-transform
+                  duration-300
+                  group-hover:translate-x-1
+                  group-hover:-translate-y-1
+                "
+                strokeWidth={1.5}
+              />
+            </button>
           </div>
         </div>
       </div>
@@ -645,502 +514,422 @@ export default function Package({
   );
 }
 
-/* =================================================
-   PACKAGE CARD
-================================================= */
+/* ================================================= */
+/* PACKAGE CARD */
+/* ================================================= */
 
 function PackageCard({
   item,
-  featured,
+  index,
+  animate,
   onEnquire,
 }: {
-  item: Package;
-  featured: boolean;
+  item: PackageItem;
+  index: number;
+  animate: boolean;
   onEnquire: () => void;
 }) {
-  const a = accentMap[item.accent];
-  const Icon = item.icon;
-
   return (
-    <div
+    <article
       className={`
         group
         relative
         flex
         h-full
-        min-w-0
         flex-col
-        overflow-hidden
-        rounded-2xl
         border
-        ${a.border}
-        bg-gradient-to-br
-        ${a.gradient}
-        p-5
-        shadow-2xl
+        ${
+          item.featured
+            ? 'border-[#b89452]/45 bg-[#1e1b17]'
+            : 'border-[#f4f0e8]/10 bg-[#1b1917]'
+        }
+        p-7
         transition-all
         duration-500
         hover:-translate-y-1
-        ${a.glow}
-        hover:shadow-2xl
-        sm:rounded-3xl
-        sm:p-6
-        md:p-7
-        ${
-          featured
-            ? 'lg:-translate-y-4 lg:scale-105'
-            : ''
-        }
+        hover:border-[#b89452]/35
+        sm:p-8
       `}
     >
-      {/* Top accent bar */}
+      {/* Featured line */}
 
-      <div
-        className={`
-          absolute
-          left-0
-          right-0
-          top-0
-          h-1.5
-          bg-gradient-to-r
-          ${a.badge}
-        `}
-      />
-
-      {/* Corner flourish */}
-
-      <div
-        className={`
-          absolute
-          -right-12
-          -top-12
-          h-32
-          w-32
-          rounded-full
-          bg-gradient-to-br
-          ${a.badge}
-          opacity-10
-          blur-2xl
-          transition-opacity
-          duration-500
-          group-hover:opacity-20
-        `}
-      />
-
-      {/* Featured badge */}
-
-      {featured && (
+      {item.featured && (
         <div
           className="
             absolute
-            right-3
-            top-4
-            z-10
-            flex
-            items-center
-            gap-1
-            rounded-full
-            bg-gradient-to-r
-            from-gold-400
-            to-gold-600
-            px-2.5
-            py-1
-            text-[8px]
-            font-bold
-            uppercase
-            tracking-wider
-            text-white
-            shadow-lg
-            shadow-gold-900/30
-            sm:right-5
-            sm:top-5
-            sm:gap-1.5
-            sm:px-3
-            sm:py-1.5
-            sm:text-[10px]
-          "
-        >
-          <Crown
-            className="
-              h-2.5
-              w-2.5
-              sm:h-3
-              sm:w-3
-            "
-          />
-
-          Most Complete
-        </div>
-      )}
-
-      {/* Package icon + name */}
-
-      <div
-        className={`
-          mb-5
-          inline-flex
-          w-fit
-          max-w-[calc(100%-0px)]
-          items-center
-          gap-2
-          rounded-full
-          bg-gradient-to-r
-          ${a.badge}
-          px-3
-          py-2
-          text-[10px]
-          font-bold
-          uppercase
-          tracking-wider
-          text-white
-          shadow-lg
-          sm:gap-2.5
-          sm:px-4
-          sm:text-xs
-        `}
-      >
-        <Icon
-          className="
-            h-3.5
-            w-3.5
-            flex-shrink-0
-            sm:h-4
-            sm:w-4
+            left-0
+            right-0
+            top-0
+            h-px
+            bg-[#b89452]
           "
         />
+      )}
 
-        <span className="truncate">
-          {item.name}
+      {/* Package Number */}
+
+      <div className="flex items-start justify-between">
+        <span
+          className="
+            font-serif
+            text-5xl
+            font-light
+            leading-none
+            text-[#b89452]/25
+          "
+        >
+          {String(index + 1).padStart(2, '0')}
         </span>
+
+        {item.featured && (
+          <span
+            className="
+              flex
+              items-center
+              gap-2
+              text-[9px]
+              uppercase
+              tracking-[0.25em]
+              text-[#b89452]
+            "
+          >
+            <Crown
+              className="h-3 w-3"
+              strokeWidth={1.4}
+            />
+
+            Recommended
+          </span>
+        )}
       </div>
 
-      {/* Subtitle */}
+      {/* Package Name */}
 
-      <p
-        className="
-          text-sm
-          italic
-          leading-relaxed
-          text-white/55
-        "
-      >
-        {item.subtitle}
-      </p>
-
-      {/* Price */}
-
-      <div
-        className="
-          mt-4
-          flex
-          items-baseline
-          gap-1
-        "
-      >
-        <span
-          className={`
+      <div className="mt-8">
+        <h3
+          className="
             font-serif
-            text-3xl
-            font-bold
-            ${a.priceText}
-            sm:text-4xl
-          `}
+            text-2xl
+            font-normal
+            text-[#f4f0e8]
+            sm:text-3xl
+          "
         >
-          {item.price}
+          {item.name}
+        </h3>
+
+        <p
+          className="
+            mt-2
+            text-sm
+            italic
+            text-[#f4f0e8]/40
+          "
+        >
+          {item.subtitle}
+        </p>
+      </div>
+
+      {/* DYNAMIC PRICE */}
+
+      <div className="mt-7 flex items-end">
+        <AnimatedPrice
+          target={item.price}
+          animate={animate}
+          delay={index * 180}
+        />
+
+        <span
+          className="
+            mb-1.5
+            ml-2
+            text-[9px]
+            uppercase
+            tracking-[0.2em]
+            text-[#f4f0e8]/30
+          "
+        >
+          onwards
         </span>
       </div>
 
       {/* Divider */}
 
-      <div
+      <div className="my-7 h-px bg-[#f4f0e8]/10" />
+
+      {/* Included */}
+
+      <p
         className="
-          my-5
-          flex
-          items-center
-          gap-2
+          mb-5
+          text-[10px]
+          uppercase
+          tracking-[0.25em]
+          text-[#b89452]
         "
       >
-        <span
-          className={`
-            h-px
-            flex-1
-            bg-gradient-to-r
-            from-transparent
-            ${
-              item.accent === 'blue'
-                ? 'via-sky-500/30'
-                : item.accent === 'purple'
-                  ? 'via-fuchsia-500/30'
-                  : 'via-gold-500/40'
-            }
-            to-transparent
-          `}
-        />
-
-        <span className="text-white/20">
-          ✦
-        </span>
-
-        <span
-          className={`
-            h-px
-            flex-1
-            bg-gradient-to-l
-            from-transparent
-            ${
-              item.accent === 'blue'
-                ? 'via-sky-500/30'
-                : item.accent === 'purple'
-                  ? 'via-fuchsia-500/30'
-                  : 'via-gold-500/40'
-            }
-            to-transparent
-          `}
-        />
-      </div>
+        Included
+      </p>
 
       {/* Features */}
 
-      <ul
-        className="
-          flex-1
-          space-y-3
-        "
-      >
-        {item.features.map(
-          (feature) => (
-            <li
-              key={feature}
+      <ul className="flex-1 space-y-3.5">
+        {item.features.map((feature) => (
+          <li
+            key={feature}
+            className="
+              flex
+              items-start
+              gap-3
+              text-sm
+              leading-6
+              text-[#f4f0e8]/65
+              transition-colors
+              duration-300
+              group-hover:text-[#f4f0e8]/80
+            "
+          >
+            <Check
               className="
-                flex
-                items-start
-                gap-3
-                text-sm
-                leading-relaxed
-                text-white/80
-                transition-colors
-                duration-300
-                group-hover:text-white/90
+                mt-1
+                h-3.5
+                w-3.5
+                flex-shrink-0
+                text-[#b89452]
               "
-            >
-              <span
-                className={`
-                  mt-0.5
-                  flex
-                  h-5
-                  w-5
-                  flex-shrink-0
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-gradient-to-br
-                  ${a.iconBg}
-                `}
-              >
-                <Check
-                  className={`
-                    h-3
-                    w-3
-                    ${a.check}
-                  `}
-                />
-              </span>
+              strokeWidth={1.6}
+            />
 
-              <span className="min-w-0">
-                {feature}
-              </span>
-            </li>
-          )
-        )}
+            <span>{feature}</span>
+          </li>
+        ))}
       </ul>
 
       {/* Team */}
 
       <div
-        className={`
-          mt-6
-          flex
-          items-start
-          gap-3
-          rounded-2xl
-          ${a.teamBg}
-          border
-          border-white/5
-          p-3.5
-          sm:p-4
-        `}
+        className="
+          mt-8
+          border-t
+          border-[#f4f0e8]/10
+          pt-5
+        "
       >
-        <Users
-          className={`
-            mt-0.5
-            h-5
-            w-5
-            flex-shrink-0
-            ${a.check}
-          `}
-        />
-
-        <div className="min-w-0">
-          <p
-            className={`
-              text-[10px]
-              uppercase
-              tracking-wider
-              ${a.check}
-              sm:text-xs
-            `}
-          >
-            Team
-          </p>
-
-          <p
+        <div className="flex items-start gap-3">
+          <Users
             className="
-              mt-1
-              text-sm
-              leading-relaxed
-              text-white/75
+              mt-0.5
+              h-4
+              w-4
+              flex-shrink-0
+              text-[#b89452]
             "
-          >
-            {item.team}
-          </p>
+            strokeWidth={1.4}
+          />
+
+          <div>
+            <p
+              className="
+                text-[9px]
+                uppercase
+                tracking-[0.22em]
+                text-[#b89452]
+              "
+            >
+              Coverage Team
+            </p>
+
+            <p
+              className="
+                mt-1.5
+                text-xs
+                leading-5
+                text-[#f4f0e8]/50
+              "
+            >
+              {item.team}
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* CTA */}
+      {/* Button */}
 
       <button
         type="button"
         onClick={onEnquire}
-        className={`
-          shimmer-sweep
-          relative
-          mt-6
+        className="
+          group/button
+          mt-7
           flex
-          min-h-[48px]
           w-full
           items-center
           justify-center
-          gap-2
-          overflow-hidden
-          rounded-full
-          bg-gradient-to-r
-          ${a.btn}
-          px-4
+          gap-3
+          border
+          border-[#b89452]/35
+          px-5
           py-3.5
-          text-center
-          text-xs
-          font-semibold
-          text-white
-          shadow-lg
+          text-[10px]
+          font-medium
+          uppercase
+          tracking-[0.18em]
+          text-[#c7a35d]
           transition-all
           duration-300
-          ${a.btnHover}
-          hover:shadow-xl
-          active:scale-[0.98]
-          sm:text-sm
-        `}
+          hover:border-[#b89452]
+          hover:bg-[#b89452]
+          hover:text-[#171614]
+        "
       >
-        Enquire About This Package
+        Enquire About Package
+
+        <ArrowUpRight
+          className="
+            h-4
+            w-4
+            transition-transform
+            duration-300
+            group-hover/button:-translate-y-0.5
+            group-hover/button:translate-x-0.5
+          "
+          strokeWidth={1.5}
+        />
       </button>
-    </div>
+    </article>
   );
 }
 
-/* =================================================
-   INFO CARD
-================================================= */
+/* ================================================= */
+/* DYNAMIC PRICE COUNTER */
+/* ================================================= */
+
+function AnimatedPrice({
+  target,
+  animate,
+  delay = 0,
+}: {
+  target: number;
+  animate: boolean;
+  delay?: number;
+}) {
+  const [price, setPrice] = useState(0);
+
+  useEffect(() => {
+    if (!animate) {
+      setPrice(0);
+      return;
+    }
+
+    let animationFrame: number | undefined;
+    let startTime: number | null = null;
+
+    const duration = 1400;
+
+    const timeout = window.setTimeout(() => {
+      const updatePrice = (currentTime: number) => {
+        if (startTime === null) {
+          startTime = currentTime;
+        }
+
+        const elapsed = currentTime - startTime;
+
+        const progress = Math.min(
+          elapsed / duration,
+          1
+        );
+
+        // Smooth ease-out
+        const easedProgress =
+          1 - Math.pow(1 - progress, 4);
+
+        const currentPrice = Math.floor(
+          easedProgress * target
+        );
+
+        setPrice(currentPrice);
+
+        if (progress < 1) {
+          animationFrame =
+            requestAnimationFrame(updatePrice);
+        } else {
+          setPrice(target);
+        }
+      };
+
+      animationFrame =
+        requestAnimationFrame(updatePrice);
+    }, delay);
+
+    return () => {
+      window.clearTimeout(timeout);
+
+      if (animationFrame !== undefined) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [target, animate, delay]);
+
+  return (
+    <span
+      className="
+        font-serif
+        text-4xl
+        font-normal
+        tracking-tight
+        text-[#c7a35d]
+        sm:text-5xl
+      "
+    >
+      ₹{price.toLocaleString('en-IN')}
+    </span>
+  );
+}
+
+/* ================================================= */
+/* INFO CARD */
+/* ================================================= */
 
 function InfoCard({
   title,
   icon,
   children,
-  accent,
 }: {
   title: string;
   icon: React.ReactNode;
   children: React.ReactNode;
-  accent: 'gold' | 'maroon';
 }) {
-  const headerGradient =
-    accent === 'gold'
-      ? 'from-gold-400 to-gold-600'
-      : 'from-maroon-400 to-maroon-600';
-
-  const iconBg =
-    accent === 'gold'
-      ? 'bg-gold-500/15 text-gold-300'
-      : 'bg-maroon-500/15 text-maroon-300';
-
   return (
     <div
       className="
-        relative
-        h-full
-        overflow-hidden
-        rounded-2xl
         border
-        border-gold-500/15
-        bg-gradient-to-br
-        from-charcoal-800/60
-        to-charcoal-900/60
-        p-5
-        backdrop-blur-sm
-        transition-all
-        duration-500
-        hover:border-gold-400/30
-        hover:shadow-xl
-        sm:rounded-3xl
-        sm:p-6
+        border-[#f4f0e8]/10
+        bg-[#1b1917]
+        p-6
+        sm:p-7
       "
     >
-      {/* Header accent */}
-
-      <div
-        className={`
-          absolute
-          left-0
-          right-0
-          top-0
-          h-1
-          bg-gradient-to-r
-          ${headerGradient}
-          opacity-60
-        `}
-      />
-
-      {/* Title */}
-
       <div
         className="
-          mb-5
+          mb-7
           flex
           items-center
           gap-3
+          border-b
+          border-[#f4f0e8]/10
+          pb-5
         "
       >
-        <span
-          className={`
-            flex
-            h-10
-            w-10
-            flex-shrink-0
-            items-center
-            justify-center
-            rounded-xl
-            ${iconBg}
-          `}
-        >
+        <span className="text-[#b89452]">
           {icon}
         </span>
 
         <h3
           className="
             font-serif
-            text-lg
-            font-bold
-            leading-tight
-            text-white
-            sm:text-xl
+            text-xl
+            font-normal
+            text-[#f4f0e8]
           "
         >
           {title}
@@ -1148,6 +937,44 @@ function InfoCard({
       </div>
 
       {children}
+    </div>
+  );
+}
+
+/* ================================================= */
+/* PAYMENT ROW */
+/* ================================================= */
+
+function PaymentRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div
+      className="
+        flex
+        items-start
+        justify-between
+        gap-5
+        text-sm
+      "
+    >
+      <span className="text-[#f4f0e8]/50">
+        {label}
+      </span>
+
+      <span
+        className="
+          max-w-[55%]
+          text-right
+          text-[#c7a35d]
+        "
+      >
+        {value}
+      </span>
     </div>
   );
 }

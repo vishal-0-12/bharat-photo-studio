@@ -41,11 +41,19 @@ function App() {
         {route === 'home' && (
           <>
             <Hero />
+
             <About />
+
             <Services />
-            <Package />
+
+            <Package
+              navigate={navigate}
+            />
+
             <Gallery />
+
             <Schedule />
+
             <Contact />
           </>
         )}
@@ -55,7 +63,9 @@ function App() {
         {/* ========================================= */}
 
         {route === 'packages' && (
-          <Package />
+          <Package
+            navigate={navigate}
+          />
         )}
 
         {/* ========================================= */}

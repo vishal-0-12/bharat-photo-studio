@@ -265,7 +265,7 @@ export default function Footer() {
             className="footer-cta-button"
           >
             <span>
-              Book your date
+              Get Ready and Book
             </span>
 
             <span className="footer-cta-icon">
