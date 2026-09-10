@@ -104,15 +104,7 @@ const services = [
     image:
       'https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
-  {
-    number: '10',
-    title: 'Our Creative Team',
-    short: 'People behind the photographs.',
-    description:
-      'Photographers, cinematographers, editors and aerial specialists working together as one creative team.',
-    icon: Users,
-    image: '/img/13.jpg',
-  },
+ 
 
   
 ];
