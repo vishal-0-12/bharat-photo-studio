@@ -3,6 +3,8 @@ import {
   ArrowUpRight,
   CalendarDays,
   Menu,
+  MessageCircle,
+  Phone,
   X,
 } from 'lucide-react';
 
@@ -62,6 +64,16 @@ export default function Navbar({
     'https://www.facebook.com/profile.php?id=61594215032715';
 
   /* =========================================
+     WHATSAPP + PHONE
+  ========================================= */
+
+  const WHATSAPP_URL =
+    'https://wa.me/918740000983?text=Hello%20Bharat%20Photo%20Studio%2C%20I%20would%20like%20to%20know%20more%20about%20your%20photography%20services.';
+
+  const PHONE_NUMBER =
+    'tel:+918740000983';
+
+  /* =========================================
      SCROLL DETECTION
   ========================================= */
 
@@ -97,7 +109,7 @@ export default function Navbar({
       setIsMenuOpen(false);
 
       /*
-       * Every separate page opens from the top.
+       * Separate pages open from top.
        */
       if (newRoute !== 'home') {
         window.scrollTo({
@@ -108,7 +120,7 @@ export default function Navbar({
       }
 
       /*
-       * Home page also opens from top.
+       * Home opens from top.
        */
       if (
         newRoute === 'home' &&
@@ -155,7 +167,6 @@ export default function Navbar({
 
   /* =========================================
      SERVICES
-     OPENS SEPARATE SERVICES PAGE
   ========================================= */
 
   const handleServices = () => {
@@ -174,7 +185,6 @@ export default function Navbar({
 
   /* =========================================
      PORTFOLIO
-     OPENS SEPARATE PORTFOLIO PAGE
   ========================================= */
 
   const handlePortfolio = () => {
@@ -231,16 +241,8 @@ export default function Navbar({
      NAVBAR BACKGROUND
   ========================================= */
 
-  /*
-   * Home:
-   * transparent at top
-   * black after scrolling
-   *
-   * All other pages:
-   * black from the beginning
-   */
-
-  const isHomePage = currentRoute === 'home';
+  const isHomePage =
+    currentRoute === 'home';
 
   const navbarBackground = !isHomePage
     ? 'bg-[#171614]'
@@ -251,7 +253,7 @@ export default function Navbar({
   return (
     <>
       {/* =========================================
-          NAVBAR
+          MAIN NAVBAR
       ========================================= */}
 
       <header
@@ -274,9 +276,11 @@ export default function Navbar({
             max-w-[1500px]
             items-center
             justify-between
+            gap-4
             px-5
             sm:px-8
-            lg:px-12
+            lg:px-10
+            xl:px-12
             transition-all
             duration-500
             ${
@@ -297,6 +301,7 @@ export default function Navbar({
             className="
               group
               flex
+              shrink-0
               items-center
               gap-3
             "
@@ -362,8 +367,9 @@ export default function Navbar({
             className="
               hidden
               items-center
-              gap-8
+              gap-5
               lg:flex
+              xl:gap-7
             "
           >
             {/* HOME */}
@@ -374,11 +380,12 @@ export default function Navbar({
               className="
                 group
                 relative
+                whitespace-nowrap
                 py-2
                 text-[10px]
                 font-medium
                 uppercase
-                tracking-[0.22em]
+                tracking-[0.2em]
                 text-white/80
                 transition-colors
                 duration-300
@@ -410,11 +417,12 @@ export default function Navbar({
               className="
                 group
                 relative
+                whitespace-nowrap
                 py-2
                 text-[10px]
                 font-medium
                 uppercase
-                tracking-[0.22em]
+                tracking-[0.2em]
                 text-white/80
                 transition-colors
                 duration-300
@@ -446,11 +454,12 @@ export default function Navbar({
               className="
                 group
                 relative
+                whitespace-nowrap
                 py-2
                 text-[10px]
                 font-medium
                 uppercase
-                tracking-[0.22em]
+                tracking-[0.2em]
                 text-white/80
                 transition-colors
                 duration-300
@@ -482,11 +491,12 @@ export default function Navbar({
               className="
                 group
                 relative
+                whitespace-nowrap
                 py-2
                 text-[10px]
                 font-medium
                 uppercase
-                tracking-[0.22em]
+                tracking-[0.2em]
                 text-white/80
                 transition-colors
                 duration-300
@@ -518,11 +528,12 @@ export default function Navbar({
               className="
                 group
                 relative
+                whitespace-nowrap
                 py-2
                 text-[10px]
                 font-medium
                 uppercase
-                tracking-[0.22em]
+                tracking-[0.2em]
                 text-white/80
                 transition-colors
                 duration-300
@@ -548,18 +559,20 @@ export default function Navbar({
           </nav>
 
           {/* =====================================
-              DESKTOP SOCIAL LINKS
+              DESKTOP ACTIONS
           ===================================== */}
 
           <div
             className="
               hidden
               items-center
-              gap-2.5
+              gap-2
               lg:flex
             "
           >
-            {/* INSTAGRAM */}
+            {/* =================================
+                INSTAGRAM
+            ================================= */}
 
             <a
               href={INSTAGRAM_URL}
@@ -569,8 +582,9 @@ export default function Navbar({
               className="
                 group
                 flex
-                h-10
-                w-10
+                h-9
+                w-9
+                shrink-0
                 items-center
                 justify-center
                 rounded-full
@@ -581,13 +595,14 @@ export default function Navbar({
                 duration-300
                 hover:border-[#E1306C]
                 hover:bg-[#E1306C]/5
+                hover:text-[#E1306C]
               "
             >
               <svg
                 viewBox="0 0 24 24"
                 className="
-                  h-[18px]
-                  w-[18px]
+                  h-[17px]
+                  w-[17px]
                 "
                 fill="none"
               >
@@ -599,11 +614,6 @@ export default function Navbar({
                   rx="5"
                   stroke="currentColor"
                   strokeWidth="1.8"
-                  className="
-                    transition-colors
-                    duration-300
-                    group-hover:text-[#E1306C]
-                  "
                 />
 
                 <circle
@@ -612,11 +622,6 @@ export default function Navbar({
                   r="4"
                   stroke="currentColor"
                   strokeWidth="1.8"
-                  className="
-                    transition-colors
-                    duration-300
-                    group-hover:text-white
-                  "
                 />
 
                 <circle
@@ -624,16 +629,13 @@ export default function Navbar({
                   cy="6.5"
                   r="1"
                   fill="currentColor"
-                  className="
-                    transition-colors
-                    duration-300
-                    group-hover:text-white
-                  "
                 />
               </svg>
             </a>
 
-            {/* FACEBOOK */}
+            {/* =================================
+                FACEBOOK
+            ================================= */}
 
             <a
               href={FACEBOOK_URL}
@@ -643,8 +645,9 @@ export default function Navbar({
               className="
                 group
                 flex
-                h-10
-                w-10
+                h-9
+                w-9
+                shrink-0
                 items-center
                 justify-center
                 rounded-full
@@ -661,62 +664,156 @@ export default function Navbar({
               <svg
                 viewBox="0 0 24 24"
                 className="
-                  h-[18px]
-                  w-[18px]
+                  h-[17px]
+                  w-[17px]
                 "
                 fill="currentColor"
               >
                 <path d="M14 8h3V4h-3c-3.31 0-5 1.69-5 5v3H6v4h3v6h4v-6h3.2l.8-4H13V9c0-.66.34-1 1-1Z" />
               </svg>
             </a>
-          </div>
 
-          {/* =====================================
-              BOOK A DATE
-          ===================================== */}
+            {/* =================================
+                CHAT WITH US
+            ================================= */}
 
-          <button
-            type="button"
-            onClick={handleContact}
-            className="
-              hidden
-              items-center
-              gap-3
-              rounded-full
-              bg-[#d6b36a]
-              px-6
-              py-3.5
-              text-[9px]
-              font-semibold
-              uppercase
-              tracking-[0.2em]
-              text-[#171614]
-              transition-all
-              duration-300
-              hover:bg-[#c5a158]
-              lg:flex
-            "
-          >
-            BOOK A DATE
-
-            <span
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Chat with us on WhatsApp"
               className="
+                group
                 flex
-                h-6
-                w-6
+                shrink-0
                 items-center
-                justify-center
+                gap-2
                 rounded-full
-                bg-[#171614]
-                text-[#d6b36a]
+                border
+                border-white/20
+                px-4
+                py-3
+                text-[8px]
+                font-semibold
+                uppercase
+                tracking-[0.16em]
+                text-white
+                transition-all
+                duration-300
+                hover:border-[#d6b36a]
+                hover:bg-[#d6b36a]/10
+                hover:text-[#d6b36a]
               "
             >
-              <ArrowUpRight
-                className="h-3 w-3"
+              <MessageCircle
+                className="
+                  h-4
+                  w-4
+                  transition-transform
+                  duration-300
+                  group-hover:scale-110
+                "
                 strokeWidth={1.5}
               />
-            </span>
-          </button>
+
+              CHAT WITH US
+            </a>
+
+            {/* =================================
+                CALL NOW
+            ================================= */}
+
+            <a
+              href={PHONE_NUMBER}
+              aria-label="Call Bharat Photo Studio"
+              className="
+                group
+                flex
+                shrink-0
+                items-center
+                gap-2
+                rounded-full
+                border
+                border-white/20
+                px-4
+                py-3
+                text-[8px]
+                font-semibold
+                uppercase
+                tracking-[0.16em]
+                text-white
+                transition-all
+                duration-300
+                hover:border-[#d6b36a]
+                hover:bg-[#d6b36a]/10
+                hover:text-[#d6b36a]
+              "
+            >
+              <Phone
+                className="
+                  h-4
+                  w-4
+                  transition-transform
+                  duration-300
+                  group-hover:rotate-[-8deg]
+                "
+                strokeWidth={1.5}
+              />
+
+              CALL NOW
+            </a>
+
+            {/* =================================
+                BOOK A DATE
+            ================================= */}
+
+            <button
+              type="button"
+              onClick={handleContact}
+              className="
+                group
+                flex
+                shrink-0
+                items-center
+                gap-2.5
+                rounded-full
+                bg-[#d6b36a]
+                px-5
+                py-3
+                text-[8px]
+                font-semibold
+                uppercase
+                tracking-[0.18em]
+                text-[#171614]
+                transition-all
+                duration-300
+                hover:bg-[#c5a158]
+              "
+            >
+              BOOK A DATE
+
+              <span
+                className="
+                  flex
+                  h-6
+                  w-6
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-[#171614]
+                  text-[#d6b36a]
+                  transition-transform
+                  duration-300
+                  group-hover:translate-x-0.5
+                "
+              >
+                <ArrowUpRight
+                  className="h-3 w-3"
+                  strokeWidth={1.5}
+                />
+              </span>
+            </button>
+          </div>
 
           {/* =====================================
               MOBILE MENU BUTTON
@@ -736,11 +833,16 @@ export default function Navbar({
               flex
               h-10
               w-10
+              shrink-0
               items-center
               justify-center
               border
               border-white/30
               text-white
+              transition-all
+              duration-300
+              hover:border-[#d6b36a]
+              hover:text-[#d6b36a]
               lg:hidden
             "
           >
@@ -784,6 +886,7 @@ export default function Navbar({
             flex
             h-full
             flex-col
+            overflow-y-auto
             px-6
             pb-8
             pt-28
@@ -796,7 +899,7 @@ export default function Navbar({
 
           <div
             className="
-              mb-8
+              mb-7
               flex
               items-center
               gap-3
@@ -823,12 +926,6 @@ export default function Navbar({
                   w-full
                   object-contain
                 "
-                onError={(e) => {
-                  console.error(
-                    'Navbar logo failed to load:',
-                    e.currentTarget.src
-                  );
-                }}
               />
             </div>
 
@@ -875,7 +972,7 @@ export default function Navbar({
                 justify-between
                 border-b
                 border-white/10
-                py-5
+                py-4
                 text-left
               "
             >
@@ -910,7 +1007,7 @@ export default function Navbar({
                 justify-between
                 border-b
                 border-white/10
-                py-5
+                py-4
                 text-left
               "
             >
@@ -945,7 +1042,7 @@ export default function Navbar({
                 justify-between
                 border-b
                 border-white/10
-                py-5
+                py-4
                 text-left
               "
             >
@@ -980,7 +1077,7 @@ export default function Navbar({
                 justify-between
                 border-b
                 border-white/10
-                py-5
+                py-4
                 text-left
               "
             >
@@ -1015,7 +1112,7 @@ export default function Navbar({
                 justify-between
                 border-b
                 border-white/10
-                py-5
+                py-4
                 text-left
               "
             >
@@ -1042,6 +1139,96 @@ export default function Navbar({
           </nav>
 
           {/* =====================================
+              MOBILE CHAT WITH US
+          ===================================== */}
+
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat with us on WhatsApp"
+            className="
+              mt-7
+              flex
+              w-full
+              items-center
+              justify-center
+              gap-3
+              rounded-full
+              border
+              border-white/20
+              px-6
+              py-4
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-[0.2em]
+              text-white
+              transition-all
+              duration-300
+              hover:border-[#d6b36a]
+              hover:bg-[#d6b36a]/10
+              hover:text-[#d6b36a]
+            "
+          >
+            <MessageCircle
+              className="h-4 w-4"
+              strokeWidth={1.5}
+            />
+
+            CHAT WITH US
+
+            <ArrowUpRight
+              className="h-4 w-4"
+              strokeWidth={1.3}
+            />
+          </a>
+
+          {/* =====================================
+              MOBILE CALL NOW
+          ===================================== */}
+
+          <a
+            href={PHONE_NUMBER}
+            aria-label="Call Bharat Photo Studio"
+            className="
+              mt-3
+              flex
+              w-full
+              items-center
+              justify-center
+              gap-3
+              rounded-full
+              border
+              border-white/20
+              px-6
+              py-4
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-[0.2em]
+              text-white
+              transition-all
+              duration-300
+              hover:border-[#d6b36a]
+              hover:bg-[#d6b36a]/10
+              hover:text-[#d6b36a]
+            "
+          >
+            <Phone
+              className="h-4 w-4"
+              strokeWidth={1.5}
+            />
+
+            CALL NOW
+
+            <ArrowUpRight
+              className="h-4 w-4"
+              strokeWidth={1.3}
+            />
+          </a>
+
+          {/* =====================================
               MOBILE BOOK A DATE
           ===================================== */}
 
@@ -1049,7 +1236,7 @@ export default function Navbar({
             type="button"
             onClick={handleContact}
             className="
-              mt-8
+              mt-3
               flex
               w-full
               items-center
@@ -1064,6 +1251,9 @@ export default function Navbar({
               uppercase
               tracking-[0.2em]
               text-[#171614]
+              transition-all
+              duration-300
+              hover:bg-[#c5a158]
             "
           >
             <CalendarDays
@@ -1098,7 +1288,9 @@ export default function Navbar({
               pt-8
             "
           >
-            {/* INSTAGRAM */}
+            {/* =================================
+                MOBILE INSTAGRAM
+            ================================= */}
 
             <a
               href={INSTAGRAM_URL}
@@ -1120,6 +1312,7 @@ export default function Navbar({
                 duration-300
                 hover:border-[#E1306C]
                 hover:bg-[#E1306C]/5
+                hover:text-[#E1306C]
               "
             >
               <svg
@@ -1138,11 +1331,6 @@ export default function Navbar({
                   rx="5"
                   stroke="currentColor"
                   strokeWidth="1.8"
-                  className="
-                    transition-colors
-                    duration-300
-                    group-hover:text-[#E1306C]
-                  "
                 />
 
                 <circle
@@ -1151,11 +1339,6 @@ export default function Navbar({
                   r="4"
                   stroke="currentColor"
                   strokeWidth="1.8"
-                  className="
-                    transition-colors
-                    duration-300
-                    group-hover:text-white
-                  "
                 />
 
                 <circle
@@ -1163,16 +1346,13 @@ export default function Navbar({
                   cy="6.5"
                   r="1"
                   fill="currentColor"
-                  className="
-                    transition-colors
-                    duration-300
-                    group-hover:text-white
-                  "
                 />
               </svg>
             </a>
 
-            {/* FACEBOOK */}
+            {/* =================================
+                MOBILE FACEBOOK
+            ================================= */}
 
             <a
               href={FACEBOOK_URL}
