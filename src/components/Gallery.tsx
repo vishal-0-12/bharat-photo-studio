@@ -17,319 +17,239 @@ type GalleryCategory =
   | 'Celebration';
 
 type GalleryImage = LightboxImage & {
-  span: string;
   number: string;
   category: Exclude<GalleryCategory, 'All'>;
 };
 
 /* =====================================================
    GALLERY IMAGES
-   ===================================================== */
+===================================================== */
 
 const galleryImages: GalleryImage[] = [
   /* =====================================================
      WEDDING
-     ===================================================== */
-
-  {
-    url: '/img/img1.JPG',
-    alt: 'Wedding photography',
-    label: 'The Ceremony',
-    number: '01',
-    category: 'Wedding',
-    span: 'lg:col-span-2 lg:row-span-2',
-  },
-
-  {
-    url: '/img/img2.jpg',
-    alt: 'Wedding ceremony',
-    label: 'Sacred Vows',
-    number: '02',
-    category: 'Wedding',
-    span: '',
-  },
+  ===================================================== */
 
   {
     url: 'https://images.pexels.com/photos/30184675/pexels-photo-30184675.jpeg?auto=compress&cs=tinysrgb&w=1400',
-    alt: 'Indian bride and groom during traditional wedding ceremony',
-    label: 'The Wedding',
-    number: '03',
+    alt: 'Indian wedding ceremony',
+    label: 'The Ceremony',
+    number: '01',
     category: 'Wedding',
-    span: '',
   },
 
   {
-    url: 'https://images.pexels.com/photos/31002333/pexels-photo-31002333.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Indian bride and groom in traditional wedding attire',
+    url: 'https://images.pexels.com/photos/31002333/pexels-photo-31002333.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    alt: 'Indian bride and groom',
     label: 'Forever Begins',
-    number: '04',
+    number: '02',
     category: 'Wedding',
-    span: '',
   },
 
   {
-    url: 'https://images.pexels.com/photos/28210860/pexels-photo-28210860.jpeg?auto=compress&cs=tinysrgb&w=1000',
+    url: 'https://images.pexels.com/photos/28210860/pexels-photo-28210860.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Indian bride and groom surrounded by family',
     label: 'The Ritual',
-    number: '05',
+    number: '03',
     category: 'Wedding',
-    span: 'lg:col-span-2',
-  },
-
-  {
-    url: 'https://images.pexels.com/photos/12603609/pexels-photo-12603609.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Traditional Indian wedding ceremony',
-    label: 'Together Forever',
-    number: '06',
-    category: 'Wedding',
-    span: '',
   },
 
   {
     url: 'https://images.pexels.com/photos/32325264/pexels-photo-32325264.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Elegant Indian wedding ceremony',
     label: 'The Wedding',
-    number: '07',
+    number: '04',
     category: 'Wedding',
-    span: '',
+  },
+
+  {
+    url: '/img/img1.JPG',
+    alt: 'Wedding photography',
+    label: 'Sacred Vows',
+    number: '05',
+    category: 'Wedding',
+  },
+
+  {
+    url: '/img/img2.jpg',
+    alt: 'Wedding ceremony',
+    label: 'Together Forever',
+    number: '06',
+    category: 'Wedding',
   },
 
   /* =====================================================
      ENGAGEMENT
-     ===================================================== */
+  ===================================================== */
 
   {
-    url: '/img/img3.JPG',
-    alt: 'Engagement photography',
-    label: 'The Promise',
+    url: 'https://images.pexels.com/photos/35354275/pexels-photo-35354275.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    alt: 'Indian couple celebrating engagement',
+    label: 'Engaged',
+    number: '07',
+    category: 'Engagement',
+  },
+
+  {
+    url: 'https://images.pexels.com/photos/31965607/pexels-photo-31965607.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    alt: 'Indian couple exchanging rings',
+    label: 'The Ring',
     number: '08',
     category: 'Engagement',
-    span: '',
   },
 
   {
-    url: '/img/img5.JPG',
-    alt: 'Engagement ceremony',
-    label: 'The Ring',
+    url: 'https://images.pexels.com/photos/31733607/pexels-photo-31733607.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    alt: 'Indian engagement ceremony',
+    label: 'Together',
     number: '09',
     category: 'Engagement',
-    span: 'lg:col-span-2',
-  },
-
-  {
-    url: 'https://images.pexels.com/photos/35354275/pexels-photo-35354275.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Indian couple celebrating engagement ceremony',
-    label: 'Engaged',
-    number: '10',
-    category: 'Engagement',
-    span: '',
-  },
-
-  {
-    url: 'https://images.pexels.com/photos/31965607/pexels-photo-31965607.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Indian couple exchanging golden rings',
-    label: 'The Ring',
-    number: '11',
-    category: 'Engagement',
-    span: '',
-  },
-
-  {
-    url: 'https://images.pexels.com/photos/31733607/pexels-photo-31733607.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Indian engagement ceremony with mehndi',
-    label: 'Together',
-    number: '12',
-    category: 'Engagement',
-    span: '',
-  },
-
-  {
-    url: 'https://images.pexels.com/photos/14144664/pexels-photo-14144664.jpeg?auto=compress&cs=tinysrgb&w=1400',
-    alt: 'Indian bride and groom exchanging rings',
-    label: 'The Promise',
-    number: '13',
-    category: 'Engagement',
-    span: 'lg:col-span-2 lg:row-span-2',
   },
 
   /* =====================================================
      HALDI
-     ===================================================== */
+  ===================================================== */
+
+  {
+    url: '/img/img5.JPG',
+    alt: 'Haldi ceremony',
+    label: 'Haldi',
+    number: '10',
+    category: 'Haldi',
+  },
 
   {
     url: '/img/img7.JPG',
-    alt: 'Haldi ceremony',
-    label: 'Haldi',
-    number: '14',
+    alt: 'Haldi celebration',
+    label: 'The Colors',
+    number: '11',
     category: 'Haldi',
-    span: 'lg:col-span-2 lg:row-span-2',
   },
 
   {
     url: '/img/img8.JPG',
     alt: 'Haldi celebration',
-    label: 'The Colors',
-    number: '15',
+    label: 'Pure Joy',
+    number: '12',
     category: 'Haldi',
-    span: '',
   },
 
   {
     url: 'https://images.pexels.com/photos/33078524/pexels-photo-33078524.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Indian couple enjoying Haldi ceremony',
-    label: 'Pure Joy',
-    number: '16',
-    category: 'Haldi',
-    span: '',
-  },
-
-  {
-    url: 'https://images.pexels.com/photos/33318103/pexels-photo-33318103.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Indian bride in traditional yellow Haldi attire',
-    label: 'Haldi Bride',
-    number: '17',
-    category: 'Haldi',
-    span: 'lg:col-span-2',
-  },
-
-  {
-    url: 'https://images.pexels.com/photos/32325926/pexels-photo-32325926.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Colorful Indian Haldi ceremony',
-    label: 'The Colors',
-    number: '18',
-    category: 'Haldi',
-    span: '',
-  },
-
-  {
-    url: 'https://images.pexels.com/photos/32500047/pexels-photo-32500047.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Joyful Indian Haldi ceremony',
     label: 'Celebration',
-    number: '19',
+    number: '13',
     category: 'Haldi',
-    span: '',
+  },
+
+  {
+    url: 'https://images.pexels.com/photos/33318103/pexels-photo-33318103.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    alt: 'Indian bride in yellow Haldi attire',
+    label: 'Haldi Bride',
+    number: '14',
+    category: 'Haldi',
   },
 
   /* =====================================================
      COUPLE
-     ===================================================== */
+  ===================================================== */
 
   {
     url: '/img/img9.JPG',
     alt: 'Couple photography',
     label: 'Just Us',
-    number: '20',
+    number: '15',
     category: 'Couple',
-    span: '',
   },
 
   {
     url: '/img/img10.JPG',
-    alt: 'Couple portrait',
-    label: 'Together',
-    number: '21',
+    alt: 'Couple photography',
+    label: 'Always',
+    number: '16',
     category: 'Couple',
-    span: 'lg:col-span-2 lg:row-span-2',
   },
 
   {
     url: 'https://images.pexels.com/photos/17657740/pexels-photo-17657740.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Indian couple in traditional clothing',
-    label: 'Always',
-    number: '22',
-    category: 'Couple',
-    span: 'lg:col-span-2',
-  },
-
-  {
-    url: 'https://images.pexels.com/photos/36523477/pexels-photo-36523477.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Indian bride and groom enjoying an outdoor moment',
     label: 'In The Moment',
-    number: '23',
+    number: '17',
     category: 'Couple',
-    span: '',
   },
 
   {
-    url: 'https://images.pexels.com/photos/36248948/pexels-photo-36248948.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Indian couple sharing a tender wedding moment',
+    url: 'https://images.pexels.com/photos/36523477/pexels-photo-36523477.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    alt: 'Indian bride and groom outdoors',
     label: 'In Between',
-    number: '24',
+    number: '18',
     category: 'Couple',
-    span: '',
   },
 
   {
-    url: 'https://images.pexels.com/photos/35635687/pexels-photo-35635687.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Indian couple celebrating their traditional wedding',
+    url: 'https://images.pexels.com/photos/36248948/pexels-photo-36248948.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    alt: 'Indian couple sharing a wedding moment',
     label: 'Forever',
-    number: '25',
+    number: '19',
     category: 'Couple',
-    span: '',
   },
 
   /* =====================================================
      CELEBRATION
-     ===================================================== */
+  ===================================================== */
 
   {
     url: '/img/img11.JPG',
     alt: 'Wedding celebration',
     label: 'Celebration',
-    number: '26',
+    number: '20',
     category: 'Celebration',
-    span: 'lg:col-span-2 lg:row-span-2',
   },
 
   {
     url: '/img/img12.JPG',
     alt: 'Wedding celebration moments',
     label: 'Wedding Joy',
-    number: '27',
+    number: '21',
     category: 'Celebration',
-    span: '',
   },
 
   {
     url: 'https://images.pexels.com/photos/31906103/pexels-photo-31906103.jpeg?auto=compress&cs=tinysrgb&w=1400',
-    alt: 'Joyful Indian wedding procession',
+    alt: 'Indian wedding procession',
     label: 'The Celebration',
-    number: '28',
+    number: '22',
     category: 'Celebration',
-    span: 'lg:col-span-2',
   },
 
   {
-    url: 'https://images.pexels.com/photos/30902343/pexels-photo-30902343.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Indian wedding reception celebration',
+    url: 'https://images.pexels.com/photos/30902343/pexels-photo-30902343.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    alt: 'Indian wedding reception',
     label: 'After Dark',
-    number: '29',
+    number: '23',
     category: 'Celebration',
-    span: '',
   },
 
   {
-    url: 'https://images.pexels.com/photos/30215313/pexels-photo-30215313.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Joyful Indian wedding ceremony',
+    url: 'https://images.pexels.com/photos/30215313/pexels-photo-30215313.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    alt: 'Indian wedding celebration',
     label: 'The Celebration',
-    number: '30',
+    number: '24',
     category: 'Celebration',
-    span: '',
   },
 
   {
-    url: 'https://images.pexels.com/photos/31002342/pexels-photo-31002342.jpeg?auto=compress&cs=tinysrgb&w=1000',
-    alt: 'Indian bride and groom celebrating wedding',
+    url: 'https://images.pexels.com/photos/31002342/pexels-photo-31002342.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    alt: 'Indian bride and groom celebrating',
     label: 'Wedding Joy',
-    number: '31',
+    number: '25',
     category: 'Celebration',
-    span: '',
   },
 ];
 
 /* =====================================================
    CATEGORIES
-   ===================================================== */
+===================================================== */
 
 const categories: GalleryCategory[] = [
   'All',
@@ -342,7 +262,7 @@ const categories: GalleryCategory[] = [
 
 /* =====================================================
    GALLERY COMPONENT
-   ===================================================== */
+===================================================== */
 
 export default function Gallery() {
   const { ref, isVisible } = useReveal();
@@ -374,21 +294,17 @@ export default function Gallery() {
       id="gallery"
       className="gallery-section relative overflow-hidden bg-[#f4f0e8]"
     >
-      {/* =================================================
-          GRAIN
-      ================================================= */}
+      {/* GRAIN */}
 
       <div className="gallery-grain pointer-events-none absolute inset-0" />
 
       <div
         ref={ref}
-        className={`relative mx-auto max-w-[1500px] px-6 py-24 sm:px-10 lg:px-16 lg:py-32 ${
+        className={`relative mx-auto max-w-[1500px] px-5 py-20 sm:px-8 sm:py-24 lg:px-16 lg:py-32 ${
           isVisible ? 'gallery-visible' : ''
         }`}
       >
-        {/* =================================================
-            HEADER
-        ================================================= */}
+        {/* HEADER */}
 
         <div className="grid gap-10 lg:grid-cols-[1fr_400px] lg:items-end">
           <div className="gallery-heading">
@@ -427,9 +343,7 @@ export default function Gallery() {
           </div>
         </div>
 
-        {/* =================================================
-            CATEGORY FILTER
-        ================================================= */}
+        {/* CATEGORY FILTER */}
 
         <div className="gallery-categories mt-12 overflow-x-auto pb-3">
           <div className="flex min-w-max items-center gap-7 sm:gap-9">
@@ -444,77 +358,30 @@ export default function Gallery() {
                   onClick={() =>
                     setActiveCategory(category)
                   }
-                  className={`
-                    group
-                    relative
-                    py-2
-                    text-[10px]
-                    uppercase
-                    tracking-[0.25em]
-                    transition-all
-                    duration-300
-                    ease-out
-                    focus:outline-none
-
-                    ${
-                      isActive
-                        ? 'text-[#171614]'
-                        : 'text-[#171614]/40 hover:text-[#171614]'
-                    }
-                  `}
+                  className={`group relative py-2 text-[10px] uppercase tracking-[0.25em] transition-all duration-300 focus:outline-none ${
+                    isActive
+                      ? 'text-[#171614]'
+                      : 'text-[#171614]/40 hover:text-[#171614]'
+                  }`}
                 >
-                  <span
-                    className="
-                      transition-all
-                      duration-300
-                      ease-out
-                      group-hover:tracking-[0.28em]
-                    "
-                  >
+                  <span className="transition-all duration-300 group-hover:tracking-[0.28em]">
                     {category}
                   </span>
 
-                  {/* UNDERLINE */}
-
                   <span
-                    className={`
-                      absolute
-                      bottom-0
-                      left-0
-                      h-px
-                      bg-[#9a7b45]
-                      transition-all
-                      duration-500
-                      ease-out
-
-                      ${
-                        isActive
-                          ? 'w-full'
-                          : 'w-0 group-hover:w-full'
-                      }
-                    `}
+                    className={`absolute bottom-0 left-0 h-px bg-[#9a7b45] transition-all duration-500 ${
+                      isActive
+                        ? 'w-full'
+                        : 'w-0 group-hover:w-full'
+                    }`}
                   />
 
-                  {/* SMALL GOLD DOT */}
-
                   <span
-                    className={`
-                      absolute
-                      -bottom-[2px]
-                      right-0
-                      h-[3px]
-                      w-[3px]
-                      rounded-full
-                      bg-[#9a7b45]
-                      transition-all
-                      duration-300
-
-                      ${
-                        isActive
-                          ? 'scale-100 opacity-100'
-                          : 'scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100'
-                      }
-                    `}
+                    className={`absolute -bottom-[2px] right-0 h-[3px] w-[3px] rounded-full bg-[#9a7b45] transition-all duration-300 ${
+                      isActive
+                        ? 'scale-100 opacity-100'
+                        : 'scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100'
+                    }`}
                   />
                 </button>
               );
@@ -522,9 +389,7 @@ export default function Gallery() {
           </div>
         </div>
 
-        {/* =================================================
-            CATEGORY INFO
-        ================================================= */}
+        {/* CATEGORY INFO */}
 
         <div className="mt-8 flex items-center justify-between">
           <p className="text-[10px] uppercase tracking-[0.25em] text-[#171614]/40">
@@ -540,20 +405,20 @@ export default function Gallery() {
         </div>
 
         {/* =================================================
-            GALLERY GRID
+            NEW GALLERY GRID
         ================================================= */}
 
         <div
           className="
-            gallery-grid
             mt-8
             grid
             grid-cols-1
             gap-4
             sm:grid-cols-2
             sm:gap-5
-            lg:grid-cols-4
-            lg:auto-rows-[260px]
+            lg:grid-cols-3
+            lg:gap-5
+            xl:grid-cols-4
           "
         >
           {filteredImages.map((image, index) => (
@@ -566,9 +431,7 @@ export default function Gallery() {
           ))}
         </div>
 
-        {/* =================================================
-            BOTTOM STATEMENT
-        ================================================= */}
+        {/* BOTTOM STATEMENT */}
 
         <div className="gallery-statement mt-20 grid gap-8 border-t border-[#171614]/10 pt-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
@@ -584,10 +447,6 @@ export default function Gallery() {
               </span>
             </p>
           </div>
-
-          {/* =================================================
-              VIEW FULL GALLERY BUTTON
-          ================================================= */}
 
           <button
             type="button"
@@ -611,20 +470,12 @@ export default function Gallery() {
               text-[#171614]/60
               transition-all
               duration-300
-              ease-out
               hover:border-[#9a7b45]
               hover:text-[#9a7b45]
               focus:outline-none
             "
           >
-            <span
-              className="
-                transition-transform
-                duration-300
-                ease-out
-                group-hover:translate-x-1
-              "
-            >
+            <span className="transition-transform duration-300 group-hover:translate-x-1">
               View full gallery
             </span>
 
@@ -634,7 +485,6 @@ export default function Gallery() {
                 w-4
                 transition-transform
                 duration-300
-                ease-out
                 group-hover:translate-x-1
                 group-hover:-translate-y-1
               "
@@ -644,9 +494,7 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* =================================================
-          LIGHTBOX
-      ================================================= */}
+      {/* LIGHTBOX */}
 
       <Lightbox
         images={galleryImages}
@@ -658,7 +506,7 @@ export default function Gallery() {
 
 /* =====================================================
    GALLERY ITEM
-   ===================================================== */
+===================================================== */
 
 function GalleryItem({
   image,
@@ -673,34 +521,32 @@ function GalleryItem({
     <button
       type="button"
       onClick={onClick}
-      className={`
+      className="
         gallery-item
-        ${image.span}
         group
         relative
-        min-h-[380px]
+        aspect-[4/3]
         w-full
         cursor-pointer
         overflow-hidden
         rounded-sm
+        bg-[#d8d0c2]
         text-left
-        transition-transform
+        transition-all
         duration-500
-        ease-out
         hover:-translate-y-[2px]
         focus:outline-none
-        sm:min-h-[340px]
-        lg:min-h-0
-        lg:h-full
-      `}
+        focus-visible:ring-2
+        focus-visible:ring-[#9a7b45]
+        focus-visible:ring-offset-2
+        focus-visible:ring-offset-[#f4f0e8]
+      "
       style={{
         animationDelay: `${index * 70}ms`,
       }}
       aria-label={`Open ${image.label}`}
     >
-      {/* =================================================
-          IMAGE
-      ================================================= */}
+      {/* IMAGE */}
 
       <img
         src={image.url}
@@ -710,15 +556,14 @@ function GalleryItem({
         className="
           absolute
           inset-0
-          block
           h-full
           w-full
           object-cover
           object-center
           transition-transform
-          duration-[1000ms]
+          duration-[1200ms]
           ease-[cubic-bezier(0.22,1,0.36,1)]
-          group-hover:scale-[1.045]
+          group-hover:scale-[1.06]
         "
         onError={(e) => {
           console.error(
@@ -729,9 +574,7 @@ function GalleryItem({
         }}
       />
 
-      {/* =================================================
-          CINEMATIC OVERLAY
-      ================================================= */}
+      {/* OVERLAY */}
 
       <div
         className="
@@ -739,21 +582,17 @@ function GalleryItem({
           absolute
           inset-0
           bg-gradient-to-b
-          from-black/0
-          via-black/0
-          to-black/60
+          from-black/5
+          via-transparent
+          to-black/65
           transition-all
           duration-700
-          ease-out
-          group-hover:from-black/[0.08]
-          group-hover:via-black/[0.02]
-          group-hover:to-black/75
+          group-hover:from-black/15
+          group-hover:to-black/80
         "
       />
 
-      {/* =================================================
-          SUBTLE INNER BORDER
-      ================================================= */}
+      {/* INNER BORDER */}
 
       <div
         className="
@@ -764,33 +603,19 @@ function GalleryItem({
           border-white/0
           transition-all
           duration-700
-          ease-out
-          group-hover:border-white/20
+          group-hover:border-white/25
         "
       />
 
-      {/* =================================================
-          NUMBER
-      ================================================= */}
+      {/* NUMBER */}
 
       <div className="pointer-events-none absolute left-5 top-5">
-        <span
-          className="
-            text-[10px]
-            tracking-[0.2em]
-            text-white/60
-            transition-colors
-            duration-300
-            group-hover:text-[#e4d09f]
-          "
-        >
+        <span className="text-[10px] tracking-[0.2em] text-white/70 transition-colors duration-300 group-hover:text-[#e4d09f]">
           {image.number}
         </span>
       </div>
 
-      {/* =================================================
-          ZOOM ICON
-      ================================================= */}
+      {/* ZOOM ICON */}
 
       <div
         className="
@@ -799,62 +624,41 @@ function GalleryItem({
           right-5
           top-5
           flex
-          h-9
-          w-9
+          h-10
+          w-10
           translate-y-1
           items-center
           justify-center
           rounded-full
           border
           border-white/30
-          bg-black/10
-          text-white/80
+          bg-black/20
+          text-white
           opacity-0
-          backdrop-blur-sm
+          backdrop-blur-md
           transition-all
           duration-500
-          ease-out
           group-hover:translate-y-0
           group-hover:opacity-100
         "
       >
         <ZoomIn
-          className="
-            h-4
-            w-4
-            transition-transform
-            duration-500
-            group-hover:scale-90
-          "
+          className="h-4 w-4"
           strokeWidth={1.2}
         />
       </div>
 
-      {/* =================================================
-          CATEGORY
-      ================================================= */}
+      {/* CATEGORY */}
 
       <div className="pointer-events-none absolute left-5 top-14">
-        <span
-          className="
-            text-[8px]
-            uppercase
-            tracking-[0.2em]
-            text-white/55
-            transition-colors
-            duration-300
-            group-hover:text-[#e4d09f]
-          "
-        >
+        <span className="text-[8px] uppercase tracking-[0.2em] text-white/60">
           {image.category}
         </span>
       </div>
 
-      {/* =================================================
-          BOTTOM CONTENT
-      ================================================= */}
+      {/* BOTTOM CONTENT */}
 
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 p-5 sm:p-7">
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 p-5 sm:p-6">
         <div className="flex items-end justify-between gap-4">
           <div>
             <p
@@ -862,18 +666,16 @@ function GalleryItem({
                 font-serif
                 text-xl
                 font-normal
+                leading-tight
                 text-white
                 transition-transform
                 duration-500
-                ease-out
                 group-hover:-translate-y-1
                 sm:text-2xl
               "
             >
               {image.label}
             </p>
-
-            {/* GOLD LINE */}
 
             <span
               className="
@@ -884,22 +686,18 @@ function GalleryItem({
                 bg-[#c3a66c]
                 transition-all
                 duration-500
-                ease-out
                 group-hover:w-12
               "
             />
           </div>
 
-          {/* ARROW */}
-
           <ArrowUpRight
             className="
               h-5
               w-5
-              text-white/55
+              text-white/60
               transition-all
               duration-500
-              ease-out
               group-hover:-translate-y-1
               group-hover:translate-x-1
               group-hover:text-[#e4d09f]
