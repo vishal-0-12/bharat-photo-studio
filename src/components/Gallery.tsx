@@ -194,13 +194,7 @@ const galleryImages: GalleryImage[] = [
     category: 'Celebration',
   },
 
-  {
-    url: '/img/img12.JPG',
-    alt: 'Wedding celebration moments',
-    label: 'Wedding Joy',
-    number: '21',
-    category: 'Celebration',
-  },
+  
 
   {
     url: 'https://images.pexels.com/photos/31906103/pexels-photo-31906103.jpeg?auto=compress&cs=tinysrgb&w=1400',
