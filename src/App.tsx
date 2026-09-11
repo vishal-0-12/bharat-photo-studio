@@ -6,7 +6,7 @@ import About from './components/About';
 import Services from './components/Portfolio';
 import Package from './components/Package';
 import Gallery from './components/Gallery';
-import Schedule from './components/Schedule';
+
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -62,7 +62,7 @@ function App() {
 
             <Gallery />
 
-            <Schedule />
+      
 
             <Contact />
           </>
