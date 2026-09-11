@@ -35,24 +35,24 @@ export default function Hero() {
       <div className="letterbox-bottom absolute bottom-0 left-0 right-0 z-20 bg-charcoal-950" />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-5 text-center">
+      <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-5 text-center">
 
         {/* Eyebrow */}
         <div
-          className="animate-fade-in"
+          className="animate-fade-in w-full"
           style={{
             animationDelay: '0.3s',
             opacity: 0,
           }}
         >
-          <span className="mb-5 inline-block rounded-full border border-gold-300/40 bg-white/5 px-5 py-1.5 text-xs font-medium uppercase tracking-[0.25em] text-gold-200 backdrop-blur-sm">
+          <span className="mb-5 inline-block max-w-full rounded-full border border-gold-300/40 bg-white/5 px-5 py-1.5 text-xs font-medium uppercase tracking-[0.25em] text-gold-200 backdrop-blur-sm sm:text-xs">
             Wedding Photography & Cinematic Videography
           </span>
         </div>
 
         {/* Main Heading */}
         <h1
-          className="animate-fade-up font-serif text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl"
+          className="animate-fade-up w-full max-w-[95%] font-serif text-4xl font-bold text-white sm:max-w-none sm:text-5xl md:text-6xl lg:text-7xl"
           style={{
             animationDelay: '0.5s',
             opacity: 0,
@@ -64,24 +64,24 @@ export default function Hero() {
 
         {/* Tagline */}
         <div
-          className="animate-fade-up mt-4 flex items-center gap-4"
+          className="animate-fade-up mt-4 flex w-full max-w-full items-center justify-center gap-3 sm:gap-4"
           style={{
             animationDelay: '0.7s',
             opacity: 0,
           }}
         >
-          <span className="h-px w-12 bg-gold-400/60" />
+          <span className="hidden h-px w-12 bg-gold-400/60 sm:block" />
 
-          <p className="shimmer-text font-serif text-lg italic sm:text-xl md:text-2xl">
+          <p className="shimmer-text font-serif text-base italic sm:text-xl md:text-2xl">
             Capture Your Special Moments Forever
           </p>
 
-          <span className="h-px w-12 bg-gold-400/60" />
+          <span className="hidden h-px w-12 bg-gold-400/60 sm:block" />
         </div>
 
         {/* Description */}
         <p
-          className="animate-fade-up mt-6 max-w-2xl text-base text-white/80 sm:text-lg"
+          className="animate-fade-up mt-6 w-full max-w-2xl px-2 text-sm leading-6 text-white/80 sm:px-0 sm:text-lg sm:leading-normal"
           style={{
             animationDelay: '0.9s',
             opacity: 0,
@@ -94,7 +94,7 @@ export default function Hero() {
 
         {/* Buttons */}
         <div
-          className="animate-fade-up mt-10 flex flex-col gap-4 sm:flex-row"
+          className="animate-fade-up mt-10 flex w-full max-w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row"
           style={{
             animationDelay: '1.1s',
             opacity: 0,
@@ -103,12 +103,11 @@ export default function Hero() {
 
           {/* =========================================
               VIEW PACKAGES
-              Opens separate Packages page
           ========================================= */}
 
           <a
             href="#/packages"
-            className="shimmer-sweep relative flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gold-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-gold-900/30 transition-all duration-300 hover:bg-gold-700 hover:shadow-xl"
+            className="shimmer-sweep relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-gold-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-gold-900/30 transition-all duration-300 hover:bg-gold-700 hover:shadow-xl sm:w-auto"
           >
             <CalendarCheck className="h-4 w-4" />
 
@@ -117,12 +116,11 @@ export default function Hero() {
 
           {/* =========================================
               CONTACT US
-              Opens separate Contact page
           ========================================= */}
 
           <a
             href="#/contact"
-            className="flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20"
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 sm:w-auto"
           >
             <Phone className="h-4 w-4" />
 
@@ -133,7 +131,6 @@ export default function Hero() {
 
       {/* =========================================
           SCROLL / PACKAGE BUTTON
-          Opens Packages page instead of scrolling
       ========================================= */}
 
       <a

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowUpRight,
   CalendarDays,
@@ -22,13 +22,34 @@ export default function Navbar({
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  /*
-   * Detect current page directly from the URL.
-   * This makes sure Contact always gets the black navbar.
-   */
-  const [isContactPage, setIsContactPage] = useState(
-    window.location.hash === '#/contact'
-  );
+  /* =========================================
+     CURRENT ROUTE
+  ========================================= */
+
+  const getCurrentRoute = (): Route => {
+    const hash = window.location.hash;
+
+    if (hash === '#/services') {
+      return 'services';
+    }
+
+    if (hash === '#/portfolio') {
+      return 'portfolio';
+    }
+
+    if (hash === '#/packages') {
+      return 'packages';
+    }
+
+    if (hash === '#/contact') {
+      return 'contact';
+    }
+
+    return 'home';
+  };
+
+  const [currentRoute, setCurrentRoute] =
+    useState<Route>(getCurrentRoute);
 
   /* =========================================
      SOCIAL LINKS
@@ -41,7 +62,7 @@ export default function Navbar({
     'https://www.facebook.com/profile.php?id=61594215032715';
 
   /* =========================================
-     SCROLL
+     SCROLL DETECTION
   ========================================= */
 
   useEffect(() => {
@@ -51,7 +72,10 @@ export default function Navbar({
 
     handleScroll();
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener(
+      'scroll',
+      handleScroll
+    );
 
     return () => {
       window.removeEventListener(
@@ -67,18 +91,28 @@ export default function Navbar({
 
   useEffect(() => {
     const handleHashChange = () => {
-      setIsContactPage(
-        window.location.hash === '#/contact'
-      );
+      const newRoute = getCurrentRoute();
 
+      setCurrentRoute(newRoute);
       setIsMenuOpen(false);
 
       /*
-       * Contact and Packages always open at top
+       * Every separate page opens from the top.
+       */
+      if (newRoute !== 'home') {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'auto',
+        });
+      }
+
+      /*
+       * Home page also opens from top.
        */
       if (
-        window.location.hash === '#/contact' ||
-        window.location.hash === '#/packages'
+        newRoute === 'home' &&
+        window.location.hash === '#/'
       ) {
         window.scrollTo({
           top: 0,
@@ -120,59 +154,41 @@ export default function Navbar({
   };
 
   /* =========================================
-     PORTFOLIO
-  ========================================= */
-
-  const handlePortfolio = () => {
-    setIsMenuOpen(false);
-
-    /*
-     * Already on Home
-     */
-    if (
-      window.location.hash === '' ||
-      window.location.hash === '#/'
-    ) {
-      scrollToSection('gallery');
-      return;
-    }
-
-    /*
-     * Coming from Contact / Packages
-     */
-    navigate('home');
-
-    setTimeout(() => {
-      scrollToSection('gallery');
-    }, 300);
-  };
-
-  /* =========================================
      SERVICES
+     OPENS SEPARATE SERVICES PAGE
   ========================================= */
 
   const handleServices = () => {
     setIsMenuOpen(false);
 
-    /*
-     * Already on Home
-     */
-    if (
-      window.location.hash === '' ||
-      window.location.hash === '#/'
-    ) {
-      scrollToSection('services');
-      return;
-    }
-
-    /*
-     * Coming from Contact / Packages
-     */
-    navigate('home');
+    navigate('services');
 
     setTimeout(() => {
-      scrollToSection('services');
-    }, 300);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'auto',
+      });
+    }, 100);
+  };
+
+  /* =========================================
+     PORTFOLIO
+     OPENS SEPARATE PORTFOLIO PAGE
+  ========================================= */
+
+  const handlePortfolio = () => {
+    setIsMenuOpen(false);
+
+    navigate('portfolio');
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'auto',
+      });
+    }, 100);
   };
 
   /* =========================================
@@ -215,7 +231,18 @@ export default function Navbar({
      NAVBAR BACKGROUND
   ========================================= */
 
-  const navbarBackground = isContactPage
+  /*
+   * Home:
+   * transparent at top
+   * black after scrolling
+   *
+   * All other pages:
+   * black from the beginning
+   */
+
+  const isHomePage = currentRoute === 'home';
+
+  const navbarBackground = !isHomePage
     ? 'bg-[#171614]'
     : isScrolled
       ? 'bg-[#171614]/95 backdrop-blur-md'
@@ -532,9 +559,7 @@ export default function Navbar({
               lg:flex
             "
           >
-            {/* =================================
-                INSTAGRAM
-            ================================= */}
+            {/* INSTAGRAM */}
 
             <a
               href={INSTAGRAM_URL}
@@ -566,63 +591,6 @@ export default function Navbar({
                 "
                 fill="none"
               >
-                <defs>
-                  <linearGradient
-                    id="instagramGradientDesktop"
-                    x1="3"
-                    y1="21"
-                    x2="21"
-                    y2="3"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop
-                      offset="0%"
-                      stopColor="#F58529"
-                      className="
-                        opacity-0
-                        transition-opacity
-                        duration-300
-                        group-hover:opacity-100
-                      "
-                    />
-
-                    <stop
-                      offset="35%"
-                      stopColor="#E1306C"
-                      className="
-                        opacity-0
-                        transition-opacity
-                        duration-300
-                        group-hover:opacity-100
-                      "
-                    />
-
-                    <stop
-                      offset="70%"
-                      stopColor="#C13584"
-                      className="
-                        opacity-0
-                        transition-opacity
-                        duration-300
-                        group-hover:opacity-100
-                      "
-                    />
-
-                    <stop
-                      offset="100%"
-                      stopColor="#833AB4"
-                      className="
-                        opacity-0
-                        transition-opacity
-                        duration-300
-                        group-hover:opacity-100
-                      "
-                    />
-                  </linearGradient>
-                </defs>
-
-                {/* Outer Instagram shape */}
-
                 <rect
                   x="3"
                   y="3"
@@ -638,8 +606,6 @@ export default function Navbar({
                   "
                 />
 
-                {/* Camera lens */}
-
                 <circle
                   cx="12"
                   cy="12"
@@ -652,8 +618,6 @@ export default function Navbar({
                     group-hover:text-white
                   "
                 />
-
-                {/* Camera dot */}
 
                 <circle
                   cx="17.5"
@@ -669,9 +633,7 @@ export default function Navbar({
               </svg>
             </a>
 
-            {/* =================================
-                FACEBOOK
-            ================================= */}
+            {/* FACEBOOK */}
 
             <a
               href={FACEBOOK_URL}
@@ -901,6 +863,7 @@ export default function Navbar({
           ===================================== */}
 
           <nav className="flex flex-col">
+
             {/* HOME */}
 
             <button
@@ -1075,6 +1038,7 @@ export default function Navbar({
                 strokeWidth={1.3}
               />
             </button>
+
           </nav>
 
           {/* =====================================
@@ -1134,9 +1098,7 @@ export default function Navbar({
               pt-8
             "
           >
-            {/* =================================
-                MOBILE INSTAGRAM
-            ================================= */}
+            {/* INSTAGRAM */}
 
             <a
               href={INSTAGRAM_URL}
@@ -1210,9 +1172,7 @@ export default function Navbar({
               </svg>
             </a>
 
-            {/* =================================
-                MOBILE FACEBOOK
-            ================================= */}
+            {/* FACEBOOK */}
 
             <a
               href={FACEBOOK_URL}

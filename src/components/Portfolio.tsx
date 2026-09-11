@@ -22,7 +22,7 @@ const services = [
       'From the quiet moments before the ceremony to the energy of the celebration, our photographers document your wedding with an editorial eye and a documentary heart.',
     icon: Camera,
     image:
-      'https://images.pexels.com/photos/3014019/pexels-photo-3014019.jpeg?auto=compress&cs=tinysrgb&w=1400',
+      'https://images.pexels.com/photos/30184675/pexels-photo-30184675.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
 
   {
@@ -33,7 +33,7 @@ const services = [
       'Beautifully composed wedding films built around real moments, natural sound, movement and emotion — designed to bring you back to the day years later.',
     icon: CirclePlay,
     image:
-      'https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1400',
+      'https://images.pexels.com/photos/31002333/pexels-photo-31002333.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
 
   {
@@ -44,7 +44,7 @@ const services = [
       'Unscripted laughter, nervous smiles, family embraces and everything that happens between the big moments.',
     icon: Heart,
     image:
-      'https://images.pexels.com/photos/2253879/pexels-photo-2253879.jpeg?auto=compress&cs=tinysrgb&w=1400',
+      'https://images.pexels.com/photos/32325937/pexels-photo-32325937.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
 
   {
@@ -55,7 +55,7 @@ const services = [
       'Relaxed, personality-driven sessions created around your relationship, your locations and your story.',
     icon: Film,
     image:
-      'https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=1400',
+      'https://images.pexels.com/photos/36683122/pexels-photo-36683122.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
 
   {
@@ -66,7 +66,7 @@ const services = [
       'Cinematic aerial perspectives of venues, ceremonies and celebrations that add scale and atmosphere to your final story.',
     icon: Plane,
     image:
-      'https://images.pexels.com/photos/2884864/pexels-photo-2884864.jpeg?auto=compress&cs=tinysrgb&w=1400',
+      'https://images.pexels.com/photos/31906103/pexels-photo-31906103.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
 
   {
@@ -77,7 +77,7 @@ const services = [
       'Hand-selected photographs presented in premium albums designed to become part of your family for generations.',
     icon: ImageIcon,
     image:
-      'https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=1400',
+      'https://images.pexels.com/photos/33078538/pexels-photo-33078538.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
 
   {
@@ -88,7 +88,7 @@ const services = [
       'Private online galleries make it simple to view, share and relive your wedding photographs from anywhere.',
     icon: Cloud,
     image:
-      'https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=1400',
+      'https://images.pexels.com/photos/29357485/pexels-photo-29357485.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
 
   {
@@ -99,7 +99,7 @@ const services = [
       'Professional live coverage for family and friends who cannot be there in person.',
     icon: Radio,
     image:
-      'https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1400',
+      'https://images.pexels.com/photos/35457631/pexels-photo-35457631.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
 
   {
@@ -110,7 +110,7 @@ const services = [
       'Photographers, cinematographers, editors and aerial specialists working together as one creative team.',
     icon: Users,
     image:
-      'https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1400',
+      'https://images.pexels.com/photos/20610661/pexels-photo-20610661.jpeg?auto=compress&cs=tinysrgb&w=1400',
   },
 ];
 

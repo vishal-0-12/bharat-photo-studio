@@ -1,9 +1,22 @@
 import { useEffect, useState } from 'react';
 
-export type Route = 'home' | 'packages' | 'contact';
+export type Route =
+  | 'home'
+  | 'services'
+  | 'portfolio'
+  | 'packages'
+  | 'contact';
 
 function getRoute(): Route {
   const hash = window.location.hash;
+
+  if (hash === '#/services') {
+    return 'services';
+  }
+
+  if (hash === '#/portfolio') {
+    return 'portfolio';
+  }
 
   if (hash === '#/packages') {
     return 'packages';
@@ -26,9 +39,9 @@ export function useRouter() {
       setRoute(newRoute);
 
       /*
-       * Separate pages should ALWAYS open from the top.
+       * Every separate page opens from the top.
        */
-      if (newRoute === 'packages' || newRoute === 'contact') {
+      if (newRoute !== 'home') {
         window.scrollTo({
           top: 0,
           left: 0,
@@ -37,10 +50,12 @@ export function useRouter() {
       }
 
       /*
-       * Home page also starts at the top when
-       * the actual Home route is opened.
+       * Home also starts from top when opened directly.
        */
-      if (newRoute === 'home' && window.location.hash === '#/') {
+      if (
+        newRoute === 'home' &&
+        window.location.hash === '#/'
+      ) {
         window.scrollTo({
           top: 0,
           left: 0,
@@ -49,10 +64,16 @@ export function useRouter() {
       }
     };
 
-    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener(
+      'hashchange',
+      handleHashChange
+    );
 
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener(
+        'hashchange',
+        handleHashChange
+      );
     };
   }, []);
 
@@ -60,22 +81,20 @@ export function useRouter() {
     const currentRoute = getRoute();
 
     /*
-     * If already on the same route, manually go to top.
+     * Already on the same page.
      */
     if (currentRoute === newRoute) {
-      if (newRoute === 'home' || newRoute === 'packages' || newRoute === 'contact') {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth',
-        });
-      }
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
 
       return;
     }
 
     /*
-     * Navigate to Home.
+     * Home
      */
     if (newRoute === 'home') {
       window.location.hash = '#/';
@@ -83,18 +102,25 @@ export function useRouter() {
     }
 
     /*
-     * Navigate to Packages or Contact.
+     * Separate pages
      */
     window.location.hash = `#/${newRoute}`;
   };
 
+  /*
+   * These are kept only for compatibility.
+   * Services and Portfolio no longer need to use
+   * these for navigation.
+   */
   const scrollToSection = (
     sectionId: 'gallery' | 'services'
   ) => {
     const element = document.getElementById(sectionId);
 
     if (!element) {
-      console.warn(`Section #${sectionId} was not found`);
+      console.warn(
+        `Section #${sectionId} was not found`
+      );
       return;
     }
 
