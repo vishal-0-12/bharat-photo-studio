@@ -211,7 +211,7 @@ export default function Contact() {
       // WHATSAPP
       // ============================================================
 
-      const whatsappNumber = '917404620633';
+      const whatsappNumber = '919813220325';
 
       const whatsappMessage = `
 📸 *NEW BOOKING REQUEST*
@@ -244,8 +244,7 @@ Wedding Photography | Cinematic Videography
 
       const encodedMessage =
         encodeURIComponent(whatsappMessage);
-
-      const generatedWhatsappURL =
+        const generatedWhatsappURL =
         `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
       setWhatsappURL(generatedWhatsappURL);
@@ -378,7 +377,7 @@ Wedding Photography | Cinematic Videography
               {/* Phone */}
 
               <a
-                href="tel:8740000983"
+                href="tel:9813220325"
                 className="contact-detail"
               >
                 <span className="contact-detail-icon">

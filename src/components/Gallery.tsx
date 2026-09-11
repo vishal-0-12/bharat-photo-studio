@@ -154,21 +154,9 @@ const galleryImages: GalleryImage[] = [
      COUPLE
   ===================================================== */
 
-  {
-    url: '/img/img9.JPG',
-    alt: 'Couple photography',
-    label: 'Just Us',
-    number: '15',
-    category: 'Couple',
-  },
+  
 
-  {
-    url: '/img/img10.JPG',
-    alt: 'Couple photography',
-    label: 'Always',
-    number: '16',
-    category: 'Couple',
-  },
+  
 
   {
     url: 'https://images.pexels.com/photos/17657740/pexels-photo-17657740.jpeg?auto=compress&cs=tinysrgb&w=1400',

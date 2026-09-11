@@ -68,10 +68,10 @@ export default function Navbar({
   ========================================= */
 
   const WHATSAPP_URL =
-    'https://wa.me/918740000983?text=Hello%20Bharat%20Photo%20Studio%2C%20I%20would%20like%20to%20know%20more%20about%20your%20photography%20services.';
+    'https://wa.me/919813220325?text=Hello%20Bharat%20Photo%20Studio%2C%20I%20would%20like%20to%20know%20more%20about%20your%20photography%20services.';
 
   const PHONE_NUMBER =
-    'tel:+918740000983';
+    'tel:+919813220325';
 
   /* =========================================
      SCROLL DETECTION
