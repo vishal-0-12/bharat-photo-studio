@@ -146,7 +146,7 @@ export default function Contact() {
           form.message || 'No message provided',
 
         company_name:
-          'Bharat Photo Studio',
+          'Bharat Digital Studio',
       };
 
       console.log(
@@ -238,7 +238,7 @@ ${form.message || 'No message provided'}
 
 ━━━━━━━━━━━━━━━━━━━━
 
-📸 *Bharat Photo Studio*
+📸 *Bharat Digital Studio*
 Wedding Photography | Cinematic Videography
       `.trim();
 
@@ -725,7 +725,7 @@ Wedding Photography | Cinematic Videography
           <span className="contact-bottom-line" />
 
           <span>
-            Bharat Photo Studio
+            Bharat Digital Studio
           </span>
         </div>
       </div>

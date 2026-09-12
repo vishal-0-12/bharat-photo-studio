@@ -161,7 +161,7 @@ export default function About() {
             </p>
 
             <p className="about-text">
-              At Bharat Photo Studio, we document those moments
+              At Bharat Digital Studio, we document those moments
               naturally and thoughtfully. From intimate ceremonies
               to grand celebrations, our approach combines
               candid photography, cinematic frames, and timeless
