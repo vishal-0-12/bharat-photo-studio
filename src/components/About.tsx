@@ -260,7 +260,7 @@ export default function About() {
             </p>
 
             <span>
-              Since 2010
+              Since 2005
             </span>
 
           </div>
