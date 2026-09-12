@@ -59,7 +59,7 @@ export default function Hero() {
             textShadow: '0 4px 30px rgba(0,0,0,0.5)',
           }}
         >
-          Bharat Photo Studio
+          Bharat Digital Studio
         </h1>
 
         {/* Tagline */}

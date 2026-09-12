@@ -6334,3 +6334,24 @@ select.contact-input option {
   }
 }
 
+/* =========================================================
+   CALL US — CENTERED BETWEEN LINES, LEFT ALIGNED
+   ========================================================= */
+
+   .contact-details > .contact-detail:first-child {
+    width: 100%;
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+  
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  
+    /* smaller gap between icon and text */
+    gap: 18px;
+  }
+  
+  .contact-details > .contact-detail:first-child > span:last-child {
+    text-align: left;
+  }

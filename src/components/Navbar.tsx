@@ -297,7 +297,7 @@ export default function Navbar({
           <button
             type="button"
             onClick={handleHome}
-            aria-label="Bharat Photo Studio Home"
+            aria-label="Bharat Digital Studio Home"
             className="
               group
               flex
@@ -318,7 +318,7 @@ export default function Navbar({
             >
               <img
                 src={`${import.meta.env.BASE_URL}bharatstudio.jpeg`}
-                alt="Bharat Photo Studio"
+                alt="Bharat Digital Studio"
                 className="
                   h-full
                   w-full
@@ -354,7 +354,7 @@ export default function Navbar({
                   text-[#d6b36a]
                 "
               >
-                PHOTO STUDIO
+                Digital STUDIO
               </span>
             </div>
           </button>
@@ -725,7 +725,7 @@ export default function Navbar({
 
             <a
               href={PHONE_NUMBER}
-              aria-label="Call Bharat Photo Studio"
+              aria-label="Call Bharat Digital Studio"
               className="
                 group
                 flex
@@ -920,7 +920,7 @@ export default function Navbar({
             >
               <img
                 src={`${import.meta.env.BASE_URL}bharatstudio.jpeg`}
-                alt="Bharat Photo Studio"
+                alt="Bharat Digital Studio"
                 className="
                   h-full
                   w-full
@@ -950,7 +950,7 @@ export default function Navbar({
                   text-[#d6b36a]
                 "
               >
-                PHOTO STUDIO
+               DIGITAL STUDIO
               </span>
             </div>
           </div>

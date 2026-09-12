@@ -54,7 +54,7 @@ export default function Footer() {
               </span>
 
               <span className="footer-brand-subtitle">
-                Photo Studio
+                Digital Studio
               </span>
             </div>
 
@@ -70,7 +70,7 @@ export default function Footer() {
 
           <div className="footer-year">
             <span>EST.</span>
-            <strong>2010</strong>
+            <strong>2005</strong>
           </div>
 
         </div>
@@ -211,7 +211,7 @@ export default function Footer() {
                 <span>
                   <small>Email</small>
                   <strong>
-                    bharatstudio4@gmail.com
+                    bharatstudio591@gmail.com
                   </strong>
                 </span>
               </a>
@@ -227,7 +227,7 @@ export default function Footer() {
                 <span>
                   <small>Studio</small>
                   <strong>
-                    Badhra, Loharu Road,
+                  Loharu Road Badhra, 
                     <br />
                     NCR Delhi
                   </strong>
@@ -282,7 +282,7 @@ export default function Footer() {
         <div className="footer-bottom">
 
           <p>
-            © 2026 Bharat Photo Studio.
+            © 2026 Bharat Digital Studio.
             All rights reserved.
           </p>
 

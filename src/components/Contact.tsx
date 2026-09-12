@@ -387,7 +387,7 @@ Wedding Photography | Cinematic Videography
                 <span>
                   <small>Call us</small>
                   <strong>
-                    8740000983
+                    9813220325
                   </strong>
                 </span>
               </a>
@@ -405,7 +405,7 @@ Wedding Photography | Cinematic Videography
                 <span>
                   <small>Email</small>
                   <strong>
-                    bharatstudio4@gmail.com
+                    bharatstudio591@gmail.com
                   </strong>
                 </span>
               </a>
@@ -420,7 +420,7 @@ Wedding Photography | Cinematic Videography
                 <span>
                   <small>Based in</small>
                   <strong>
-                    Badhra, Loharu Road,
+                  Loharu Road, Badhra ,
                     <br />
                     NCR Delhi
                   </strong>
