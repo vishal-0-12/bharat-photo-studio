@@ -211,7 +211,7 @@ export default function Footer() {
                 <span>
                   <small>Email</small>
                   <strong>
-                    bharatstudio591@gmail.com
+                    bharatstudio4@gmail.com
                   </strong>
                 </span>
               </a>
