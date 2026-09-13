@@ -27,13 +27,17 @@ const services = [
 
   {
     number: '02',
+  
     title: 'Cinematic Films',
+  
     short: 'Your wedding, told like a film.',
+  
     description:
       'Beautifully composed wedding films built around real moments, natural sound, movement and emotion — designed to bring you back to the day years later.',
+  
     icon: CirclePlay,
-    image:
-      'https://images.pexels.com/photos/31002333/pexels-photo-31002333.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  
+    image: '/img/img14.jpg',
   },
 
   {
@@ -44,7 +48,7 @@ const services = [
       'Unscripted laughter, nervous smiles, family embraces and everything that happens between the big moments.',
     icon: Heart,
     image:
-      'https://images.pexels.com/photos/32325937/pexels-photo-32325937.jpeg?auto=compress&cs=tinysrgb&w=1400',
+      '/img/img15.jpg',
   },
 
   {

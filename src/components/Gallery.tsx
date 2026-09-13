@@ -135,18 +135,50 @@ const galleryImages: GalleryImage[] = [
   },
 
   {
-    url: 'https://images.pexels.com/photos/33078524/pexels-photo-33078524.jpeg?auto=compress&cs=tinysrgb&w=1400',
-    alt: 'Indian couple enjoying Haldi ceremony',
-    label: 'Celebration',
+    url: '/img/img16.jpg',
+    alt: 'Haldi celebration',
+    label: 'Golden Moments',
     number: '13',
     category: 'Haldi',
   },
 
   {
-    url: 'https://images.pexels.com/photos/33318103/pexels-photo-33318103.jpeg?auto=compress&cs=tinysrgb&w=1400',
-    alt: 'Indian bride in yellow Haldi attire',
-    label: 'Haldi Bride',
+    url: '/img/img17.jpg',
+    alt: 'Haldi ceremony',
+    label: 'The Celebration',
     number: '14',
+    category: 'Haldi',
+  },
+
+  {
+    url: '/img/img18.jpg',
+    alt: 'Haldi celebration',
+    label: 'Pure Happiness',
+    number: '15',
+    category: 'Haldi',
+  },
+
+  {
+    url: '/img/img19.jpg',
+    alt: 'Haldi ceremony',
+    label: 'Yellow Dreams',
+    number: '16',
+    category: 'Haldi',
+  },
+
+  {
+    url: '/img/img20.jpg',
+    alt: 'Haldi celebration',
+    label: 'Beautiful Moments',
+    number: '17',
+    category: 'Haldi',
+  },
+
+  {
+    url: '/img/img21.jpg',
+    alt: 'Haldi celebration',
+    label: 'Forever Memories',
+    number: '18',
     category: 'Haldi',
   },
 
@@ -154,15 +186,11 @@ const galleryImages: GalleryImage[] = [
      COUPLE
   ===================================================== */
 
-  
-
-  
-
   {
     url: 'https://images.pexels.com/photos/17657740/pexels-photo-17657740.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Indian couple in traditional clothing',
     label: 'In The Moment',
-    number: '17',
+    number: '19',
     category: 'Couple',
   },
 
@@ -170,7 +198,7 @@ const galleryImages: GalleryImage[] = [
     url: 'https://images.pexels.com/photos/36523477/pexels-photo-36523477.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Indian bride and groom outdoors',
     label: 'In Between',
-    number: '18',
+    number: '20',
     category: 'Couple',
   },
 
@@ -178,7 +206,7 @@ const galleryImages: GalleryImage[] = [
     url: 'https://images.pexels.com/photos/36248948/pexels-photo-36248948.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Indian couple sharing a wedding moment',
     label: 'Forever',
-    number: '19',
+    number: '21',
     category: 'Couple',
   },
 
@@ -190,17 +218,15 @@ const galleryImages: GalleryImage[] = [
     url: '/img/img11.JPG',
     alt: 'Wedding celebration',
     label: 'Celebration',
-    number: '20',
+    number: '22',
     category: 'Celebration',
   },
-
-  
 
   {
     url: 'https://images.pexels.com/photos/31906103/pexels-photo-31906103.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Indian wedding procession',
     label: 'The Celebration',
-    number: '22',
+    number: '23',
     category: 'Celebration',
   },
 
@@ -208,7 +234,7 @@ const galleryImages: GalleryImage[] = [
     url: 'https://images.pexels.com/photos/30902343/pexels-photo-30902343.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Indian wedding reception',
     label: 'After Dark',
-    number: '23',
+    number: '24',
     category: 'Celebration',
   },
 
@@ -216,7 +242,7 @@ const galleryImages: GalleryImage[] = [
     url: 'https://images.pexels.com/photos/30215313/pexels-photo-30215313.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Indian wedding celebration',
     label: 'The Celebration',
-    number: '24',
+    number: '25',
     category: 'Celebration',
   },
 
@@ -224,7 +250,7 @@ const galleryImages: GalleryImage[] = [
     url: 'https://images.pexels.com/photos/31002342/pexels-photo-31002342.jpeg?auto=compress&cs=tinysrgb&w=1400',
     alt: 'Indian bride and groom celebrating',
     label: 'Wedding Joy',
-    number: '25',
+    number: '26',
     category: 'Celebration',
   },
 ];
@@ -387,7 +413,7 @@ export default function Gallery() {
         </div>
 
         {/* =================================================
-            NEW GALLERY GRID
+            GALLERY GRID
         ================================================= */}
 
         <div
