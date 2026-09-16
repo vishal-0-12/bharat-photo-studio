@@ -395,7 +395,7 @@ Wedding Photography | Cinematic Videography
               {/* Email */}
 
               <a
-                href="mailto:bharatstudio4@gmail.com"
+                href="mailto:Bharatstudiobadhra@gmail.com"
                 className="contact-detail"
               >
                 <span className="contact-detail-icon">
@@ -405,7 +405,7 @@ Wedding Photography | Cinematic Videography
                 <span>
                   <small>Email</small>
                   <strong>
-                    bharatstudio4@gmail.com
+                  Bharatstudiobadhra@gmail.com
                   </strong>
                 </span>
               </a>

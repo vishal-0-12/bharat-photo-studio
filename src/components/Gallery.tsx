@@ -713,7 +713,7 @@ function GalleryItem({
             strokeWidth={1.1}
           />
         </div>
-      </div>
+      </div>2
     </button>
   );
 }

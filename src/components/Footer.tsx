@@ -201,7 +201,7 @@ export default function Footer() {
               {/* EMAIL */}
 
               <a
-                href="mailto:bharatstudio4@gmail.com"
+                href="mailto:Bharatstudiobadhra@gmail.com"
                 className="footer-contact"
               >
                 <span className="footer-contact-icon">
@@ -211,7 +211,7 @@ export default function Footer() {
                 <span>
                   <small>Email</small>
                   <strong>
-                    bharatstudio4@gmail.com
+                  Bharatstudiobadhra@gmail.com
                   </strong>
                 </span>
               </a>
